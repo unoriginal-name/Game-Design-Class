@@ -1,13 +1,13 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{A37DDD8D-14DB-6505-AE7A-1DA76F6B837A}") = "Quarantine", "Assembly-CSharp-firstpass.csproj", "{6B59ED33-A295-3CD3-FBF4-FD3D0C0559F1}"
+Project("{9A05C48B-FCA4-4F56-80D1-897C28C744C2}") = "quarantine", "Assembly-CSharp-firstpass.csproj", "{10881A5B-FED7-36FE-785B-0F8FAB792941}"
 EndProject
-Project("{A37DDD8D-14DB-6505-AE7A-1DA76F6B837A}") = "Quarantine", "Assembly-CSharp.csproj", "{9D6AAABB-37AB-F594-7B70-298A2BF22E36}"
+Project("{9A05C48B-FCA4-4F56-80D1-897C28C744C2}") = "quarantine", "Assembly-CSharp.csproj", "{C072D478-ACEB-0F27-5472-3B0868B8B706}"
 EndProject
-Project("{A37DDD8D-14DB-6505-AE7A-1DA76F6B837A}") = "Quarantine", "Assembly-UnityScript-firstpass.unityproj", "{BFF29638-C833-6FB5-43AA-10B877D00467}"
+Project("{9A05C48B-FCA4-4F56-80D1-897C28C744C2}") = "quarantine", "Assembly-UnityScript-firstpass.unityproj", "{B3846CC8-4C6B-274E-A6A8-6DE96BA48DE1}"
 EndProject
-Project("{A37DDD8D-14DB-6505-AE7A-1DA76F6B837A}") = "Quarantine", "Assembly-UnityScript.unityproj", "{090BB898-AE82-8ACA-2C6E-F84026F9A754}"
+Project("{9A05C48B-FCA4-4F56-80D1-897C28C744C2}") = "quarantine", "Assembly-UnityScript.unityproj", "{D8DA5911-D082-D6C3-F6CB-C240E92BFE7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,27 +15,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6B59ED33-A295-3CD3-FBF4-FD3D0C0559F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B59ED33-A295-3CD3-FBF4-FD3D0C0559F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B59ED33-A295-3CD3-FBF4-FD3D0C0559F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B59ED33-A295-3CD3-FBF4-FD3D0C0559F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D6AAABB-37AB-F594-7B70-298A2BF22E36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D6AAABB-37AB-F594-7B70-298A2BF22E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D6AAABB-37AB-F594-7B70-298A2BF22E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D6AAABB-37AB-F594-7B70-298A2BF22E36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFF29638-C833-6FB5-43AA-10B877D00467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFF29638-C833-6FB5-43AA-10B877D00467}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFF29638-C833-6FB5-43AA-10B877D00467}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFF29638-C833-6FB5-43AA-10B877D00467}.Release|Any CPU.Build.0 = Release|Any CPU
-		{090BB898-AE82-8ACA-2C6E-F84026F9A754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{090BB898-AE82-8ACA-2C6E-F84026F9A754}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{090BB898-AE82-8ACA-2C6E-F84026F9A754}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{090BB898-AE82-8ACA-2C6E-F84026F9A754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10881A5B-FED7-36FE-785B-0F8FAB792941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10881A5B-FED7-36FE-785B-0F8FAB792941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10881A5B-FED7-36FE-785B-0F8FAB792941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10881A5B-FED7-36FE-785B-0F8FAB792941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C072D478-ACEB-0F27-5472-3B0868B8B706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C072D478-ACEB-0F27-5472-3B0868B8B706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C072D478-ACEB-0F27-5472-3B0868B8B706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C072D478-ACEB-0F27-5472-3B0868B8B706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3846CC8-4C6B-274E-A6A8-6DE96BA48DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3846CC8-4C6B-274E-A6A8-6DE96BA48DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3846CC8-4C6B-274E-A6A8-6DE96BA48DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3846CC8-4C6B-274E-A6A8-6DE96BA48DE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8DA5911-D082-D6C3-F6CB-C240E92BFE7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8DA5911-D082-D6C3-F6CB-C240E92BFE7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8DA5911-D082-D6C3-F6CB-C240E92BFE7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8DA5911-D082-D6C3-F6CB-C240E92BFE7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																					GlobalSection(MonoDevelopProperties) = preSolution
+																													GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
