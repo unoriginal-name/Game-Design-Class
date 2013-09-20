@@ -1,5 +1,6 @@
 //#include "string_message.pb.h"
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -7,6 +8,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
+#define BUFFSIZE 10000 // inefficient. Please fix me with dynamic memory allocation
 
 extern "C" {
 	
@@ -63,5 +65,57 @@ extern "C" {
 
 		return;
 	}
-	
+
+	int createTCPSocket(const char* hostname, const char* port, char* error)
+	{
+		struct addrinfo hints, *res;
+		int sockfd, status;
+
+		memset(&hints, 0, sizeof hints);
+		hints.ai_family = AF_INET;
+		hints.ai_socktype = SOCK_STREAM;
+
+		if((status = getaddrinfo(hostname, port, &hints, &res)) != 0) {
+			sprintf(error, "getaddrinfo: %s\n", gai_strerror(status));
+			return -1;
+		}
+
+		sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+
+		if((status = connect(sockfd, res->ai_addr, res->ai_addrlen)) != 0)
+		{
+			close(sockfd);
+			sprintf(error, "connect: %s\n", gai_strerror(status));
+			return -1;
+		}
+
+		return sockfd;
+	}
+
+	int sendMsg(int sockfd, const char* msg, int len)
+	{
+		int bytes_sent;
+		bytes_sent = 0;
+
+		while((bytes_sent += send(sockfd, msg, len, 0)) < len) {}
+		
+		return bytes_sent;
+	}
+
+	int recvMsg(int sockfd, char* msg, int len)
+	{
+		char buf[BUFFSIZE];
+		int bytes_recvd;
+
+		// this is wrong, but a precursor to right
+		bytes_recvd = recv(sockfd, msg, len-1, 0);
+		msg[bytes_recvd] = '\0';
+
+		return bytes_recvd;
+	}
+
+	void closeSocket(int sockfd)
+	{
+		close(sockfd);
+	}
 }
