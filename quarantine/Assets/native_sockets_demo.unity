@@ -84,7 +84,7 @@ GameObject:
   - 4: {fileID: 540323222}
   - 114: {fileID: 540323223}
   m_Layer: 0
-  m_Name: ExitToMainMenu
+  m_Name: Back to Web Requester
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 540323221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6486b9a0d6acf493fabd2ed60f7355bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c42e6fb102024b0c8f98349bdba0479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &875294248
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 967532365}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f3d4e9c73d224fcd908a909675113fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a6c9b02e33cd4aa9b9d013d0cf46e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MyStyle:
@@ -279,7 +279,7 @@ MonoBehaviour:
     m_FontSize: 30
     m_FontStyle: 0
     m_Alignment: 0
-    m_WordWrap: 0
+    m_WordWrap: 1
     m_RichText: 1
     m_TextClipping: 0
     m_ImagePosition: 0

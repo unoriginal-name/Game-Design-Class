@@ -6,9 +6,6 @@ quarantine/Obj/
 quarantine/UnityGenerated/
 quarantine/Library/
 
-quarantine/Assets/Standard Assets (Mobile)
-quarantine/Assets/Standard Assets
-
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -22,6 +19,7 @@ ExportedObj/
 *.user
 *.unityproj
 *.booproj
+*.csproj
 
 # ============ #
 # OS generated #
