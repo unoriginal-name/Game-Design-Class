@@ -226,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1865927719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd97d3836f0bf443f821a6be49ee5ca9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cda701838f914fa68bfe0948e476d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MyStyle:
@@ -288,4 +288,3 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  hostname: www.google.com
