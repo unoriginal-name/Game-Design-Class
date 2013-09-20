@@ -16,7 +16,7 @@ public class native_sockets_demo : MonoBehaviour {
 		StringBuilder buffer = new StringBuilder(256);
 		StringBuilder htmlBuilder = new StringBuilder();
 		
-		int sockfd = createTCPSocket("www.google.com", "80", err);
+		int sockfd = createTCPSocket(WebRequesterMenu.hostname, "80", err);
 		if(sockfd < 0)
 		{
 			labelText = "ERROR: " + err.ToString();

@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour {
 		if(GUI.Button (new Rect(20, 20+(Screen.height-40)*2/3, Screen.width-40, (Screen.height-40)/3), "Devin's Demo"))
 		{
 			// load Devin's demo here
-			Application.LoadLevel("native_sockets_demo");
+			Application.LoadLevel("WebRequester");
 		}
 	}
 	
