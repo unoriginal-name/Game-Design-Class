@@ -19,7 +19,8 @@ public class EnemyHealth : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		GUI.Box (new Rect(Screen.width/2, (int)(Screen.height * 0.01), healthBarLength, 25), "Enemy: " + currentHealth + "/" + MAX_HEALTH);
+		GUI.color = Color.red;
+		GUI.Box (new Rect(Screen.width/2, (int)(Screen.height * 0.01), healthBarLength, 25), "Health: " + currentHealth + "/" + MAX_HEALTH);
 	}
 	/**
 	 * If damaged, pass in a negative number.  If healed, a positive number.

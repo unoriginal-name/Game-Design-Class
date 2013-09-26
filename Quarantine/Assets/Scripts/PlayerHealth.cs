@@ -19,7 +19,8 @@ public class PlayerHealth : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		GUI.Box (new Rect(0, (int)(Screen.height * 0.01), healthBarLength, 25), "Player: " + currentHealth + "/" + MAX_HEALTH);
+		GUI.color = Color.red;
+		GUI.Box (new Rect(0, (int)(Screen.height * 0.01), healthBarLength, Screen.height/25), "Player: " + currentHealth + "/" + MAX_HEALTH);
 	}
 	
 	public void adjustCurrentHealth(int adjustment)
