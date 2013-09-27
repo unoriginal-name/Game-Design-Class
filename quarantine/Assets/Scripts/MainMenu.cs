@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Threading;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour {	
 	private float horizRatio;
 	private float vertRatio;
 		
@@ -34,16 +34,19 @@ public class MainMenu : MonoBehaviour {
 	
 	public GUIStyle regularBtnStyle;
 	
-	private Rect registerBtnRect;
-	private Rect entryRect;
-	private Rect instrRect;
+	public bool loading = false;
 	
-	private string entryText = "username";
+	Component context_menu;
 	
-	private bool loading = false;
+	void Awake() {
+		// Debugging purposes
+		PlayerPrefs.DeleteAll();	
+	}
 	
 	// Use this for initialization
-	void Start () {
+	void Start () {		
+		context_menu = gameObject.AddComponent("RegistrationMenu");
+		
 		horizRatio = GlobalScreenResolution.SharedInstance.widthRatio;
 		vertRatio = GlobalScreenResolution.SharedInstance.heightRatio;
 		
@@ -70,23 +73,7 @@ public class MainMenu : MonoBehaviour {
 		playersBtnRect = new Rect(inventoryBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		attacksBtnRect = new Rect(playersBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		
-		Vector2 labelSizes = new Vector2(350, 50);
-		instrRect = new Rect((Screen.width - labelSizes.x*horizRatio)/2,
-			(Screen.height - labelSizes.y*vertRatio)/2 - labelSizes.y*vertRatio,
-			labelSizes.x*horizRatio,
-			labelSizes.y*vertRatio);
-		
-		Vector2 entrySizes = new Vector2(300, 45);
-		entryRect = new Rect((Screen.width - entrySizes.x*horizRatio)/2,
-			(Screen.height - entrySizes.y*vertRatio)/2,
-			entrySizes.x*horizRatio,
-			entrySizes.y*vertRatio);
-		
-		Vector2 registerBtnSizes = new Vector2(300, 60);
-		registerBtnRect = new Rect((Screen.width - registerBtnSizes.x*horizRatio)/2,
-			(Screen.height - registerBtnSizes.y*vertRatio)/2 + registerBtnSizes.y*vertRatio, 
-			registerBtnSizes.x*horizRatio, 
-			registerBtnSizes.y*vertRatio);
+
 	}
 	
 	void OnGUI() {
@@ -95,28 +82,9 @@ public class MainMenu : MonoBehaviour {
 		
 		// if the user doesn't exist
 		// only display the user creation gui
-		if(!PlayerPrefs.HasKey ("username"))
-		{
-			if(!loading) {
-				GUI.Label(instrRect, "Please enter your username");
-				entryText = GUI.TextField(entryRect, entryText);
-				if(GUI.Button (registerBtnRect, "Register", regularBtnStyle))
-				{
-					Debug.Log ("register button pressed: " + entryText);
-					loading = true;
-				}
-			} else {
-				GUI.Label (instrRect, "Creating account");
-				var server = new Webserver("immunitygame390.appspot.com");
-				var result = server.registerUser(entryText);
-
-				PlayerPrefs.SetString("username", entryText);
-
-				loading = false;
-			}
-		} else {
+		if(PlayerPrefs.HasKey ("username")) {
 			
-			GUI.Label (instrRect, "Welcome back " + PlayerPrefs.GetString("username"));
+			//GUI.Label (instrRect, "Welcome back " + PlayerPrefs.GetString("username"));
 			if(GUI.Button (friendButtonRect, "", friendButtonStyle))
 			{
 				Debug.Log ("friends button pressed");
