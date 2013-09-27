@@ -1,65 +1,79 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GPS : MonoBehaviour {
-	private GameObject interfaceScript;
+	public enum status{
+		serviceOff = 0,
+		timedOut,
+		connectionFailed,
+		ready
+	}
 	
-	bool ready = false;
-	string location;
+	private status gpsStatus;
+	public status GPSStatus{
+		get{
+			return gpsStatus;
+		}
+		set{}
+	}
+	
+	private string location;
+	public string Location{
+		get{
+			return location;
+		}
+		set{}
+	}
+	
 	void Start(){
-		interfaceScript = GameObject.Find("Interface");
+		gpsStatus = status.ready;
 		
 		// First, check if user has location service enabled
 		if (!Input.location.isEnabledByUser){
+			gpsStatus = status.serviceOff;
 			print ("Location Service OFF");
 			return;
 		}
 		
 		// Start service before querying location
 		Input.location.Start (1,1);
+		
 		// Wait until service initializes
 		float timeStart = Time.time;
 		int maxWait = 20;
 		while (Input.location.status == LocationServiceStatus.Initializing && Time.time - timeStart < maxWait) {	
 		}
+		
 		// Service didn't initialize in 20 seconds
 		if (maxWait < 1) {
+			gpsStatus = status.timedOut;
 			print ("Timed out");
 			return;
 		}
+		
 		// Connection has failed
 		if (Input.location.status == LocationServiceStatus.Failed) {
+			gpsStatus = status.connectionFailed;
 			print ("Unable to determine device location");
 			return;
 		}
+		
 		// Access granted and location value could be retrieved
 		else {
-			ready = true;
-			printLocation ();
+			gpsStatus = status.ready;
 		}
-		// Stop service if there is no need to query location updates continuously
-		//Input.location.Stop ();	
 	}
 	
 	void Update(){
-		if(ready){
-			printLocation ();
+		if(gpsStatus == status.ready){
+			location = "Location[ " + 
+				"Latitude:" + Input.location.lastData.latitude + " " +
+			    "Longitude:" + Input.location.lastData.longitude + " " +
+			    "Altitude:" + Input.location.lastData.altitude + " " +
+			    "Accuracy:" + Input.location.lastData.horizontalAccuracy + " " +
+			    "Time Stamp:" + Input.location.lastData.timestamp + " " + 
+			"]";
 		}
 	}
 	
-	void printLocation(){
-		location = "Location: " + Input.location.lastData.latitude + " " +
-			       Input.location.lastData.longitude + " " +
-			       Input.location.lastData.altitude + " " +
-			       Input.location.lastData.horizontalAccuracy + " " +
-			       Input.location.lastData.timestamp;
-		
-		interfaceScript.SendMessage("changeLabel",new LabelHolder(location,Interface.labelIndices.touch2));
-	}
-	
-	/*
-	void OnGUI(){
-		GUI.TextField(new Rect(30,30, 800,300),location);
-	}
-	*/
 }
