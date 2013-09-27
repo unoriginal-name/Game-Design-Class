@@ -41,9 +41,7 @@ public class MainMenu : MonoBehaviour {
 	
 	public List<GameObject> menu_objects;
 	private GameObject current_menu;
-	
-	private WWW testReq;
-	
+		
 	void Awake() {
 		// Debugging purposes
 		PlayerPrefs.DeleteAll();	
@@ -81,7 +79,6 @@ public class MainMenu : MonoBehaviour {
 		
 		contextMenuRect = new Rect(0, topBarRect.yMax, Screen.width, topBarRect.yMax - btmBarRect.yMin);
 		
-		testReq = new WWW("http://immunitygame390.appspot.com/user/profile/rhol");
 	}
 	
 	void OnGUI() {
@@ -92,12 +89,6 @@ public class MainMenu : MonoBehaviour {
 		// only display the user creation gui
 		if(PlayerPrefs.HasKey ("username")) {
 			//GUI.Label (instrRect, "Welcome back " + PlayerPrefs.GetString("username"));
-			if(testReq.error != null)
-			{
-				GUI.Label (contextMenuRect, "Error: " +  testReq.error, centeredTextStyle);
-			} else {
-				GUI.Label (contextMenuRect, "Success: " + testReq.text, centeredTextStyle);
-			}
 			if(GUI.Button (friendButtonRect, "", friendButtonStyle))
 			{
 				Debug.Log ("friends button pressed");

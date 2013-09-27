@@ -37,18 +37,43 @@ public class FriendsMenu : MonoBehaviour {
 	
 	void OnEnable() {
 		sb = new StringBuilder(1000);
-		var server = new Webserver("immunitygame390.appspot.com");
+		
+		var server = new Webserver("http://immunitygame390.appspot.com");
 		var rawFriendData = server.getUserFriends(PlayerPrefs.GetString("username"));
+				
+		object result;
+		if(!rawFriendData.TryGetValue("result", out result)) {
+			sb = new StringBuilder(100);
+			sb.Append ("Error: rawFriendData - Malformed return value");
+			return;
+		}
+		if(!((string)result).Equals("ok")) {
+			sb = new StringBuilder(100);
+			sb.AppendFormat ("Error: rawFriendData - {0}", (string)result);
+			return;
+		}
 		
 		object temp;
 		List<object> rawFriends = new List<object>();
 		if(rawFriendData.TryGetValue("friends", out temp))
 			rawFriends = (List<object>)temp;
 			
-		for(int i=0; i<rawFriends.Count; i++)
+		foreach(object rawFriend in rawFriends)
 		{
-			var rawFriendInfo = server.getUserInfo((string)rawFriends[i]);
+			var rawFriendInfo = server.getUserInfo((string)rawFriend);
 			
+			if(!rawFriendInfo.TryGetValue("result", out result)) {
+				sb = new StringBuilder(100);
+				sb.Append ("Error: rawFriendInfo - Malformed return value");
+				return;
+			}
+			if(!((string)result).Equals("ok")) {
+				sb = new StringBuilder(100);
+				sb.AppendFormat ("Error: rawFriendInfo - {0}", (string)result);
+				return;
+			}
+												
+
 			var friend = new Friend(rawFriendInfo);
 			sb.AppendFormat("\n\n{0}:\n\tMember Since {1}\n\t{2} Games Played", friend.username, friend.member_since, friend.games_played);
 		}
@@ -60,7 +85,6 @@ public class FriendsMenu : MonoBehaviour {
 			Debug.LogError ("main_menu is null in friends menu");
 		else
 			GUI.Label (main_menu.contextMenuRect, sb.ToString(), main_menu.centeredTextStyle);
-		Debug.Log ("Showing label in menu");
 	}
 	
 	// Update is called once per frame
