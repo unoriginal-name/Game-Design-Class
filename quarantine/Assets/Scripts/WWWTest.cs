@@ -4,30 +4,32 @@ using System.Collections.Generic;
 using MiniJSON;
 
 public class WWWTest : MonoBehaviour {
-
+	
+	private Dictionary<string,object> user_profile;
+	
 	// Use this for initialization
-	void Start () {
-		var jsonString = "{\"array\": [1.44, 2, 3], " +
-							"\"object\": {\"key1\":\"value1\", \"key2\":256}, " +
-							"\"string\": \"The quick brown fox \\\"jumps\\\" over the lazy dog \", " +
-							"\"unicode\": \"\\u3041 Men\u00fa sesi\u00f3n\", " +
-							"\"int\": 65536, " +
-							"\"float\": 3.14159, " +
-							"\"bool\": true, " +
-							"\"null\": null }";
+	IEnumerator Start () {
 		
-		var dict = Json.Deserialize(jsonString) as Dictionary<string,object>;
-		
-		Debug.Log ("deserialized: " + dict.GetType());
-		Debug.Log ("dict['array'][0]: " + ((List<object>) dict["array"])[0]);
-		Debug.Log ("dict['string']: " + (string) dict["string"]);
-		Debug.Log ("dict['float']: " + (double)dict["float"]);
-		Debug.Log ("dict['int']: " + (long) dict["int"]);
-		Debug.Log ("dict['unicode']: " + (string) dict["unicode"]);
-		
-		var str = Json.Serialize(dict);
-		
-		Debug.Log ("serialized: " + str);
+		WWW getUserProfile = new WWW("http://immunitygame390.appspot.com/user/profile/vanderhush");
+		yield return getUserProfile;
+
+		if(getUserProfile.error != null)
+		{
+			Debug.LogError("getUserProfile: " + getUserProfile.error);
+			return false;
+		} else {
+			Debug.Log (getUserProfile.text);
+			
+			user_profile = Json.Deserialize(getUserProfile.text) as Dictionary<string, object>;
+			List<object> friends = (List<object>) user_profile["friends"];
+			for(int i=0; i<friends.Count; i++)
+			{
+				Debug.Log ("friend["+i+"]: " + (string)friends[i]);	
+			}
+			Debug.Log ("games played: " + (long) user_profile["games_played"]);
+			Debug.Log ("member_since: " + (string) user_profile["member_since"]);
+			Debug.Log ("username: " + (string) user_profile["username"]);
+		}
 			
 	}
 	
