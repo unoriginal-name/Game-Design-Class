@@ -42,7 +42,7 @@ public class MainMenu : MonoBehaviour {
 	public List<GameObject> menu_objects;
 	private GameObject current_menu;
 	
-	//private WWW testReq;
+	private WWW testReq;
 	
 	void Awake() {
 		// Debugging purposes
@@ -79,9 +79,9 @@ public class MainMenu : MonoBehaviour {
 		playersBtnRect = new Rect(inventoryBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		attacksBtnRect = new Rect(playersBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		
-		contextMenuRect = new Rect(0, topBarRect.yMax, topBarRect.yMax - btmBarRect.yMin, Screen.width);
+		contextMenuRect = new Rect(0, topBarRect.yMax, Screen.width, topBarRect.yMax - btmBarRect.yMin);
 		
-		//testReq = new WWW("http://immunitygame390.appspot.com/user/profile/rhol");
+		testReq = new WWW("http://immunitygame390.appspot.com/user/profile/rhol");
 	}
 	
 	void OnGUI() {
@@ -92,12 +92,12 @@ public class MainMenu : MonoBehaviour {
 		// only display the user creation gui
 		if(PlayerPrefs.HasKey ("username")) {
 			//GUI.Label (instrRect, "Welcome back " + PlayerPrefs.GetString("username"));
-			/*if(testReq.error != null)
+			if(testReq.error != null)
 			{
 				GUI.Label (contextMenuRect, "Error: " +  testReq.error, centeredTextStyle);
 			} else {
 				GUI.Label (contextMenuRect, "Success: " + testReq.text, centeredTextStyle);
-			}*/
+			}
 			if(GUI.Button (friendButtonRect, "", friendButtonStyle))
 			{
 				Debug.Log ("friends button pressed");

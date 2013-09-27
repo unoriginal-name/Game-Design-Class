@@ -29,11 +29,10 @@ public class FriendsMenu : MonoBehaviour {
 		
 	private StringBuilder sb;
 	
-	MainMenu main_menu;
+	public MainMenu main_menu = null;
 	
 	// Use this for initialization
 	void Start () {
-		main_menu = (MainMenu)FindObjectOfType(typeof(MainMenu));
 	}
 	
 	void OnEnable() {
@@ -53,10 +52,15 @@ public class FriendsMenu : MonoBehaviour {
 			var friend = new Friend(rawFriendInfo);
 			sb.AppendFormat("\n\n{0}:\n\tMember Since {1}\n\t{2} Games Played", friend.username, friend.member_since, friend.games_played);
 		}
+		Debug.Log (sb.ToString());
 	}
 	
 	void OnGUI() {
-		GUI.Label(main_menu.contextMenuRect, sb.ToString(), main_menu.centeredTextStyle);
+		if(main_menu == null)
+			Debug.LogError ("main_menu is null in friends menu");
+		else
+			GUI.Label (main_menu.contextMenuRect, sb.ToString(), main_menu.centeredTextStyle);
+		Debug.Log ("Showing label in menu");
 	}
 	
 	// Update is called once per frame
