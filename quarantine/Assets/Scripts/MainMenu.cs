@@ -6,11 +6,13 @@ public class MainMenu : MonoBehaviour {
 	public GUIStyle friendButtonStyle;
 	private Rect friendButtonRect;
 	public GUIStyle messagesButtonStyle;
+	private Rect messageButtonRect;
 	public GUIStyle regularButtonStyle;
 	
 	// Use this for initialization
 	void Start () {
-		friendButtonRect =  new Rect(20,20, 1000*friendButtonStyle.normal.background.texelSize.x + 20, 1000*friendButtonStyle.normal.background.texelSize.y + 20);
+		friendButtonRect =  new Rect(10,10, friendButtonStyle.fixedWidth, friendButtonStyle.fixedHeight);
+		messageButtonRect = new Rect(Screen.width- 10 - messagesButtonStyle.fixedWidth, 10, messagesButtonStyle.fixedWidth, messagesButtonStyle.fixedHeight);
 	}
 	
 	void OnGUI() {
@@ -33,6 +35,10 @@ public class MainMenu : MonoBehaviour {
 		if(GUI.Button (friendButtonRect, "", friendButtonStyle))
 		{
 			Debug.Log ("friends button pressed");
+		}
+		if(GUI.Button (messageButtonRect, "", messagesButtonStyle))
+		{
+			Debug.Log ("messages button pressed");
 		}
 	}
 	
