@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Threading;
 
 public class MainMenu : MonoBehaviour {
 	private float horizRatio;
@@ -38,6 +39,8 @@ public class MainMenu : MonoBehaviour {
 	private Rect instrRect;
 	
 	private string entryText = "username";
+	
+	private bool loading = false;
 	
 	// Use this for initialization
 	void Start () {
@@ -94,15 +97,26 @@ public class MainMenu : MonoBehaviour {
 		// only display the user creation gui
 		if(!PlayerPrefs.HasKey ("username"))
 		{
-			GUI.Label(instrRect, "Please enter your username");
-			entryText = GUI.TextField(entryRect, entryText);
-			if(GUI.Button (registerBtnRect, "Register", regularBtnStyle))
-			{
-				Debug.Log ("register button pressed: " + entryText);
+			if(!loading) {
+				GUI.Label(instrRect, "Please enter your username");
+				entryText = GUI.TextField(entryRect, entryText);
+				if(GUI.Button (registerBtnRect, "Register", regularBtnStyle))
+				{
+					Debug.Log ("register button pressed: " + entryText);
+					loading = true;
+				}
+			} else {
+				GUI.Label (instrRect, "Creating account");
+				var server = new Webserver("immunitygame390.appspot.com");
+				var result = server.registerUser(entryText);
+
+				PlayerPrefs.SetString("username", entryText);
+
+				loading = false;
 			}
-			
-			
 		} else {
+			
+			GUI.Label (instrRect, "Welcome back " + PlayerPrefs.GetString("username"));
 			if(GUI.Button (friendButtonRect, "", friendButtonStyle))
 			{
 				Debug.Log ("friends button pressed");
