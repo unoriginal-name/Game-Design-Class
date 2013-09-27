@@ -26,7 +26,7 @@ public class RegistrationMenu : MonoBehaviour {
 		main_menu = (MainMenu)FindObjectOfType(typeof(MainMenu));
 		regularBtnStyle = main_menu.regularBtnStyle;
 		
-		Vector2 labelSizes = new Vector2(350, 50);
+		Vector2 labelSizes = new Vector2(500, 50);
 		instrRect = new Rect((Screen.width - labelSizes.x*horizRatio)/2,
 			(Screen.height - labelSizes.y*vertRatio)/2 - labelSizes.y*vertRatio,
 			labelSizes.x*horizRatio,
@@ -49,7 +49,7 @@ public class RegistrationMenu : MonoBehaviour {
 		if(!PlayerPrefs.HasKey("username"))
 		{
 			if(!loading) {
-				GUI.Label(instrRect, "Please enter your username");
+				GUI.Label(instrRect, "Please enter your username", main_menu.centeredTextStyle);
 				entryText = GUI.TextField(entryRect, entryText);
 				if(GUI.Button (registerBtnRect, "Register", regularBtnStyle))
 				{	

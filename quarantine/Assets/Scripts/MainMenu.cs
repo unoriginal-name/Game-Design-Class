@@ -93,16 +93,12 @@ public class MainMenu : MonoBehaviour {
 			{
 				Debug.Log ("friends button pressed");
 				
-				if(current_menu != null)
-					current_menu.SetActive(false);
-				
-				current_menu = menu_objects[0];
-				current_menu.SetActive(true);
+				switchMenus(0);
 			}
 			if(GUI.Button (messagesButtonRect, "", messagesButtonStyle))
 			{
 				Debug.Log ("messages button pressed");
-				current_menu = menu_objects[1];
+				switchMenus(1);
 			}
 			if(GUI.Button (creatureBtnRect, "", creatureBtnStyle))
 			{
