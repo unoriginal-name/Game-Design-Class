@@ -2,41 +2,52 @@
 using System.Collections;
 
 public class MainMenu : MonoBehaviour {
+	private float horizRatio;
+	private float vertRatio;
 	
 	public GUIStyle friendButtonStyle;
-	private Rect friendButtonRect;
 	public GUIStyle messagesButtonStyle;
-	private Rect messageButtonRect;
 	public GUIStyle regularButtonStyle;
+	
+	public Vector2 top_button_sizes;
+	public Vector2 top_button_offsets;
+	private Rect friendButtonRect;
+	private Rect messagesButtonRect;
+	
+	public Texture topBarTexture;
+	public Texture btmBarTexture;
+	private Rect topBarRect;
+	private Rect btmBarRect;
 	
 	// Use this for initialization
 	void Start () {
-		friendButtonRect =  new Rect(10,10, friendButtonStyle.fixedWidth, friendButtonStyle.fixedHeight);
-		messageButtonRect = new Rect(Screen.width- 10 - messagesButtonStyle.fixedWidth, 10, messagesButtonStyle.fixedWidth, messagesButtonStyle.fixedHeight);
+		horizRatio = GlobalScreenResolution.SharedInstance.widthRatio;
+		vertRatio = GlobalScreenResolution.SharedInstance.heightRatio;
+		
+		Debug.Log ("horizRatio: " + horizRatio);
+		Debug.Log ("vertRatio: " + vertRatio);
+		
+		friendButtonRect = new Rect(top_button_offsets.x*horizRatio, 
+			top_button_offsets.y*vertRatio, 
+			top_button_sizes.x*horizRatio, 
+			top_button_sizes.y*vertRatio);
+		
+		messagesButtonRect = new Rect(friendButtonRect.xMax +  (top_button_offsets.x*horizRatio), 
+			top_button_offsets.y*vertRatio, 
+			top_button_sizes.x*horizRatio, 
+			top_button_sizes.y*vertRatio);
+		
+		topBarRect = new Rect(0, 0, Screen.width, (2*top_button_offsets.y + top_button_sizes.y)*vertRatio);
 	}
 	
 	void OnGUI() {
-		/*
-		if(GUI.Button (new Rect(20, 20, Screen.width-40, (Screen.height-40)/3), "Pat's Demo"))
-		{
-			Application.LoadLevel ("TestScene");	
-		}
+		GUI.DrawTexture(topBarRect, topBarTexture);
 		
-		if(GUI.Button (new Rect(20, 20 + (Screen.height-40)/3, Screen.width-40, (Screen.height-40)/3), "Rachid's Demo"))
-		{
-			// load Rachid's demo here
-		}
-		
-		if(GUI.Button (new Rect(20, 20+(Screen.height-40)*2/3, Screen.width-40, (Screen.height-40)/3), "Devin's Demo"))
-		{
-			// load Devin's demo here
-			Application.LoadLevel("WebRequester");
-		}*/
 		if(GUI.Button (friendButtonRect, "", friendButtonStyle))
 		{
 			Debug.Log ("friends button pressed");
 		}
-		if(GUI.Button (messageButtonRect, "", messagesButtonStyle))
+		if(GUI.Button (messagesButtonRect, "", messagesButtonStyle))
 		{
 			Debug.Log ("messages button pressed");
 		}
