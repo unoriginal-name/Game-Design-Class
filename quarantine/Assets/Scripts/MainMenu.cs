@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Threading;
+using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour {	
 	private float horizRatio;
@@ -33,10 +33,16 @@ public class MainMenu : MonoBehaviour {
 	private Rect btmBarRect;
 	
 	public GUIStyle regularBtnStyle;
+	public GUIStyle centeredTextStyle;
+	
+	public Rect contextMenuRect;
 	
 	public bool loading = false;
 	
-	Component context_menu;
+	public List<GameObject> menu_objects;
+	private GameObject current_menu;
+	
+	//private WWW testReq;
 	
 	void Awake() {
 		// Debugging purposes
@@ -44,8 +50,8 @@ public class MainMenu : MonoBehaviour {
 	}
 	
 	// Use this for initialization
-	void Start () {		
-		context_menu = gameObject.AddComponent("RegistrationMenu");
+	void Start () {
+		current_menu = null;
 		
 		horizRatio = GlobalScreenResolution.SharedInstance.widthRatio;
 		vertRatio = GlobalScreenResolution.SharedInstance.heightRatio;
@@ -73,7 +79,9 @@ public class MainMenu : MonoBehaviour {
 		playersBtnRect = new Rect(inventoryBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		attacksBtnRect = new Rect(playersBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		
-
+		contextMenuRect = new Rect(0, topBarRect.yMax, topBarRect.yMax - btmBarRect.yMin, Screen.width);
+		
+		//testReq = new WWW("http://immunitygame390.appspot.com/user/profile/rhol");
 	}
 	
 	void OnGUI() {
@@ -83,15 +91,27 @@ public class MainMenu : MonoBehaviour {
 		// if the user doesn't exist
 		// only display the user creation gui
 		if(PlayerPrefs.HasKey ("username")) {
-			
 			//GUI.Label (instrRect, "Welcome back " + PlayerPrefs.GetString("username"));
+			/*if(testReq.error != null)
+			{
+				GUI.Label (contextMenuRect, "Error: " +  testReq.error, centeredTextStyle);
+			} else {
+				GUI.Label (contextMenuRect, "Success: " + testReq.text, centeredTextStyle);
+			}*/
 			if(GUI.Button (friendButtonRect, "", friendButtonStyle))
 			{
 				Debug.Log ("friends button pressed");
+				
+				if(current_menu != null)
+					current_menu.SetActive(false);
+				
+				current_menu = menu_objects[0];
+				current_menu.SetActive(true);
 			}
 			if(GUI.Button (messagesButtonRect, "", messagesButtonStyle))
 			{
 				Debug.Log ("messages button pressed");
+				current_menu = menu_objects[1];
 			}
 			if(GUI.Button (creatureBtnRect, "", creatureBtnStyle))
 			{
@@ -115,9 +135,13 @@ public class MainMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			Application.LoadLevel("TestScene");	
-		}
+	}
+	
+	void switchMenus(int menu_index) {
+		if(current_menu != null)
+			current_menu.SetActive(false);
+		
+		current_menu = menu_objects[menu_index];
+		current_menu.SetActive(true);
 	}
 }
