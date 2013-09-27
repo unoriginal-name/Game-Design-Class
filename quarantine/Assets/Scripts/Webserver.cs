@@ -12,6 +12,7 @@ public class Webserver {
 	}
 	
 	private Dictionary<string, object> WebRequest(string path_url, WWWForm form = null) {
+		Debug.Log (base_url + path_url);
 		WWW getReq;
 		if(form != null) {
 			getReq = new WWW(base_url + path_url, form);
@@ -26,6 +27,9 @@ public class Webserver {
 		if(getReq.error != null)
 		{
 			Debug.LogError("registeruser: " + getReq.error);
+			Dictionary<string, object> result = new Dictionary<string, object>();
+			result.Add("result", getReq.error);
+			return result;
 		} else {
 			return Json.Deserialize(getReq.text) as Dictionary<string, object>;
 		}
@@ -34,7 +38,10 @@ public class Webserver {
 	}
 	
 	public Dictionary<string, object> registerUser(string username) {
-		return WebRequest("/user/create/"+ WWW.EscapeURL(username), new WWWForm());
+		WWWForm form = new WWWForm();
+		form.AddField ("username", username);
+			
+		return WebRequest("/user/create/"+ WWW.EscapeURL(username), form);
 	}
 	
 	public Dictionary<string, object> getUserInfo(string username) {
