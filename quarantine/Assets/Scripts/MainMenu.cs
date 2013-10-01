@@ -44,7 +44,7 @@ public class MainMenu : MonoBehaviour {
 		
 	void Awake() {
 		// Debugging purposes
-		PlayerPrefs.DeleteAll();	
+		//PlayerPrefs.DeleteAll();	
 	}
 	
 	// Use this for initialization
@@ -115,6 +115,7 @@ public class MainMenu : MonoBehaviour {
 			if(GUI.Button (attacksBtnRect, "", attacksBtnStyle))
 			{
 				Debug.Log ("attacks button pressed");
+                Application.LoadLevel("GestureDemo");
 			}
 		}
 		
