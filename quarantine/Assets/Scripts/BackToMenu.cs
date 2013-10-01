@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ExitToMainMenu : MonoBehaviour {
-
+public class BackToMenu : MonoBehaviour {
+	
+	public string level_name = "MainMenu";
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -12,7 +14,7 @@ public class ExitToMainMenu : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
-			Application.LoadLevel("MainMenu");	
+			Application.LoadLevel(level_name);	
 		}
 	}
 }
