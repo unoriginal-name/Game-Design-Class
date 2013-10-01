@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BackToWebRequester : MonoBehaviour {
-
+public class SetScreenResolution : MonoBehaviour {
+	
+	
+	
 	// Use this for initialization
 	void Start () {
-	
+		Screen.SetResolution(800, 120, true);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Escape))
-		{
-			Application.LoadLevel("WebRequester");	
-		}
+	
 	}
 }
