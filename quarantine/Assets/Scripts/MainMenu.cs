@@ -115,7 +115,8 @@ public class MainMenu : MonoBehaviour {
 			if(GUI.Button (attacksBtnRect, "", attacksBtnStyle))
 			{
 				Debug.Log ("attacks button pressed");
-                Application.LoadLevel("GestureDemo");
+                //Application.LoadLevel("GestureDemo");
+                switchMenus(2);
 			}
 		}
 		
