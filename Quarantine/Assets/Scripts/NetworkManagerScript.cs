@@ -4,6 +4,11 @@ using System.Collections;
 public class NetworkManagerScript : MonoBehaviour {
     public string gameName = "Immunity Game 390";
 
+    public Texture loading_background;
+    private Rect loading_rect;
+
+    private float refresh_timeout = 2.0f;
+    private float refresh_start = 0.0f;
     private bool refreshing = false;
     private HostData[] host_data = null;
 
@@ -13,6 +18,9 @@ public class NetworkManagerScript : MonoBehaviour {
 
     private float horizRatio, vertRatio;
     private float btnX, btnY, btnH, btnW;
+
+    public GUIStyle status_message_style;
+    private string status_message = "";
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +34,11 @@ public class NetworkManagerScript : MonoBehaviour {
         btnY = Screen.height * 0.05f;
         btnW = Screen.width * 0.1f;
         btnH = btnW;
-	}
+
+        loading_rect = new Rect(0, context_menu_rect.height * .25f, Screen.width, context_menu_rect.height * .5f);
+        Debug.Log("0, " + context_menu_rect.height * .25f + ", " + Screen.width + ", " + context_menu_rect.height * .5f);
+        DontDestroyOnLoad(this);
+    }
 
     void startServer()
     {
@@ -36,14 +48,21 @@ public class NetworkManagerScript : MonoBehaviour {
 
     void refreshHostList()
     {
+        host_data = null;
         MasterServer.RequestHostList(gameName);
         refreshing = true;
+        Debug.Log("refreshing");
+        status_message = "Refreshing";
+        refresh_start = Time.time;
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (refreshing)
         {
+            if (Time.time - refresh_start > refresh_timeout)
+                refreshing = false;
+
             if (MasterServer.PollHostList().Length > 0)
             {
                 refreshing = false;
@@ -95,10 +114,25 @@ public class NetworkManagerScript : MonoBehaviour {
                 {
                     if (GUI.Button(new Rect(context_menu_rect.xMin + btnX * 1.5f + btnW, context_menu_rect.yMin + btnY * 1.2f + (btnH * i), btnW * 3f, btnH * 0.5f), host_data[i].gameName, regular_btn_style))
                     {
+                        Debug.Log("Connecting to game");
+                        refreshing = true;
+                        status_message = "Connecting to game";
                         Network.Connect(host_data[i]);
                     }
                 }
             }
         }
+
+        if (refreshing)
+        {
+            GUI.DrawTexture(loading_rect, loading_background);
+            GUI.Label(loading_rect, status_message, status_message_style);
+        }
+    }
+
+    void OnDisable()
+    {
+        Network.Disconnect(1000);
+        MasterServer.UnregisterHost();
     }
 }
