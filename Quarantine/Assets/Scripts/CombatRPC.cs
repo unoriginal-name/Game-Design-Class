@@ -8,20 +8,26 @@ public class CombatRPC : MonoBehaviour {
 
     private string message = "No gestures received";
 
+    private int last_gesture;
+
 	// Use this for initialization
 	void Start () {
-
+        /*if (!networkView.isMine)
+        {
+            enabled = false;
+        }*/
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        networkView.RPC("getLastGesture", RPCMode.Others);
+        networkView.RPC("setLastGesture", RPCMode.Others, (int)gestures.LastGesture);
 	}
 
     [RPC]
-    int getLastGesture()
+    void setLastGesture(int last_gesture)
     {
-        return (int)gestures.LastGesture;
+        this.last_gesture = last_gesture;
+        message = "Last gesture: " + this.last_gesture;
     }
 
 
