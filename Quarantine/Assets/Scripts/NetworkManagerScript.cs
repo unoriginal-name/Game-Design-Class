@@ -22,6 +22,8 @@ public class NetworkManagerScript : MonoBehaviour {
     public GUIStyle status_message_style;
     private string status_message = "";
 
+    bool should_destroy = false; // used to tell the object when it should kill itself
+
 	// Use this for initialization
 	void Start () {
         context_menu_rect = main_menu.contextMenuRect;
@@ -58,6 +60,17 @@ public class NetworkManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        // if we are reentering the main menu then destory this object
+        if (Application.loadedLevelName.Equals("CombatScene"))
+        {
+            should_destroy = true;
+        }
+        else
+        {
+            if (should_destroy)
+                Destroy(this.gameObject);
+        }
+
         if (refreshing)
         {
             if (Time.time - refresh_start > refresh_timeout)
@@ -76,12 +89,20 @@ public class NetworkManagerScript : MonoBehaviour {
     {
         Debug.Log("Server initialized");
         // spawn players here
+        Application.LoadLevel("CombatScene");
     }
 
     void OnConnectedToServer()
     {
         Debug.Log("Connected to server");
         // spawn players here
+        Application.LoadLevel("CombatScene");
+    }
+
+    void OnDisconnectedFromServer(NetworkDisconnection info)
+    {
+        Application.LoadLevel("MainMenu");
+        Destroy(this.gameObject);
     }
 
     void OnMasterServerEvent(MasterServerEvent mse)

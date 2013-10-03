@@ -49,6 +49,7 @@ public class Gestures : MonoBehaviour {
 	}
 	
 	private gesture lastGesture;
+
 	public gesture LastGesture{
 		get{
 			return lastGesture;
