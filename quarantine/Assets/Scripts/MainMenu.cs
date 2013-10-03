@@ -49,6 +49,8 @@ public class MainMenu : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+        Screen.orientation = ScreenOrientation.Portrait;
+
 		current_menu = null;
 		
 		horizRatio = GlobalScreenResolution.SharedInstance.widthRatio;
@@ -77,8 +79,7 @@ public class MainMenu : MonoBehaviour {
 		playersBtnRect = new Rect(inventoryBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		attacksBtnRect = new Rect(playersBtnRect.xMax + btmBtnOffsets.x*horizRatio, Screen.height - btmBtnTop, btmBtnSizes.x*horizRatio, btmBtnTop);
 		
-		contextMenuRect = new Rect(0, topBarRect.yMax, Screen.width, topBarRect.yMax - btmBarRect.yMin);
-		
+		contextMenuRect = new Rect(0, topBarRect.yMax, Screen.width, btmBarRect.yMin - topBarRect.yMax);
 	}
 	
 	void OnGUI() {
@@ -115,7 +116,8 @@ public class MainMenu : MonoBehaviour {
 			if(GUI.Button (attacksBtnRect, "", attacksBtnStyle))
 			{
 				Debug.Log ("attacks button pressed");
-                Application.LoadLevel("GestureDemo");
+                //Application.LoadLevel("GestureDemo");
+                switchMenus(2);
 			}
 		}
 		
