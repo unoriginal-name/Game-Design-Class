@@ -192,6 +192,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level_name: MainMenu
+--- !u!1 &735356209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 735356210}
+  - 114: {fileID: 735356211}
+  - 148: {fileID: 735356212}
+  m_Layer: 0
+  m_Name: Other Player's Line
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &735356210
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735356209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.76207542, y: 7.30337572, z: 5.37538099}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!114 &735356211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735356209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d7a774d82f024e4e8ba347f5039976e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  line_color: {r: 0, g: .00689649582, b: 1, a: 0}
+--- !u!148 &735356212
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 735356209}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 0}
+  m_ViewID:
+    m_ID: 2
+    m_Type: 1
 --- !u!1 &1215748667
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +343,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  line_drawer: {fileID: 735356211}
 --- !u!148 &1215748670
 NetworkView:
   m_ObjectHideFlags: 0
@@ -341,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a563efaf41447084dab5b4d5c682af14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  linePoints: []
 --- !u!1 &1520341878
 GameObject:
   m_ObjectHideFlags: 0

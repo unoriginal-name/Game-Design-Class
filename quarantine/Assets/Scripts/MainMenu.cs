@@ -49,6 +49,8 @@ public class MainMenu : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+        Screen.orientation = ScreenOrientation.Portrait;
+
 		current_menu = null;
 		
 		horizRatio = GlobalScreenResolution.SharedInstance.widthRatio;

@@ -183,7 +183,7 @@ public class Gestures : MonoBehaviour {
 	}
 	
 	private LineRenderer lineRenderer;
-	private List<Vector3> linePoints = new List<Vector3>();
+	public List<Vector3> linePoints = new List<Vector3>();
 	
 	private LinkedList<direction> path;
 	private LinkedList<Vector3> pathPosition;
