@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Gestures : MonoBehaviour {
-	private const int X_TOLERANCE = 500;
-	private const int Y_TOLERANCE = 300;
+#region "Constants"
+	private const double TOLERANCE_MODIFIER = 8;
+	private const double UPDATE_MODIFIER = 4;
 	
-	private const int UPDATE_DISTANCE = 100; // pixels
+	private const float TAP_TIME = .100f;
 	
 	public enum direction {
-		none = 0,
+		none,
 		up,
 		down,
 		left,
@@ -39,7 +40,9 @@ public class Gestures : MonoBehaviour {
 		twoFinger,
 		other,
 	}
+#endregion
 	
+#region "Attributes"	
 	private float lastTimeStamp;
 	public float LastTimeStamp{
 		get{
@@ -64,17 +67,152 @@ public class Gestures : MonoBehaviour {
 		set{}
 	}
 	
+	private LineRenderer lineRenderer;
+	private LinkedList<Vector3> linePoints = new LinkedList<Vector3>();
+	
+	private LinkedList<direction> path;
+	private LinkedList<Vector3> pathPosition;
+	
+	private bool checkForRelease = false;
+	private bool twoFingerInput = false;
+	
+	private float timer = 0;
+#endregion
+
+#region "Start and Update"
+	void Start () {
+		lineRenderer = (LineRenderer)gameObject.AddComponent<LineRenderer>();
+		lineRenderer.material = new Material(Shader.Find ("Transparent/Diffuse"));
+		lineRenderer.material.color = Color.black;
+		lineRenderer.SetWidth(.01f, .01f); 
+	}
+	
+	void Update () {
+		if(checkForRelease){
+			checkRelease();
+		}else{
+			checkButtons();
+		}
+	}
+	
+	private void checkRelease(){
+		updateLine();
+		
+		if(twoFingerInput){
+			if(Input.GetMouseButtonUp(1)){
+				checkForRelease = false;
+				twoFingerInput = false;
+				
+				lastTimeStamp = Time.time;
+				lastPath = null;
+				lastGesture = gesture.other;
+			}
+		}else{
+			if(Input.GetMouseButtonUp(0)){
+				checkForRelease = false;
+				
+				addGesture(Input.mousePosition.x,Input.mousePosition.y);
+				setGesture();
+					
+			}else if(checkUpdateDistanceReached(Input.mousePosition)){
+				addGesture(Input.mousePosition.x,Input.mousePosition.y);
+			}
+		}
+	}
+	
+	private void checkButtons(){
+		linePoints = new LinkedList<Vector3>();
+		updateLine();
+		
+		checkForRelease = Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1);
+		twoFingerInput = Input.GetMouseButtonDown(1);
+			
+		if(checkForRelease){
+			timer = Time.time;	
+			
+			path = new LinkedList<direction>();
+			pathPosition = new LinkedList<Vector3>();
+			
+			path.AddLast(direction.none);
+			pathPosition.AddLast (Input.mousePosition);
+		}
+	}
+	
+	public void addGesture(float mouseX, float mouseY){
+		bool xChange = false;
+		bool yChange = false;
+	
+		if(Mathf.Abs(mouseX - pathPosition.Last.Value.x) > getTolerance()){
+			xChange = true;
+		}
+		
+		if(Mathf.Abs(mouseY - pathPosition.Last.Value.y) > getTolerance()){
+			yChange = true;
+		}
+		
+		if(yChange){
+			if(mouseY > pathPosition.Last.Value.y){
+				path.AddLast (direction.up);
+			}else{
+				path.AddLast (direction.down);
+			}
+		}else if(xChange){
+			if(mouseX > pathPosition.Last.Value.x){
+				path.AddLast (direction.right);
+			}else{
+				path.AddLast (direction.left);
+			}
+		}
+		
+		pathPosition.AddLast (new Vector3(mouseX,mouseY,0));
+	}
+	
+	private void updateLine(){
+		Vector3 mousePosition = Input.mousePosition;
+		mousePosition.z = Camera.main.nearClipPlane;
+		linePoints.AddLast(Camera.main.ScreenToWorldPoint(mousePosition));
+		
+		int i = 0;
+		lineRenderer.SetVertexCount(linePoints.Count);
+		foreach(Vector3 point in linePoints){
+			lineRenderer.SetPosition(i,point);
+			i++;
+		}
+	}
+#endregion	
+	
+#region "Utility Methods"
+	private double getTolerance(){
+		return (Screen.width > Screen.height)? Screen.height/TOLERANCE_MODIFIER:Screen.width/TOLERANCE_MODIFIER;
+	}
+	
+	private bool checkUpdateDistanceReached(Vector3 mousePosition){
+		return  Mathf.Sqrt(Mathf.Pow(pathPosition.Last.Value.x - mousePosition.x,2) + Mathf.Pow(pathPosition.Last.Value.y - Input.mousePosition.y,2)) > getUpdateDistance();
+	}
+	
+	private double getUpdateDistance(){
+		return getTolerance ();
+		//return (Screen.width > Screen.height)? Screen.height/UPDATE_MODIFIER : Screen.width/UPDATE_MODIFIER;	
+	}
+	
+	private LinkedList<direction> removeDuplicates(LinkedList<direction> path1){
+		LinkedList<direction> returnPath = new LinkedList<direction>();
+		direction last = direction.none;
+		foreach(Gestures.direction direction1 in path1){
+			print (last + " " + direction1);
+			if(direction1 != last){
+				returnPath.AddLast(direction1);
+			}
+			
+			last = direction1;
+		}
+		
+		return returnPath;
+	}
+	
 	private void setGesture(){
 		lastTimeStamp = Time.time;
-		lastPath = path;
-		lastPath.RemoveFirst();
-		
-		print (path.Count);
-		if(lastPath.Count == 2){
-			print (lastPath.First.Value);
-			print (" ");
-			print (lastPath.First.Next.Value);
-		}
+		lastPath = removeDuplicates(path);
 		
 		if(Time.time - timer < TAP_TIME){
 			lastGesture = gesture.tap;
@@ -155,13 +293,15 @@ public class Gestures : MonoBehaviour {
 				direction[] pathArray = new direction[5];
 				LinkedListNode<direction> next = lastPath.First;
 				for(int i = 0; i < 5; i++){
+					
 					if(next != null){
 						pathArray[i] = next.Value;
+						next = next.Next;
 					}else{
+						print ("???");
 						pathArray[i] = direction.none;	
+						break;
 					}	
-					
-					next = next.Next;
 				}
 				
 				if(pathArray[0] == direction.left
@@ -180,125 +320,5 @@ public class Gestures : MonoBehaviour {
 			}
 		}
 	}
-	
-	private LineRenderer lineRenderer;
-	private List<Vector3> linePoints = new List<Vector3>();
-	
-	private LinkedList<direction> path;
-	private LinkedList<Vector3> pathPosition;
-	
-	private bool checkForRelease = false;
-	private bool twoFingerInput = false;
-	
-	private float timer = 0;
-	private const float MAX_TIME = 2f;
-	private const float TAP_TIME = .100f;
-	
-	void Start () {
-		lineRenderer = (LineRenderer)gameObject.AddComponent<LineRenderer>();
-		lineRenderer.SetColors(Color.black,Color.black);
-		lineRenderer.SetWidth(.01f, .01f); 
-	}
-	
-	void Update () {
-		if(!checkForRelease){
-			linePoints = new List<Vector3>();
-			updateLine();
-			
-			if(Input.GetMouseButtonDown(0)){
-				checkForRelease = true;
-			}
-			
-			if(Input.GetMouseButtonDown(1)){
-				checkForRelease = true;
-				twoFingerInput = true;
-			}
-			
-			if(checkForRelease){
-				timer = Time.time;	
-				
-				path = new LinkedList<direction>();
-				pathPosition = new LinkedList<Vector3>();
-				path.AddLast(direction.none);
-				pathPosition.AddLast (Input.mousePosition);
-			}
-		}else{
-			updateLine();
-			
-			if(!twoFingerInput){
-				if(Input.GetMouseButtonUp(0)){
-					checkForRelease = false;
-					
-					addGesture(Input.mousePosition.x,Input.mousePosition.y);
-					setGesture();
-						
-				}else if(checkUpdateDistanceReached()){
-					addGesture(Input.mousePosition.x,Input.mousePosition.y);
-				}
-			}else{
-				if(Input.GetMouseButtonUp(1)){
-					checkForRelease = false;
-					twoFingerInput = false;
-					
-					lastTimeStamp = Time.time;
-					lastPath = null;
-					lastGesture = gesture.tap;
-				}
-			}
-		}
-	}
-	
-	public void addGesture(float mouseX, float mouseY){
-		bool xChange = false;
-		bool yChange = false;
-	
-		if(Mathf.Abs(mouseX - pathPosition.Last.Value.x) > X_TOLERANCE){
-			xChange = true;
-		}
-		
-		if(Mathf.Abs(mouseY - pathPosition.Last.Value.y) > Y_TOLERANCE){
-			yChange = true;
-		}
-		
-		if(xChange){
-			if(mouseX > pathPosition.Last.Value.x && path.Last.Value != direction.right){
-				path.AddLast (direction.right);
-			}else if(path.Last.Value != direction.left){
-				path.AddLast (direction.left);
-			}else{
-				xChange = false;	
-			}
-		}
-		
-		if(yChange){
-			if(mouseY > pathPosition.Last.Value.y && path.Last.Value != direction.up){
-				path.AddLast (direction.up);
-			}else if(path.Last.Value != direction.down){
-				path.AddLast (direction.down);
-			}else{
-				yChange = false;	
-			}
-		}
-		
-		if(xChange || yChange){
-			pathPosition.AddLast (new Vector3(mouseX,mouseY,0));
-		}
-	}
-	
-	private void updateLine(){
-		Vector3 mousePosition = Input.mousePosition;
-		mousePosition.z = Camera.main.nearClipPlane;
-		linePoints.Add(Camera.main.ScreenToWorldPoint(mousePosition));
-		
-		int i = 0;
-		lineRenderer.SetVertexCount(linePoints.Count);
-		foreach(Vector3 point in linePoints){
-			lineRenderer.SetPosition(i,point);
-			i++;
-		}
-	}
-	
-	private bool checkUpdateDistanceReached(){
-		return  Mathf.Sqrt(Mathf.Pow(pathPosition.Last.Value.x - Input.mousePosition.x,2) + Mathf.Pow(pathPosition.Last.Value.y - Input.mousePosition.y,2)) > UPDATE_DISTANCE;
-	}
+#endregion
 }
