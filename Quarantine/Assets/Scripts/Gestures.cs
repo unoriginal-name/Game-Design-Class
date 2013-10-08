@@ -84,7 +84,7 @@ public class Gestures : MonoBehaviour {
 		lineRenderer = (LineRenderer)gameObject.AddComponent<LineRenderer>();
 		lineRenderer.material = new Material(Shader.Find ("Transparent/Diffuse"));
 		lineRenderer.material.color = Color.black;
-		lineRenderer.SetWidth(.01f, .01f); 
+		lineRenderer.SetWidth(.01f, .01f);
 	}
 	
 	void Update () {
