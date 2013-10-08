@@ -5,24 +5,26 @@ using System.Collections;
 
 public class Creature : MonoBehaviour {
 	
-	string name; //creature's name
+	string name = "default"; //creature's name
 	
-	enum Mod { BASE, ATTACK, DEFENSE, SPEED };
-	Mod currentMod;
+	public enum Mod { BASE, ATTACK, DEFENSE, SPEED };
+	public Mod currentMod = Mod.BASE;
 	
-	bool isEnemy = false;
+	public bool isEnemy = false;
 	
 	//Base vs. Current: base is what it is by default, current is what it is when temporary boosts are taken into account
 	
-	int MAX_HEALTH;
-	int BASE_ATTACK;
-	int BASE_DEFENSE;
-	int BASE_SPEED;
+	public int MAX_HEALTH = 0;
+	int BASE_ATTACK = 0;
+	int BASE_DEFENSE = 0;
+	int BASE_SPEED = 0;
 	
-	int CURRENT_HEALTH;
-	int CURRENT_ATTACK;
-	int CURRENT_DEFENSE;
-	int CURRENT_SPEED;
+	int CURRENT_HEALTH = 0;
+	int CURRENT_ATTACK = 0;
+	int CURRENT_DEFENSE = 0;
+	int CURRENT_SPEED = 0;
+	
+	int LEVEL = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -34,85 +36,69 @@ public class Creature : MonoBehaviour {
 	
 	}
 	
+	/*
+	 * List of methods for getting various stats
+	 */ 
+	
 	public int getMaxHealth()
 	{
 		return MAX_HEALTH;
 	}
 	
-	int getBaseAttack()
+	public int getBaseAttack()
 	{
 		return BASE_ATTACK;
 	}
 	
-	int getBaseDefense()
+	public int getBaseDefense()
 	{
 		return BASE_DEFENSE;
 	}
 	
-	int getBaseSpeed()
+	public int getBaseSpeed()
 	{
 		return BASE_SPEED;
 	}
 	
-	
-	
-	int getCurrentAttack()
+	public int getCurrentAttack()
 	{
 		return CURRENT_ATTACK;
 	}
 	
-	int getCurrentDefense()
+	public int getCurrentDefense()
 	{
 		return CURRENT_DEFENSE;
 	}
 	
-	int getCurrentSpeed()
+	public int getCurrentSpeed()
 	{
 		return CURRENT_SPEED;
 	}
 	
-	void adjustAttack(int adjustment)
-	{
-		CURRENT_ATTACK += adjustment;
-	}
-	
-	void adjustDefense(int adjustment)
-	{
-		CURRENT_DEFENSE += adjustment;
-	}
-	
-	void adjustSpeed(int adjustment)
-	{
-		CURRENT_SPEED += adjustment;
-	}
-	
-	
-	string getName()
+	public string getName()
 	{
 		return name;
 	}
 	
-	
-	Mod getMod()
+	public Mod getMod()
 	{
 		Mod tempMod = new Mod();
 		tempMod = currentMod;
 		return tempMod;
 	}
 	
-	
-	void setEnemy()
-	{
-		isEnemy = true;
-	}
-	
-	bool checkAllegience()
+	public bool checkAllegience()
 	{
 		return isEnemy;
 	}
 	
+	public int getLevel()
+	{
+		return LEVEL;
+	}
+	
 	//not entirely sure what this will return yet.
-	void getSprite()
+	public void getSprite()
 	{
 		string spriteName;
 		
@@ -125,4 +111,60 @@ public class Creature : MonoBehaviour {
 		
 		//load the sprite and return that?
 	}
+	
+	/*
+	 * List of methods for adjusting stats for this battle
+	 */ 
+	
+	public void adjustAttack(int adjustment)
+	{
+		CURRENT_ATTACK += adjustment;
+	}
+	
+	public void adjustDefense(int adjustment)
+	{
+		CURRENT_DEFENSE += adjustment;
+	}
+	
+	public void adjustSpeed(int adjustment)
+	{
+		CURRENT_SPEED += adjustment;
+	}
+	
+	/*
+	 * List of methods for adjusting base stats
+	 */ 
+	
+	public void adjustLevel(int adjustment)
+	{
+		LEVEL += adjustment;
+	}
+	
+	public void adjustAttackPerm(int adjustment)
+	{
+		BASE_ATTACK += adjustment;
+	}
+	
+	public void adjustDefensePerm(int adjustment)
+	{
+		BASE_DEFENSE += adjustment;
+	}
+	
+	public void adjustSpeedPerm(int adjustment)
+	{
+		BASE_SPEED += adjustment;
+	}
+	
+	public void setMaxHealth(int value)
+	{
+		MAX_HEALTH = value;
+	}
+	
+	
+	public void setEnemy()
+	{
+		isEnemy = true;
+	}
+	
+	
 }
