@@ -52,6 +52,8 @@ public class Interface : MonoBehaviour {
 				}
 				
 				GUI.Label(new Rect(50,50,1000,100),pathString,style);
+			}else{
+				GUI.Label(new Rect(50,50,1000,100),"Tap",style);
 			}
 		}		
 		
