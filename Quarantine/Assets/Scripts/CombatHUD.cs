@@ -12,6 +12,6 @@ public class CombatHUD : MonoBehaviour {
 	
 	// Update is called once per frame
 	void OnGUI () {
-        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), combatHUD);
+        GUI.DrawTexture(new Rect(0, Screen.height*.75f, Screen.width, Screen.height*.25f), combatHUD);
 	}
 }

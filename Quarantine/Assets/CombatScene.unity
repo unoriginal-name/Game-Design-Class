@@ -394,7 +394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a563efaf41447084dab5b4d5c682af14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linePoints: []
 --- !u!1 &1520341878
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,4 +432,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7f42c6cc456564a942d65acb7c5835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatHUD: {fileID: 2800000, guid: f07c05ea4fde0044d83766cac56235b1, type: 3}
+  combatHUD: {fileID: 2800000, guid: 575ed5641af38674792777a893939c86, type: 3}
