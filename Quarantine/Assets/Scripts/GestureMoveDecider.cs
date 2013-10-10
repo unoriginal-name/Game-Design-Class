@@ -5,7 +5,12 @@ public class GestureMoveDecider : MoveDeciderBase {
 
     public Gestures gestures;
 
-    public override int GetMove()
+    public override void TimesUp()
+    {
+        combat_arbiter.SubmitMove(player.name, getMove());
+    }
+
+    private int getMove()
     {
         Gestures.gesture last_gesture = gestures.LastGesture;
 

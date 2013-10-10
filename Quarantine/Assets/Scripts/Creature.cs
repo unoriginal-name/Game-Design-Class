@@ -5,7 +5,7 @@ using System.Collections;
 
 public class Creature : MonoBehaviour {
 	
-	string name; //creature's name
+	string creature_name; //creature's name
 	
 	enum Mod { BASE, ATTACK, DEFENSE, SPEED };
 	Mod currentMod;

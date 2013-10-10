@@ -84,7 +84,7 @@ GameObject:
   - 4: {fileID: 309915952}
   - 114: {fileID: 309915953}
   m_Layer: 0
-  m_Name: Combat Manager
+  m_Name: Combat Arbiter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,6 +420,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatHUD: {fileID: 2800000, guid: 575ed5641af38674792777a893939c86, type: 3}
+--- !u!1 &1536213427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1536213428}
+  - 148: {fileID: 1536213429}
+  - 114: {fileID: 1536213430}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1536213428
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1536213427}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1656390234}
+--- !u!148 &1536213429
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1536213427}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 0}
+  m_ViewID:
+    m_ID: 2
+    m_Type: 1
+--- !u!114 &1536213430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1536213427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d924a0f2e0b6f5245ad89e2d810c4cd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1600001958
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +481,7 @@ GameObject:
   - 4: {fileID: 1600001959}
   - 114: {fileID: 1600001960}
   m_Layer: 0
-  m_Name: Gesture Decider
+  m_Name: Gesture Move Decider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -458,6 +509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b83868c88e54b94daa8323287ff5ed6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1970419207}
+  combat_arbiter: {fileID: 309915953}
   gestures: {fileID: 1241487660}
 --- !u!1 &1656390233
 GameObject:
@@ -488,12 +541,54 @@ Transform:
   - {fileID: 309915952}
   - {fileID: 2125970553}
   - {fileID: 1215748668}
+  - {fileID: 1536213428}
+  - {fileID: 1732513828}
   - {fileID: 1600001959}
   - {fileID: 1970419206}
   - {fileID: 1241487659}
   - {fileID: 375967737}
   - {fileID: 436398684}
   m_Father: {fileID: 0}
+--- !u!1 &1732513827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1732513828}
+  - 114: {fileID: 1732513829}
+  m_Layer: 0
+  m_Name: Enemy Move Decider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1732513828
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1732513827}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1656390234}
+--- !u!114 &1732513829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1732513827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17e4d653116c3014e8b7f186f41a9f20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1536213430}
+  combat_arbiter: {fileID: 309915953}
 --- !u!1 &1970419205
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,7 +627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d924a0f2e0b6f5245ad89e2d810c4cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  move_decider: {fileID: 1600001960}
 --- !u!1 &2125970552
 GameObject:
   m_ObjectHideFlags: 0

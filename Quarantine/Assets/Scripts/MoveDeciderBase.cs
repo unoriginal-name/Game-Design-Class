@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveDeciderBase : MonoBehaviour {
-    public virtual int GetMove()
-    {
-        return -1;
-    }
+public abstract class MoveDeciderBase : MonoBehaviour {
+
+    public Player player;
+    public CombatManagerScript combat_arbiter;
+
+    // react to timer in this method
+    public abstract void TimesUp();
+
 }
