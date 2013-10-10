@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CombatTimer : MonoBehaviour {
 
-    private double countdown_time;
+    private float countdown_time;
     private bool running = false;
 
     public GameObject world;
@@ -14,7 +14,7 @@ public class CombatTimer : MonoBehaviour {
 	}
 
     [RPC]
-    public bool StartTimer(double time)
+    public bool StartTimer(float time)
     {
         Debug.Log("Starting timer for " + time + " seconds");
         if (running)
@@ -32,8 +32,7 @@ public class CombatTimer : MonoBehaviour {
         running = false;
     }
 
-    [RPC]
-    public double GetTimeLeft()
+    public float GetTimeLeft()
     {
         if (countdown_time <= 0)
             return 0; // doesn't make sense to return a value less than 0
@@ -46,7 +45,7 @@ public class CombatTimer : MonoBehaviour {
         if (!running)
             return; // do nothing if not running
 
-        countdown_time -= Time.deltaTime; // subtract time since last update
+        countdown_time -= (float)Time.deltaTime; // subtract time since last update
 
         if (countdown_time <= 0)
         {

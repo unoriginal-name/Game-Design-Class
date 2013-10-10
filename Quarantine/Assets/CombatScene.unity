@@ -455,7 +455,7 @@ NetworkView:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1536213427}
   m_Enabled: 1
-  m_StateSynchronization: 0
+  m_StateSynchronization: 1
   m_Observed: {fileID: 0}
   m_ViewID:
     m_ID: 2
@@ -480,6 +480,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1600001959}
   - 114: {fileID: 1600001960}
+  - 148: {fileID: 1600001961}
   m_Layer: 0
   m_Name: Gesture Move Decider
   m_TagString: Untagged
@@ -512,6 +513,18 @@ MonoBehaviour:
   player: {fileID: 1970419207}
   combat_arbiter: {fileID: 309915953}
   gestures: {fileID: 1241487660}
+--- !u!148 &1600001961
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1600001958}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 0}
+  m_ViewID:
+    m_ID: 4
+    m_Type: 1
 --- !u!1 &1656390233
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,53 +555,12 @@ Transform:
   - {fileID: 2125970553}
   - {fileID: 1215748668}
   - {fileID: 1536213428}
-  - {fileID: 1732513828}
   - {fileID: 1600001959}
   - {fileID: 1970419206}
   - {fileID: 1241487659}
   - {fileID: 375967737}
   - {fileID: 436398684}
   m_Father: {fileID: 0}
---- !u!1 &1732513827
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1732513828}
-  - 114: {fileID: 1732513829}
-  m_Layer: 0
-  m_Name: Enemy Move Decider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1732513828
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1732513827}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1656390234}
---- !u!114 &1732513829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1732513827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17e4d653116c3014e8b7f186f41a9f20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1536213430}
-  combat_arbiter: {fileID: 309915953}
 --- !u!1 &1970419205
 GameObject:
   m_ObjectHideFlags: 0

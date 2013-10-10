@@ -30,8 +30,8 @@ public class CombatManagerScript : MonoBehaviour {
 
         // call the start timer on both sides
         if (Network.isClient || Network.isServer) // if we are networked then call the RPC method
-            combat_timer.networkView.RPC("StartTimer", RPCMode.AllBuffered, 10);
+            combat_timer.networkView.RPC("StartTimer", RPCMode.AllBuffered, 10.0f);
         else
-            combat_timer.StartTimer(10); // otherwise just call the method directly
+            combat_timer.StartTimer(10.0f); // otherwise just call the method directly
     }
 }
