@@ -636,6 +636,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2125970553}
   - 114: {fileID: 2125970554}
+  - 148: {fileID: 2125970555}
   m_Layer: 0
   m_Name: Combat Timer
   m_TagString: Untagged
@@ -666,3 +667,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   world: {fileID: 1656390233}
+--- !u!148 &2125970555
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2125970552}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 0}
+  m_ViewID:
+    m_ID: 3
+    m_Type: 1

@@ -9,4 +9,7 @@ public class NetworkMoveDecider : MoveDeciderBase {
     {
         combat_arbiter.SubmitMove(player.name, -1);
     }
+
+    //[RPC]
+    //public 
 }
