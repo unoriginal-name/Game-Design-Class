@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
     public const double MAX_HEALTH = 100;
     private double current_health = MAX_HEALTH;
 
@@ -12,14 +13,32 @@ public class Player : MonoBehaviour {
     public const double defense = 200;
     public const double speed = 200;
 
-    public Texture2D character_sprite;
+    public Rect location;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
+    public string player_name;
+
+    public string message = "Player 1";
+
+    // Use this for initialization
+    void Start()
+    {
+        player_name = gameObject.name;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    [RPC]
+    public void setText(string new_text)
+    {
+        message = new_text;
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(location, message);
+    }
 }

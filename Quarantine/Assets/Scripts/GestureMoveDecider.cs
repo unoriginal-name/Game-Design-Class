@@ -10,9 +10,9 @@ public class GestureMoveDecider : MoveDeciderBase {
     public override void TimesUp()
     {
         if (Network.isClient) // if this is a networking client
-            networkView.RPC("SendMove", RPCMode.OthersBuffered, player.name, getMove()); // send to the master combat arbiter
+            networkView.RPC("SendMove", RPCMode.OthersBuffered, player.player_name, getMove()); // send to the master combat arbiter
         else
-            combat_arbiter.SubmitMove(player.name, getMove()); // otherwise just talk directly to the master combat arbiter
+            combat_arbiter.SubmitMove(player.player_name, getMove()); // otherwise just talk directly to the master combat arbiter
     }
 
     [RPC]

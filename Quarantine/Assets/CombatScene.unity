@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combat_timer: {fileID: 2125970554}
+  player1: {fileID: 1970419207}
+  player2: {fileID: 1536213430}
 --- !u!1 &375967732
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,10 +329,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1432236486}
   m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381661, w: .875426114}
-  m_LocalPosition: {x: 4.76207542, y: 7.30337572, z: 5.37538147}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1656390234}
 --- !u!1 &1520341878
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,7 +425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d924a0f2e0b6f5245ad89e2d810c4cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character_sprite: {fileID: 2800000, guid: f920fb527280ecf4a8096eb158d8c8f6, type: 3}
+  location:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  player_name: 
+  message: Player 2
 --- !u!33 &1536213431
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -531,6 +540,7 @@ Transform:
   - {fileID: 1520341879}
   - {fileID: 309915952}
   - {fileID: 2125970553}
+  - {fileID: 1432236488}
   - {fileID: 1536213428}
   - {fileID: 1600001959}
   - {fileID: 1970419206}
@@ -578,7 +588,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d924a0f2e0b6f5245ad89e2d810c4cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character_sprite: {fileID: 2800000, guid: 19d329be41704c74ca41b9e9e63c7d5a, type: 3}
+  location:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 300
+    height: 50
+  player_name: 
+  message: Player 1
 --- !u!33 &1970419208
 MeshFilter:
   m_ObjectHideFlags: 0
