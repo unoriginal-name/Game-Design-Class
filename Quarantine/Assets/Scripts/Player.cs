@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
     public const double defense = 200;
     public const double speed = 200;
 
-
+    public Texture2D character_sprite;
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,4 @@ public class Player : MonoBehaviour {
 	void Update () {
 	    
 	}
-
-
-
 }
