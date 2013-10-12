@@ -70,7 +70,9 @@ public class HealthBar : MonoBehaviour {
 				}
 			}
 			
-			Debug.Log ("segment " + segment);
+			//Debug.Log ("segment " + segment);
+			
+			health_light.transform.localPosition = new Vector3(waypoints[segment].x, waypoints[segment].y, health_light.transform.position.z);
 			
 			// recompute slope
 			seg_slope = (waypoints[segment+1].y - waypoints[segment].y)/(waypoints[segment+1].x - waypoints[segment].x);

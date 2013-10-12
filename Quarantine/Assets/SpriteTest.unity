@@ -714,7 +714,7 @@ MonoBehaviour:
   top: 470
   width: 400
   height: 200
-  frequency: .5
+  frequency: .300000012
   waypoints:
   - {x: 0, y: 0}
   - {x: -3.0999999, y: 0}
@@ -1208,7 +1208,7 @@ MonoBehaviour:
   top: 470
   width: 400
   height: 200
-  frequency: .5
+  frequency: .300000012
   waypoints:
   - {x: 0, y: 0}
   - {x: -3.0999999, y: 0}
