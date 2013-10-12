@@ -1,31 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CombatTimer : MonoBehaviour {
 
     private float countdown_time;
     private bool running = false;
+	private bool paused = false;
 
-    public GameObject world;
+    public List<GameObject> objects;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-
-    [RPC]
-    public bool StartTimer(float time)
+    public void StartTimer(float time)
     {
         Debug.Log("Starting timer for " + time + " seconds");
-        if (running)
-            return false;
 
         countdown_time = time;
         running = true;
-        return true;
     }
+	
+	public void PauseTimer()
+	{
+		paused = true;	
+	}
+	
+	public void UnPauseTimer()
+	{
+		paused = false;	
+	}
 
-    [RPC]
     public void StopTimer()
     {
         Debug.Log("Stopping timer");
@@ -40,9 +42,8 @@ public class CombatTimer : MonoBehaviour {
         return countdown_time;
     }
 	
-	// Update is called once per frame
 	void Update () {
-        if (!running)
+        if (!running || paused)
             return; // do nothing if not running
 
         countdown_time -= (float)Time.deltaTime; // subtract time since last update
@@ -51,7 +52,10 @@ public class CombatTimer : MonoBehaviour {
         {
             running = false;
             Debug.Log("Time's up");
-            world.BroadcastMessage("TimesUp");
+            foreach(GameObject obj in objects)
+			{
+				obj.SendMessage("TimesUp");
+			}
         }
 	}
 }
