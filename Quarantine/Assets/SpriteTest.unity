@@ -440,6 +440,68 @@ Transform:
   m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
   m_Children: []
   m_Father: {fileID: 2138879904}
+--- !u!1 &593384270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 593384271}
+  - 108: {fileID: 593384272}
+  m_Layer: 0
+  m_Name: EnemyHealthLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &593384271
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 593384270}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: .0999951139}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 827028874}
+--- !u!108 &593384272
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 593384270}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Type: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 8
+  m_Range: 10
+  m_SpotAngle: 155.5
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_Softness: 4
+    m_SoftnessFade: 1
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_ActuallyLightmapped: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 1
+  m_ShadowSamples: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_IndirectIntensity: 1
+  m_AreaSize: {x: 1, y: 1}
 --- !u!1 &654044975
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,9 +693,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 827028873}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: -6.72076607}
+  m_LocalPosition: {x: -1.60000002, y: 0, z: .5}
   m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
-  m_Children: []
+  m_Children:
+  - {fileID: 593384271}
   m_Father: {fileID: 2138879904}
 --- !u!114 &827028875
 MonoBehaviour:
@@ -651,6 +714,15 @@ MonoBehaviour:
   top: 470
   width: 400
   height: 200
+  frequency: .5
+  waypoints:
+  - {x: 0, y: 0}
+  - {x: -3.0999999, y: 0}
+  - {x: -3.5, y: 2.5}
+  - {x: -3.79999995, y: -1.5}
+  - {x: -4.19999981, y: 0}
+  - {x: -5.5, y: 0}
+  health_light: {fileID: 593384272}
 --- !u!1 &883346659
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,6 +1009,68 @@ MonoBehaviour:
   expected_height: 736
   horiz: 1
   vert: 1
+--- !u!1 &1179028411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1179028413}
+  - 108: {fileID: 1179028412}
+  m_Layer: 0
+  m_Name: PlayerHealthLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &1179028412
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1179028411}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Type: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 8
+  m_Range: 10
+  m_SpotAngle: 155.5
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_Softness: 4
+    m_SoftnessFade: 1
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 1
+  m_ActuallyLightmapped: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 1
+  m_ShadowSamples: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_IndirectIntensity: 1
+  m_AreaSize: {x: 1, y: 1}
+--- !u!4 &1179028413
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1179028411}
+  m_LocalRotation: {x: 1, y: -4.37113883e-08, z: -4.37113883e-08, w: 1.91068547e-15}
+  m_LocalPosition: {x: 0, y: 0, z: .0999978185}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1828829810}
 --- !u!1 &1182628514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,9 +1187,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1828829809}
   m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 0, z: -6.72076607}
+  m_LocalPosition: {x: 3, y: 0, z: .400000006}
   m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
-  m_Children: []
+  m_Children:
+  - {fileID: 1179028413}
   m_Father: {fileID: 2138879904}
 --- !u!114 &1828829811
 MonoBehaviour:
@@ -1073,6 +1208,15 @@ MonoBehaviour:
   top: 470
   width: 400
   height: 200
+  frequency: .5
+  waypoints:
+  - {x: 0, y: 0}
+  - {x: -3.0999999, y: 0}
+  - {x: -3.5, y: 2.5}
+  - {x: -3.79999995, y: -1.5}
+  - {x: -4.19999981, y: 0}
+  - {x: -5.5, y: 0}
+  health_light: {fileID: 1179028412}
 --- !u!1 &2061683375
 GameObject:
   m_ObjectHideFlags: 0
