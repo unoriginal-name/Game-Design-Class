@@ -22,6 +22,8 @@ public class HealthBar : MonoBehaviour {
 	private float x_velocity;
 	private int segment = 0;
 	private float seg_slope = 0;
+	
+	bool paused = false;
 		
 	void Start () {
 		screen_ratio = (ScreenRatio)GameObject.Find ("Main Camera").GetComponent("ScreenRatio");
@@ -40,7 +42,20 @@ public class HealthBar : MonoBehaviour {
 		x_velocity = frequency*-x_length; // this is how much to move by each delta Time
 	}
 	
+	void TimerPaused()
+	{
+		paused = true;	
+	}
+	
+	void TimerUnpaused()
+	{
+		paused = false;	
+	}
+	
 	void Update() {
+		if(paused)
+			return;
+		
 		if(waypoints.Count < 2)
 			return; // if no waypoints then nothing to do
 		

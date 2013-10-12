@@ -11,6 +11,8 @@ public class ExitButton : MonoBehaviour {
 	public float top = 630;
 	public float width = 70;
 	public float height = 40;
+	
+	public string level_name;
 		
 	void Start () {
 		screen_ratio = (ScreenRatio)GameObject.Find ("Main Camera").GetComponent("ScreenRatio");
@@ -19,7 +21,7 @@ public class ExitButton : MonoBehaviour {
 	void OnGUI() {
 		if(GUI.Button ( new Rect(left*screen_ratio.horiz, top*screen_ratio.vert, width*screen_ratio.horiz, height*screen_ratio.vert), "", exit_btn_style))
 		{
-			Debug.Log ("Exit button pressed");	
+			Application.LoadLevel(level_name);	
 		}
 	}
 }

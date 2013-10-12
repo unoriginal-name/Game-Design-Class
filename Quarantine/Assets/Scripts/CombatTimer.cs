@@ -21,11 +21,31 @@ public class CombatTimer : MonoBehaviour {
 	public void PauseTimer()
 	{
 		paused = true;	
+		
+		foreach(GameObject obj in objects)
+		{
+			obj.BroadcastMessage("TimerPaused");	
+		}
 	}
 	
 	public void UnPauseTimer()
 	{
 		paused = false;	
+		
+		foreach(GameObject obj in objects)
+		{
+			obj.BroadcastMessage("TimerUnpaused");
+		}
+	}
+	
+	public bool IsPaused()
+	{
+		return paused;	
+	}
+	
+	public bool IsRunning()
+	{
+		return running;
 	}
 
     public void StopTimer()
@@ -54,7 +74,7 @@ public class CombatTimer : MonoBehaviour {
             Debug.Log("Time's up");
             foreach(GameObject obj in objects)
 			{
-				obj.SendMessage("TimesUp");
+				obj.BroadcastMessage("TimesUp");
 			}
         }
 	}

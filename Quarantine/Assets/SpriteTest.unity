@@ -125,6 +125,10 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: .508784652
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f486946f160be02448333097075977f1, type: 2}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f486946f160be02448333097075977f1, type: 2}
   m_RootGameObject: {fileID: 993111581}
@@ -231,6 +235,7 @@ MonoBehaviour:
   top: 470
   width: 70
   height: 40
+  timer: {fileID: 883346661}
 --- !u!1001 &387917982
 Prefab:
   m_ObjectHideFlags: 0
@@ -281,6 +286,10 @@ Prefab:
     - target: {fileID: 400000, guid: 1fa2f5f96702ac6479f6660494f06d93, type: 2}
       propertyPath: m_LocalScale.z
       value: .497386992
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 1fa2f5f96702ac6479f6660494f06d93, type: 2}
+      propertyPath: m_Name
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1fa2f5f96702ac6479f6660494f06d93, type: 2}
@@ -414,6 +423,7 @@ MonoBehaviour:
   top: 630
   width: 70
   height: 40
+  level_name: 
 --- !u!1 &516029631
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +552,7 @@ GameObject:
   - 114: {fileID: 685430411}
   - 114: {fileID: 685430412}
   m_Layer: 0
-  m_Name: Thnaaake
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -764,6 +774,7 @@ MonoBehaviour:
   objects:
   - {fileID: 993111581}
   - {fileID: 685430406}
+  - {fileID: 2138879900}
 --- !u!1 &993111581
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,7 +789,7 @@ GameObject:
   - 114: {fileID: 993111583}
   - 114: {fileID: 993111582}
   m_Layer: 0
-  m_Name: Hurgh
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1318,6 +1329,7 @@ MonoBehaviour:
   top: 520
   width: 70
   height: 40
+  timer: {fileID: 883346661}
 --- !u!1 &2138879900
 GameObject:
   m_ObjectHideFlags: 0
