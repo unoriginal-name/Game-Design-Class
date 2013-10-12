@@ -304,6 +304,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 499854799}
+  - 114: {fileID: 499854800}
   m_Layer: 0
   m_Name: LocationImage
   m_TagString: Untagged
@@ -322,6 +323,17 @@ Transform:
   m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
   m_Children: []
   m_Father: {fileID: 2138879904}
+--- !u!114 &499854800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499854798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d46365117619a74188c5a90ff7f8370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &511148371
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +444,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 516029632}
+  - 114: {fileID: 516029633}
   m_Layer: 0
   m_Name: PlayerStatus
   m_TagString: Untagged
@@ -450,6 +463,17 @@ Transform:
   m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
   m_Children: []
   m_Father: {fileID: 2138879904}
+--- !u!114 &516029633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 516029631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886042624f3dfa54cb6da2da8d77b484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &593384270
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +544,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 654044976}
+  - 114: {fileID: 654044977}
   m_Layer: 0
   m_Name: Stamina
   m_TagString: Untagged
@@ -538,6 +563,17 @@ Transform:
   m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
   m_Children: []
   m_Father: {fileID: 2138879904}
+--- !u!114 &654044977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 654044975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38456d289ca0a8429ae382cafc98030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &685430406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,6 +1193,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1645871972}
+  - 114: {fileID: 1645871973}
   m_Layer: 0
   m_Name: TurnMode
   m_TagString: Untagged
@@ -1175,6 +1212,17 @@ Transform:
   m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
   m_Children: []
   m_Father: {fileID: 2138879904}
+--- !u!114 &1645871973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1645871971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0168ad2c2408c74e8def7621a7f5785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1828829809
 GameObject:
   m_ObjectHideFlags: 0
