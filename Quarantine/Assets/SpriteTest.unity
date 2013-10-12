@@ -186,6 +186,107 @@ Prefab:
   m_RootGameObject: {fileID: 685430406}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &511148371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 511148372}
+  - 114: {fileID: 511148373}
+  m_Layer: 0
+  m_Name: ExitButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &511148372
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 511148371}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
+  m_LocalPosition: {x: 0, y: -0, z: -6.72076464}
+  m_LocalScale: {x: .318115473, y: 1.21186686, z: .318115354}
+  m_Children: []
+  m_Father: {fileID: 2138879904}
+--- !u!114 &511148373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 511148371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea576521fac66d54a9de4e997510a01e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exit_btn_style:
+    m_Name: 
+    m_Normal:
+      m_Background: {fileID: 2800000, guid: 775a13c5c7930f548b463d8a30579119, type: 3}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Hover:
+      m_Background: {fileID: 2800000, guid: 775a13c5c7930f548b463d8a30579119, type: 3}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Active:
+      m_Background: {fileID: 2800000, guid: eb334878c31c09740b0fe16268514085, type: 3}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 0
+    m_FontStyle: 0
+    m_Alignment: 0
+    m_WordWrap: 0
+    m_RichText: 1
+    m_TextClipping: 0
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 1
+    m_StretchHeight: 0
+  left: 120
+  top: 630
+  width: 70
+  height: 40
 --- !u!1 &685430406
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +621,7 @@ GameObject:
   - 124: {fileID: 1076873794}
   - 81: {fileID: 1076873793}
   - 114: {fileID: 1076873798}
+  - 114: {fileID: 1076873799}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -598,6 +700,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 794e22825a5619045aa061569186e24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1076873799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1076873792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106b0623d359c7b4f955ac3db88b5211, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expected_width: 1280
+  expected_height: 736
+  horiz: 1
+  vert: 1
 --- !u!1 &1182628514
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,7 +794,7 @@ GameObject:
   - 64: {fileID: 2138879902}
   - 23: {fileID: 2138879901}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: CombatUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -730,5 +847,6 @@ Transform:
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
   m_LocalPosition: {x: -8.74227794e-07, y: -5.54579258, z: -6.6110988e-07}
   m_LocalScale: {x: 3.14351273, y: 3.14351273, z: .825172901}
-  m_Children: []
+  m_Children:
+  - {fileID: 511148372}
   m_Father: {fileID: 0}
