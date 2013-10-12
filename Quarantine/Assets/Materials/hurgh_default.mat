@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: hurgh_idle_mat
+  m_Name: hurgh_default
   m_Shader: {fileID: 51, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_SavedProperties:
@@ -16,14 +16,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 109a7c1c0efba70479adeac414b87f13, type: 3}
-          m_Scale: {x: .289999992, y: .129999995}
-          m_Offset: {x: .075000003, y: .855000019}
+          m_Texture: {fileID: 2800000, guid: f74e3dd5f16a32c4aabd237c45e68bd1, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
           name: _Cutoff
-        second: 1
+        second: .75
     m_Colors:
       data:
         first:
