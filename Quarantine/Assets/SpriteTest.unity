@@ -74,106 +74,6 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
---- !u!1 &734111501
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 734111505}
-  - 33: {fileID: 734111504}
-  - 65: {fileID: 734111503}
-  - 23: {fileID: 734111502}
-  - 114: {fileID: 734111506}
-  m_Layer: 0
-  m_Name: Hurgh
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!23 &734111502
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 734111501}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: 0c986e324ad9e774897d12ea76810139, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
---- !u!65 &734111503
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 734111501}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!33 &734111504
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 734111501}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &734111505
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 734111501}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.74227794e-07, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: .00100000005}
-  m_Children: []
-  m_Father: {fileID: 0}
---- !u!114 &734111506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 734111501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 002a0247b13b70643b7e19b0ad9c0f30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animation0:
-  - {fileID: 2800000, guid: f74e3dd5f16a32c4aabd237c45e68bd1, type: 3}
-  - {fileID: 2800000, guid: 9fe68242e39045945b2bafbfece57270, type: 3}
-  - {fileID: 2800000, guid: 59366b9a2c689fe4f8781d7628e1a976, type: 3}
-  - {fileID: 2800000, guid: d6032bc426c77c143860e0663d30a2e3, type: 3}
-  - {fileID: 2800000, guid: e30147ca037d41b48b68ddd7d6986729, type: 3}
-  - {fileID: 2800000, guid: cb7cb827526eb5f4b89b40e5e0dd21b3, type: 3}
-  - {fileID: 2800000, guid: 608d6227fad97af4aa7f203a7900a1e9, type: 3}
-  - {fileID: 2800000, guid: b2ff41c017c47d843951a6d9e5a63dbf, type: 3}
-  - {fileID: 2800000, guid: a64d24949ce1ca847b110d5d997a241b, type: 3}
-  - {fileID: 2800000, guid: f9a9b55dc447ca9468e9093a8fc990e1, type: 3}
-  animation1: []
-  animation2: []
-  animation3: []
-  animation4: []
-  animation5: []
-  animation6: []
-  animation7: []
-  animation8: []
-  animation9: []
-  animationSpeed: 10
-  billboard: 0
 --- !u!1 &1021976754
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +88,7 @@ GameObject:
   - 114: {fileID: 1021976759}
   - 114: {fileID: 1021976760}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Hurgh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
