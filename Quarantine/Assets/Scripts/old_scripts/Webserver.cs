@@ -33,8 +33,6 @@ public class Webserver {
 		} else {
 			return Json.Deserialize(getReq.text) as Dictionary<string, object>;
 		}
-		
-		return new Dictionary<string, object>();
 	}
 	
 	public Dictionary<string, object> registerUser(string username) {
