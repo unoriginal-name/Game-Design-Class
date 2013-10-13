@@ -387,4 +387,9 @@ public class Gestures : MonoBehaviour
         }
     }
     #endregion
+
+    public gesture getMove()
+    {
+        return lastGesture;
+    }
 }
