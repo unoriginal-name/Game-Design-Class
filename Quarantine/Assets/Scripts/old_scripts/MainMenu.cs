@@ -112,6 +112,7 @@ public class MainMenu : MonoBehaviour {
 			if(GUI.Button (playersBtnRect, "", playersBtnStyle))
 			{
 				Debug.Log ("players button pressed");
+				Application.LoadLevel("SinglePlayer");
 			}
 			if(GUI.Button (attacksBtnRect, "", attacksBtnStyle))
 			{

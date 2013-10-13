@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CombatRules : MonoBehaviour {
 	
@@ -19,8 +20,19 @@ public class CombatRules : MonoBehaviour {
 	public Character player;
 	public Character enemy;
 	
+	enum TurnMode { ATTACK, DEFEND };
+	TurnMode current_turn_mode;
+	
+	bool game_over = false;
+	bool player_won = false;
+	
+	public GUIStyle game_over_background;
+	
+	public List<GameObject> objects;
+	
 	// Use this for initialization
 	void Start () {
+		current_turn_mode = TurnMode.ATTACK;
 		turn_time = MAX_TURN_TIME;
 		timer.StartTimer(turn_time);
 	}
@@ -49,35 +61,68 @@ public class CombatRules : MonoBehaviour {
 			{
 				if(enemy_move == 0) // player attacked and enemy did nothing
 				{
-					enemy.ChangeHealth(-10);
+					if(current_turn_mode == TurnMode.ATTACK)
+						enemy.ChangeHealth(-20);
+					else
+						enemy.ChangeHealth(-10);
 				}
 				else if(enemy_move == 1) // player attacked and so did enemy
 				{
-					player.ChangeHealth(-10);
-					enemy.ChangeHealth(-10);	
+					if(current_turn_mode == TurnMode.ATTACK)
+					{
+						player.ChangeHealth(-10);
+						enemy.ChangeHealth(-20);
+					} else {
+						player.ChangeHealth(-20);
+						enemy.ChangeHealth(-10);
+					}
 				} // if enemy blocked do nothing
 			}
 			else if(player_move == 0)
 			{
 				if(enemy_move == 1) // player did nothing and enemy attacked
-					player.ChangeHealth(-10);
+				{
+					if(current_turn_mode == TurnMode.ATTACK)
+						player.ChangeHealth(-10);
+					else
+						player.ChangeHealth(-20);
+				}
 			}
+					
+			// reset the moves
+			player_move = -1;
+			enemy_move = -1;
 			
 			// check if any player has died
 			if(((Character)player.GetComponent("Character")).GetHealth() <= 0)
 			{
 				Debug.Log ("Player has died");
+				timer.PauseTimer();
+				
+				// display lose dialog here
+				game_over = true;
+				player_won = false;
+				
+				foreach(GameObject obj in objects)
+				{
+					obj.BroadcastMessage("GameOver", "Player");	
+				}
 			}
 			
 			if(((Character)enemy.GetComponent("Character")).GetHealth() <= 0)
 			{
-				Debug.Log ("Enemy has died");	
+				Debug.Log ("Enemy has died");
+				timer.PauseTimer ();
+				
+				// display win dialog here
+				game_over = true;
+				player_won = true;
+				
+				foreach(GameObject obj in objects)
+				{
+					obj.BroadcastMessage("GameOver", "Enemy");	
+				}
 			}
-			
-			// reset the moves
-			player_move = -1;
-			enemy_move = -1;
-			
 			
 			turn_time -= .1f*(MAX_TURN_TIME - MIN_TURN_TIME);
 			if(turn_time < MIN_TURN_TIME)
@@ -108,5 +153,17 @@ public class CombatRules : MonoBehaviour {
 	
 	void TimerUnpaused() {
 		
+	}
+	
+	void OnGUI() {
+		if(!game_over) // don't display anything until the game has finished
+			return;
+		string message = "";
+		if(player_won)
+			message = "Congratulations you defeated the Thnaaake!";
+		else
+			message = "Oh no! You were defeated by Thnaaake :(";
+		
+		GUI.Label(new Rect(0, 0, Screen.width, Screen.height), message, game_over_background);
 	}
 }

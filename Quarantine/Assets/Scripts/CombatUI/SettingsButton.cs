@@ -13,12 +13,17 @@ public class SettingsButton : MonoBehaviour {
 	public float height = 40;
 	
 	public CombatTimer timer;
+	
+	private bool game_over = false;
 		
 	void Start () {
 		screen_ratio = (ScreenRatio)GameObject.Find ("Main Camera").GetComponent("ScreenRatio");
 	}
 	
 	void OnGUI() {
+		if(game_over)
+			return;
+		
 		if(GUI.Button ( new Rect(left*screen_ratio.horiz, top*screen_ratio.vert, width*screen_ratio.horiz, height*screen_ratio.vert), "", btn_style))
 		{
 			Debug.Log ("Settings Button button pressed");
@@ -26,5 +31,9 @@ public class SettingsButton : MonoBehaviour {
 			
 			// do real stuff here
 		}
+	}
+	
+	void GameOver(string name) {
+		game_over = true;
 	}
 }

@@ -12,12 +12,17 @@ public class CountDownTimer : MonoBehaviour {
 	
 	public CombatTimer timer;
 	
+	private bool game_over = false;
+	
 	// Use this for initialization
 	void Start () {
 		screen_ratio = (ScreenRatio)GameObject.Find ("Main Camera").GetComponent("ScreenRatio");
 	}
 	
 	void OnGUI() {
+		if(game_over)
+			return;
+		
 		float time_left = timer.GetTimeLeft();
 		
 		// change to yellow when less than 4 seconds left
@@ -36,5 +41,10 @@ public class CountDownTimer : MonoBehaviour {
 			text_style.normal.textColor = new Color(1,1,1,1);
 			GUI.Label(new Rect(left*screen_ratio.horiz, top*screen_ratio.vert, width*screen_ratio.horiz, height*screen_ratio.vert), "Times Up!", text_style);
 		}
+	}
+	
+	void GameOver(string name)
+	{
+		game_over = true;	
 	}
 }
