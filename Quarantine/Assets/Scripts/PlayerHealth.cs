@@ -1,14 +1,27 @@
+//note: attach the heartbeat sound effect to the main camera
+
 using UnityEngine;
 using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
-	public int MAX_HEALTH = 100;
-	public int currentHealth = 100;
+	
+	//basically, I want to get the creature's max health from its creature data and set that equal to the max health over here.
+	
+	GameObject creature;
+	AudioSource sound_name;
+	
+	int MAX_HEALTH;
+	
+	int currentHealth;
 	
 	public float healthBarLength;
 	
 	// Use this for initialization
 	void Start () {
+		creature = GameObject.Find("Player");
+		creature.AddComponent ("sound_name");
+		MAX_HEALTH = creature.GetComponent<Creature>().MAX_HEALTH;
+		currentHealth = MAX_HEALTH;
 		healthBarLength = Screen.width/2;
 	}
 	
@@ -34,5 +47,23 @@ public class PlayerHealth : MonoBehaviour {
 		if (MAX_HEALTH < 1)
 			MAX_HEALTH = 1;
 		healthBarLength = Screen.width/2 * (currentHealth / (float)MAX_HEALTH);
+		
+		int soundEffect = currentHealth / MAX_HEALTH;
+		
+		if (soundEffect <= 0.75)
+		{
+			sound_name.clip = (AudioClip)Resources.Load("ThreeQuarterHealth_Heartbeat");
+			sound_name.Play();
+		}
+		if (soundEffect <= 0.5)
+		{
+			sound_name.clip = (AudioClip)Resources.Load("Half_health_heartbeat");
+			sound_name.Play();
+		}
+		if (soundEffect <= 0.25)
+		{
+			sound_name.clip = (AudioClip)Resources.Load("Quarter_health_heartbeat");
+			sound_name.Play();
+		}
 	}
 }
