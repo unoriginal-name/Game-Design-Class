@@ -27,6 +27,8 @@ public class HealthBar : MonoBehaviour {
 	private float seg_slope = 0;
 	
 	bool paused = false;
+	
+	public AudioClip beep_sound;
 		
 	void Start () {
 		frequency = MIN_FREQUENCY;
@@ -43,6 +45,8 @@ public class HealthBar : MonoBehaviour {
 		}
 		
 		x_velocity = frequency*-x_length; // this is how much to move by each delta Time
+		
+		//audio.PlayOneShot(beep_sound);
 	}
 	
 	public void ChangeFrequency(float change)
@@ -53,7 +57,7 @@ public class HealthBar : MonoBehaviour {
 			frequency = MAX_FREQUENCY;
 		
 		x_velocity = frequency*-x_length;
-		
+				
 		Debug.Log ("new frequency: " + frequency);
 	}
 	
@@ -87,18 +91,27 @@ public class HealthBar : MonoBehaviour {
 			{
 				segment = 0;
 				health_light.transform.localPosition = new Vector3(waypoints[segment].x, waypoints[segment].y, health_light.transform.position.z);
+				
 			}
 			
+			bool skipped_beep_seg = false;
 			// incase we've moved so fast we've skipped waypoints
 			while(Mathf.Abs (health_light.transform.localPosition.x) > Mathf.Abs(waypoints[segment+1].x))
 			{
 				segment++; // increment the segment counter
+				
+				if(segment == 3)
+					skipped_beep_seg = true;
+				
 				if(segment >= waypoints.Count-1)
 				{
 					segment = 0;
 					break;
 				}
 			}
+			
+			if(segment == 3 || skipped_beep_seg)
+				audio.PlayOneShot(beep_sound);
 			
 			//Debug.Log ("segment " + segment);
 			
