@@ -298,6 +298,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 1193410343}
   - 114: {fileID: 1193410345}
+  - 148: {fileID: 1193410346}
+  - 114: {fileID: 1193410344}
   m_Layer: 0
   m_Name: Network Manager
   m_TagString: Untagged
@@ -316,6 +318,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1193410344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193410342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 414de9ec31e4bd045bb96b516679bb0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1193410345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +402,18 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+--- !u!148 &1193410346
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193410342}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 1193410343}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!1 &1268162514
 GameObject:
   m_ObjectHideFlags: 0
