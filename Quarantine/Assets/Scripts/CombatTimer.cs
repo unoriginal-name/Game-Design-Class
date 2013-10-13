@@ -20,6 +20,7 @@ public class CombatTimer : MonoBehaviour {
 	
 	public void PauseTimer()
 	{
+		Debug.Log ("Timer paused");
 		paused = true;	
 		
 		foreach(GameObject obj in objects)
@@ -30,6 +31,7 @@ public class CombatTimer : MonoBehaviour {
 	
 	public void UnPauseTimer()
 	{
+		Debug.Log ("Timer unpaused");
 		paused = false;	
 		
 		foreach(GameObject obj in objects)
