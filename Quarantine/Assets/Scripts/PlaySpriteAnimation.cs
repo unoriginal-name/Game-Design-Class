@@ -36,7 +36,11 @@ public class PlaySpriteAnimation : MonoBehaviour {
 	
 	public void ChangeAnimation(int animation)
 	{
-		
+		Debug.Log ("Changing animation");
+		curr_animation = animation;
+		animation_start = Time.time;
+		BroadcastMessage("PrePlay");
+		BroadcastMessage("PlayAnimation", animation);
 	}
 	
 	public void Update()
@@ -46,7 +50,7 @@ public class PlaySpriteAnimation : MonoBehaviour {
 			if(Time.time - animation_start > 1)
 			{
 				BroadcastMessage("PrePlay");
-				BroadcastMessage("PlayAnimation", animation);
+				BroadcastMessage("PlayAnimation", idle_animation);
 			}
 		}
 	}

@@ -7,54 +7,27 @@ public class Character : MonoBehaviour {
 	public const int MAX_HEALTH = 100;
 	private int current_health;
 	
-	public Stamina stamina;
 	public HealthBar health_bar;
 	
-	private Gestures gestures;
-	private float last_move_time = 0;
-	
-	public CombatRules combat_rules;
-	
-	private PlaySpriteAnimation sprite_animator;
-
 	// Use this for initialization
 	void Start () {
 		current_health = MAX_HEALTH;
-		gestures = (Gestures)GetComponent("Gestures");
-		sprite_animator = (PlaySpriteAnimation)GetComponent("PlaySpriteAnimation");
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		// shouldn't have to do anything
-	}
-	
-	void TimesUp()
+	public void ChangeHealth(int change)
 	{
-		// get the latest gesture
-		Gestures.gesture last_move = gestures.LastGesture;
+		current_health += change;
+		if(current_health > MAX_HEALTH)
+			current_health = MAX_HEALTH;
 		
-		// check the timestamp to make sure this is a new move
-		if(gestures.LastTimeStamp <= last_move_time)
-			combat_rules.SubmitMove(this.name, 0); // submit a do nothing move
-		else
+		// This should end the match!!!!
+		if(current_health < 0)
+			current_health = 0;
+		
+		if(health_bar != null)
 		{
-			last_move_time = gestures.LastTimeStamp;
-			combat_rules.SubmitMove(this.name, (int)last_move);
-			
-			sprite_animator.ChangeAnimation(1);
+			// frequency is inversely propotional to the percentage of health
+			health_bar.frequency = 1.0f - (float)current_health/(float)MAX_HEALTH;
 		}
-	}
-	
-	void TimerPaused()
-	{
-		if(gestures != null)
-			gestures.enabled = false;	
-	}
-	
-	void TimerUnpaused()
-	{
-		if(gestures != null)
-			gestures.enabled = true;
 	}
 }
