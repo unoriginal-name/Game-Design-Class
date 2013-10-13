@@ -85,7 +85,7 @@ public class NetworkMasterServer : MonoBehaviour {
 		case ConnectionTesterStatus.Undetermined:
 			test_message = "Testing NAT capabilities";
 			done_testing = false;
-			Debug.Log (test_message);
+			//Debug.Log (test_message);
 			break;
 		case ConnectionTesterStatus.PublicIPIsConnectable:
 			test_message = "Directly connectable public IP address";
@@ -160,7 +160,7 @@ public class NetworkMasterServer : MonoBehaviour {
 				HostData[] data = MasterServer.PollHostList();
 				int _cnt = 0;
 				
-				Debug.Log ("# of hosts: " + data.Length);
+				//Debug.Log ("# of hosts: " + data.Length);
 				
 				// loop through all available and display each so we can choose to join
 				foreach(HostData gs in data)
