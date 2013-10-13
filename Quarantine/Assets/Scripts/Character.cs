@@ -30,4 +30,9 @@ public class Character : MonoBehaviour {
 			health_bar.ChangeFrequency(-(float)change/(float)MAX_HEALTH);
 		}
 	}
+	
+	public int GetHealth()
+	{
+		return current_health;	
+	}
 }

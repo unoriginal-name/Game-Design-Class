@@ -8,6 +8,10 @@ public class CombatRules : MonoBehaviour {
 	float WAIT_TIME = 1;
 	float wait_start = 0;
 	bool waiting = false;
+	
+	public float MAX_TURN_TIME = 10;
+	public float MIN_TURN_TIME = .5f;
+	float turn_time;
 		
 	private int player_move = -1;
 	private int enemy_move = -1;
@@ -17,7 +21,8 @@ public class CombatRules : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		timer.StartTimer(10.0f);
+		turn_time = MAX_TURN_TIME;
+		timer.StartTimer(turn_time);
 	}
 	
 	// Update is called once per frame
@@ -40,14 +45,44 @@ public class CombatRules : MonoBehaviour {
 			waiting = false;
 			
 			// update the players
-			player.ChangeHealth(-10);
-			enemy.ChangeHealth(0);
+			if(player_move == 1)
+			{
+				if(enemy_move == 0) // player attacked and enemy did nothing
+				{
+					enemy.ChangeHealth(-10);
+				}
+				else if(enemy_move == 1) // player attacked and so did enemy
+				{
+					player.ChangeHealth(-10);
+					enemy.ChangeHealth(-10);	
+				} // if enemy blocked do nothing
+			}
+			else if(player_move == 0)
+			{
+				if(enemy_move == 1) // player did nothing and enemy attacked
+					player.ChangeHealth(-10);
+			}
+			
+			// check if any player has died
+			if(((Character)player.GetComponent("Character")).GetHealth() <= 0)
+			{
+				Debug.Log ("Player has died");
+			}
+			
+			if(((Character)enemy.GetComponent("Character")).GetHealth() <= 0)
+			{
+				Debug.Log ("Enemy has died");	
+			}
 			
 			// reset the moves
 			player_move = -1;
 			enemy_move = -1;
 			
-			timer.StartTimer(10.0f);
+			
+			turn_time -= .1f*(MAX_TURN_TIME - MIN_TURN_TIME);
+			if(turn_time < MIN_TURN_TIME)
+				turn_time = MIN_TURN_TIME;
+			timer.StartTimer(turn_time);
 		}
 	}
 	
