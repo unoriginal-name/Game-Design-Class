@@ -24,7 +24,7 @@ public class Stamina : MonoBehaviour {
 	// to the stamina. (Use a negative # to subtract)
 	public void ChangeStamina(int amount)
 	{
-		stamina -= amount;
+		stamina += amount;
 		if(stamina < 0)
 			stamina = 0;
 	}
