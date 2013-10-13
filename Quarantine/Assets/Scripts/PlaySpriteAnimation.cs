@@ -25,15 +25,6 @@ public class PlaySpriteAnimation : MonoBehaviour {
 		BroadcastMessage("PlayAnimation", curr_animation);
 	}
 	
-/*	public void PlayAnimation(int animation)
-	{
-		curr_animation = animation;
-		BroadcastMessage("PrePlay");
-		BroadcastMessage("PlayAnimation", animation);
-		
-		animation_start = Time.time;
-	}*/
-	
 	public void ChangeAnimation(int animation)
 	{
 		Debug.Log ("Changing animation");
