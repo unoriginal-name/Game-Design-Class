@@ -80,15 +80,18 @@ public class NetworkMasterServer : MonoBehaviour {
 		case ConnectionTesterStatus.Error:
 			test_message = "Problem determining NAT capabilities";
 			done_testing = true;
+			Debug.Log (test_message);
 			break;
 		case ConnectionTesterStatus.Undetermined:
 			test_message = "Testing NAT capabilities";
 			done_testing = false;
+			Debug.Log (test_message);
 			break;
 		case ConnectionTesterStatus.PublicIPIsConnectable:
 			test_message = "Directly connectable public IP address";
 			use_nat = false;
 			done_testing = true;
+			Debug.Log (test_message);
 			break;
 		case ConnectionTesterStatus.PublicIPPortBlocked:
 			test_message = "Non-connectable public IP address (port " + server_port + " blocked), running a server is impossible";
@@ -107,6 +110,7 @@ public class NetworkMasterServer : MonoBehaviour {
 				probing_public_ip = false; // reset
 				use_nat = true;
 				done_testing = true;
+				Debug.Log (test_message);
 			}
 			break;
 		case ConnectionTesterStatus.PublicIPNoServerStarted:
@@ -114,6 +118,7 @@ public class NetworkMasterServer : MonoBehaviour {
 				"it must be started to check server accessibility." +
 					" Restart connection test when ready";
 			done_testing = true;
+			Debug.Log (test_message);
 			break;
 		default:
 			test_message = "Error in test routine, got " + nat_capable;
@@ -121,11 +126,11 @@ public class NetworkMasterServer : MonoBehaviour {
 			{
 				use_nat = true;
 				done_testing = true;
+				Debug.Log (test_message);
 				break;
 			}
 			break;
 		}
-		Debug.Log (test_message);
 	}
 	
 	void ShowGUI()
@@ -155,12 +160,14 @@ public class NetworkMasterServer : MonoBehaviour {
 				HostData[] data = MasterServer.PollHostList();
 				int _cnt = 0;
 				
+				Debug.Log ("# of hosts: " + data.Length);
+				
 				// loop through all available and display each so we can choose to join
 				foreach(HostData gs in data)
 				{
 					// don't display NAT enabled games if we can't do punchtrhough
-					if(!(filter_nat_hosts && gs.useNat))
-						continue;
+					//if(!(filter_nat_hosts && gs.useNat))
+					//	continue;
 					// don't display full servers
 					if(gs.connectedPlayers >= gs.playerLimit)
 						continue;
@@ -180,6 +187,7 @@ public class NetworkMasterServer : MonoBehaviour {
 							Network.Connect(gs.ip, gs.port);
 						}
 					}
+					_cnt++;
 				}
 			}
 		}
