@@ -9,7 +9,8 @@ public class GestureMovePicker : MonoBehaviour {
 	
 	public CombatRules combat_rules;
 	private PlaySpriteAnimation sprite_animator;
-
+	
+	public Stamina stamina;
 	
 	// Use this for initialization
 	void Start () {
@@ -38,9 +39,11 @@ public class GestureMovePicker : MonoBehaviour {
 			{
 				combat_rules.SubmitMove(this.name, 1);
 				sprite_animator.ChangeAnimation(1);
+				stamina.ChangeStamina(-30);
 			} else if(last_move == Gestures.gesture.left) {
 				combat_rules.SubmitMove(this.name, 2);
 				sprite_animator.ChangeAnimation(2);
+				stamina.ChangeStamina(-10);
 			} else {
 				combat_rules.SubmitMove(this.name, 0);
 				sprite_animator.ChangeAnimation(0);

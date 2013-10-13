@@ -850,6 +850,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: {fileID: 883346661}
+  player: {fileID: 993111589}
+  enemy: {fileID: 685430412}
 --- !u!1 &827028873
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,7 +896,8 @@ MonoBehaviour:
   top: 470
   width: 400
   height: 200
-  frequency: .300000012
+  MAX_FREQUENCY: 1
+  MIN_FREQUENCY: .300000012
   waypoints:
   - {x: 0, y: 0}
   - {x: -3.0999999, y: 0}
@@ -1064,6 +1067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combat_rules: {fileID: 760303711}
+  stamina: {fileID: 654044977}
 --- !u!33 &993111586
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1526,7 +1530,8 @@ MonoBehaviour:
   top: 470
   width: 400
   height: 200
-  frequency: .300000012
+  MAX_FREQUENCY: 2
+  MIN_FREQUENCY: .300000012
   waypoints:
   - {x: 0, y: 0}
   - {x: -3.0999999, y: 0}

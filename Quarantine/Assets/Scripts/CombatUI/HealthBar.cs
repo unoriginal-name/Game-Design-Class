@@ -13,12 +13,15 @@ public class HealthBar : MonoBehaviour {
 	public float width = 400;
 	public float height = 400;
 	
-	public float frequency = 1; // times per second
+	public float MAX_FREQUENCY = 1f;
+	public float MIN_FREQUENCY = .3f;
+	private float frequency; // times per second
 	
 	public List<Vector2> waypoints;
 		
 	public Light health_light;
 	
+	private float x_length = 0;
 	private float x_velocity;
 	private int segment = 0;
 	private float seg_slope = 0;
@@ -26,6 +29,7 @@ public class HealthBar : MonoBehaviour {
 	bool paused = false;
 		
 	void Start () {
+		frequency = MIN_FREQUENCY;
 		screen_ratio = (ScreenRatio)GameObject.Find ("Main Camera").GetComponent("ScreenRatio");
 		
 		// don't bother doing anything if there aren't at least 2 waypoints
@@ -33,13 +37,24 @@ public class HealthBar : MonoBehaviour {
 			return;
 		
 		// find the overall change in x that will take place
-		float x_length = 0;
 		for(int i=1; i<waypoints.Count; i++) // this is assuming that the absolute values of the points have monotonically increasing values
 		{
 			x_length += Mathf.Abs(waypoints[i].x - waypoints[i-1].x);	
 		}
 		
 		x_velocity = frequency*-x_length; // this is how much to move by each delta Time
+	}
+	
+	public void ChangeFrequency(float change)
+	{
+		Debug.Log ("change: " + change);
+		frequency += change*(MAX_FREQUENCY-MIN_FREQUENCY);
+		if(frequency > MAX_FREQUENCY)
+			frequency = MAX_FREQUENCY;
+		
+		x_velocity = frequency*-x_length;
+		
+		Debug.Log ("new frequency: " + frequency);
 	}
 	
 	void TimerPaused()

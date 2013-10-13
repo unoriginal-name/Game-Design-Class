@@ -27,7 +27,7 @@ public class Character : MonoBehaviour {
 		if(health_bar != null)
 		{
 			// frequency is inversely propotional to the percentage of health
-			health_bar.frequency = 1.0f - (float)current_health/(float)MAX_HEALTH;
+			health_bar.ChangeFrequency(-(float)change/(float)MAX_HEALTH);
 		}
 	}
 }

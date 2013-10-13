@@ -12,6 +12,9 @@ public class CombatRules : MonoBehaviour {
 	private int player_move = -1;
 	private int enemy_move = -1;
 	
+	public Character player;
+	public Character enemy;
+	
 	// Use this for initialization
 	void Start () {
 		timer.StartTimer(10.0f);
@@ -37,6 +40,8 @@ public class CombatRules : MonoBehaviour {
 			waiting = false;
 			
 			// update the players
+			player.ChangeHealth(-10);
+			enemy.ChangeHealth(0);
 			
 			// reset the moves
 			player_move = -1;
