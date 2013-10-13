@@ -30,6 +30,8 @@ public class CombatRules : MonoBehaviour {
 	
 	public List<GameObject> objects;
 	
+	public List<AudioClip> sounds;
+	
 	// Use this for initialization
 	void Start () {
 		current_turn_mode = TurnMode.ATTACK;
@@ -76,7 +78,8 @@ public class CombatRules : MonoBehaviour {
 						player.ChangeHealth(-20);
 						enemy.ChangeHealth(-10);
 					}
-				} // if enemy blocked do nothing
+					
+				} // do nothing
 			}
 			else if(player_move == 0)
 			{
@@ -86,6 +89,50 @@ public class CombatRules : MonoBehaviour {
 						player.ChangeHealth(-10);
 					else
 						player.ChangeHealth(-20);
+				}
+			}
+			
+			// decide what sound to play
+			if(player_move == 0)
+			{
+				if(enemy_move == 0)
+				{
+					// no sound
+				} else if(enemy_move == 1) {
+					// punch and grunt
+					audio.PlayOneShot(sounds[1]);
+					audio.PlayOneShot(sounds[0]);
+				} else {
+					// block
+					audio.PlayOneShot(sounds[2]);
+				}
+			} else if(player_move == 1) {
+				if(enemy_move == 0)
+				{
+					// punch and grunt
+					audio.PlayOneShot(sounds[1]);
+					audio.PlayOneShot(sounds[0]);
+				} else if(enemy_move == 1) {
+					// punch and block
+					audio.PlayOneShot (sounds[1]);
+					audio.PlayOneShot (sounds[0]);
+				} else {
+					// punch and block
+					audio.PlayOneShot (sounds[1]);
+					audio.PlayOneShot (sounds[2]);
+				}
+			} else {
+				if(enemy_move == 0)
+				{
+					// block
+					audio.PlayOneShot(sounds[2]);
+				} else if(enemy_move == 1) {
+					// punch and block
+					audio.PlayOneShot(sounds[1]);
+					audio.PlayOneShot(sounds[2]);
+				} else {
+					// block
+					audio.PlayOneShot (sounds[2]);
 				}
 			}
 					
