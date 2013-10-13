@@ -20,6 +20,20 @@ public class Stamina : MonoBehaviour {
 		screen_ratio = (ScreenRatio)GameObject.Find ("Main Camera").GetComponent("ScreenRatio");
 	}
 	
+	// this method will add the amount specified
+	// to the stamina. (Use a negative # to subtract)
+	public void ChangeStamina(int amount)
+	{
+		stamina -= amount;
+		if(stamina < 0)
+			stamina = 0;
+	}
+	
+	public int GetStamina()
+	{
+		return  (int)stamina;	
+	}
+	
 	// Update is called once per frame
 	void Update () {
 		if(paused)
