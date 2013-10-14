@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Gestures : MonoBehaviour
 {
     #region "Constants"
@@ -76,7 +77,7 @@ public class Gestures : MonoBehaviour
         set { }
     }
 
-    private LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
     public LinkedList<Vector3> linePoints = new LinkedList<Vector3>();
 
     private LinkedList<direction> path;
@@ -91,10 +92,10 @@ public class Gestures : MonoBehaviour
     #region "Start and Update"
     void Start()
     {
-        lineRenderer = (LineRenderer)gameObject.AddComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Transparent/Diffuse"));
+        /*lineRenderer = (LineRenderer)gameObject.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Default;
         lineRenderer.material.color = Color.black;
-        lineRenderer.SetWidth(.01f, .01f);
+        lineRenderer.SetWidth(.1f, .1f);*/
     }
 
     void Update()
@@ -206,7 +207,7 @@ public class Gestures : MonoBehaviour
     private void updateLine()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.nearClipPlane;
+        mousePosition.z = .5f; //Camera.main.nearClipPlane;
         linePoints.AddLast(Camera.main.ScreenToWorldPoint(mousePosition));
 
         int i = 0;
