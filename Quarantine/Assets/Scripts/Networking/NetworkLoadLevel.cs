@@ -7,7 +7,7 @@ public class NetworkLoadLevel : MonoBehaviour {
 	// keep track of the last level prefix (increment each time a new level is loaded)
 	private int last_level_prefix = 0;
 	private NetworkMasterServer mgs;
-	
+		
 	void Awake()
 	{
 		// Network level loading is done in a separate channel
@@ -71,9 +71,20 @@ public class NetworkLoadLevel : MonoBehaviour {
 		
 		// Once the level is loaded we need to instantiate our local player
 		// we could use Network.Instantiate but that only lets us send
-		/*GameObject go = GameObject.Find ("PlayerSpawn");
+		GameObject go;
+		if(Network.isServer)
+			go = GameObject.Find ("PlayerSpawn");
+		else
+			go = GameObject.Find ("EnemySpawn");
+		
 		InstantiatePlayer io = (InstantiatePlayer)go.GetComponent(typeof(InstantiatePlayer));
-		io.SendMessage("InstantiatePlayerOnNetworkLoadedLevel", SendMessageOptions.RequireReceiver);*/
+		io.SendMessage("InstantiatePlayerOnNetworkLoadedLevel", SendMessageOptions.RequireReceiver);
+	}
+	
+	void OnPlayerDisconnected(NetworkPlayer player)
+	{
+		Network.RemoveRPCs(player, 0);
+		Network.DestroyPlayerObjects(player);
 	}
 	
 	void OnDisconnectedFromServer() {
