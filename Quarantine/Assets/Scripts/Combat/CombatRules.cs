@@ -161,7 +161,7 @@ public class CombatRules : MonoBehaviour {
 				}
 			}
 			
-			if(((Character)enemy.GetComponent("Character")).GetHealth() <= 0)
+			/*if(((Character)enemy.GetComponent("Character")).GetHealth() <= 0)
 			{
 				Debug.Log ("Enemy has died");
 				timer.PauseTimer ();
@@ -174,12 +174,12 @@ public class CombatRules : MonoBehaviour {
 				{
 					obj.BroadcastMessage("GameOver", "Enemy");	
 				}
-			}
+			}*/
 			
 			turn_time -= .1f*(MAX_TURN_TIME - MIN_TURN_TIME);
 			if(turn_time < MIN_TURN_TIME)
 				turn_time = MIN_TURN_TIME;
-			timer.StartTimer(turn_time);
+			timer.networkView.RPC ("StartTimer", RPCMode.All, turn_time);
 			
 		}
 	}
