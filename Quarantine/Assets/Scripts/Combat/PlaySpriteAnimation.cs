@@ -25,6 +25,7 @@ public class PlaySpriteAnimation : MonoBehaviour {
 		BroadcastMessage("PlayAnimation", curr_animation);
 	}
 	
+	[RPC]
 	public void ChangeAnimation(int animation)
 	{
 		Debug.Log ("Changing animation");

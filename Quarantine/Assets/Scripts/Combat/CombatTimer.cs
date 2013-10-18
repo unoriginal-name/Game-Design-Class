@@ -9,7 +9,20 @@ public class CombatTimer : MonoBehaviour {
 	private bool paused = false;
 
     public List<GameObject> objects;
-
+	
+	void Start()
+	{
+		if(Network.isClient)
+			return;
+		
+		paused = true;
+		foreach(GameObject obj in objects)
+		{
+			obj.BroadcastMessage("TimerPaused");	
+		}
+	}
+	
+	[RPC]
     public void StartTimer(float time)
     {
         Debug.Log("Starting timer for " + time + " seconds");
@@ -18,6 +31,7 @@ public class CombatTimer : MonoBehaviour {
         running = true;
     }
 	
+	[RPC]
 	public void PauseTimer()
 	{
 		Debug.Log ("Timer paused");
@@ -29,6 +43,7 @@ public class CombatTimer : MonoBehaviour {
 		}
 	}
 	
+	[RPC]
 	public void UnPauseTimer()
 	{
 		Debug.Log ("Timer unpaused");

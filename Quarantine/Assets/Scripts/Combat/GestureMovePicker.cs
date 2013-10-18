@@ -41,19 +41,19 @@ public class GestureMovePicker : MonoBehaviour {
 				{
 					combat_rules.SubmitMove(this.name, 0);	
 				}
-				combat_rules.SubmitMove(this.name, 1);
-				sprite_animator.ChangeAnimation(1);
+				combat_rules.networkView.RPC ("SubmitMove", RPCMode.All, this.name, 1);
+				sprite_animator.networkView.RPC("ChangeAnimation", RPCMode.All, 1);
 				stamina.ChangeStamina(-30);
 			} else if(last_move == Gestures.gesture.left) {
 				if(stamina.stamina < 10)
 				{
 					combat_rules.SubmitMove(this.name, 0);	
 				}
-				combat_rules.SubmitMove(this.name, 2);
-				sprite_animator.ChangeAnimation(2);
+				combat_rules.networkView.RPC ("SubmitMove", RPCMode.All, this.name, 2);
+				sprite_animator.networkView.RPC("ChangeAnimation", RPCMode.All, 2);
 				stamina.ChangeStamina(-10);
 			} else {
-				combat_rules.SubmitMove(this.name, 0);
+				combat_rules.networkView.RPC ("SubmitMove", RPCMode.All, this.name, 0);
 			}			
 		}
 	}

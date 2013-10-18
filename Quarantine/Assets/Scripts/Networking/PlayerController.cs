@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour {
 			// enable the gestures move decider
 			GestureMovePicker gesture_move_picker_component = (GestureMovePicker)GetComponent(typeof(GestureMovePicker));
 			
+			// find the combat rules and add it to the gesturemove picker
+			gesture_move_picker_component.combat_rules = (CombatRules)GameObject.FindObjectOfType(typeof(CombatRules));
+			
 			// find the stamina bar and add it to the gesturemove picker
 			gesture_move_picker_component.stamina = (Stamina)GameObject.FindObjectOfType(typeof(Stamina));
 			gesture_move_picker_component.enabled = true;

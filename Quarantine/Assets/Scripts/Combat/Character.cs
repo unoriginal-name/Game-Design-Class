@@ -14,6 +14,7 @@ public class Character : MonoBehaviour {
 		current_health = MAX_HEALTH;
 	}
 	
+	[RPC]
 	public void ChangeHealth(int change)
 	{
 		current_health += change;

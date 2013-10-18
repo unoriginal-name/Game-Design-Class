@@ -40,7 +40,12 @@ public class CombatRules : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {	
+	void Update () {
+		if(Network.isClient)
+		{
+			return;
+		}
+		
 		if(player_move == -1 || enemy_move == -1)
 			return; // still waiting for at least one character to submit a move
 		else
@@ -64,19 +69,19 @@ public class CombatRules : MonoBehaviour {
 				if(enemy_move == 0) // player attacked and enemy did nothing
 				{
 					if(current_turn_mode == TurnMode.ATTACK)
-						enemy.ChangeHealth(-20);
+						enemy.networkView.RPC ("ChangeHealth", RPCMode.All, -20);
 					else
-						enemy.ChangeHealth(-10);
+						enemy.networkView.RPC ("ChangeHealth", RPCMode.All, -10);
 				}
 				else if(enemy_move == 1) // player attacked and so did enemy
 				{
 					if(current_turn_mode == TurnMode.ATTACK)
 					{
-						player.ChangeHealth(-10);
-						enemy.ChangeHealth(-20);
+						player.networkView.RPC ("ChangeHealth", RPCMode.All, -10);
+						enemy.networkView.RPC ("ChangeHealth", RPCMode.All, -20);
 					} else {
-						player.ChangeHealth(-20);
-						enemy.ChangeHealth(-10);
+						player.networkView.RPC ("ChangeHealth", RPCMode.All, -20);
+						enemy.networkView.RPC ("ChangeHealth", RPCMode.All, -10);
 					}
 					
 				} // do nothing
@@ -86,9 +91,9 @@ public class CombatRules : MonoBehaviour {
 				if(enemy_move == 1) // player did nothing and enemy attacked
 				{
 					if(current_turn_mode == TurnMode.ATTACK)
-						player.ChangeHealth(-10);
+						player.networkView.RPC ("ChangeHealth", RPCMode.All, -10);
 					else
-						player.ChangeHealth(-20);
+						player.networkView.RPC ("ChangeHealth", RPCMode.All, -20);
 				}
 			}
 			
@@ -175,16 +180,18 @@ public class CombatRules : MonoBehaviour {
 			if(turn_time < MIN_TURN_TIME)
 				turn_time = MIN_TURN_TIME;
 			timer.StartTimer(turn_time);
+			
 		}
 	}
 	
+	[RPC]
 	public void SubmitMove(string name, int move) {
 		// this is where health changes will be calculated
 		// and turn types will be calculated.
 		
-		if(name.Equals("Player"))
+		if(name.Equals("Player") || name.Equals ("Player(Clone)"))
 			player_move = move;
-		else if(name.Equals ("Enemy"))
+		else if(name.Equals ("Enemy") || name.Equals ("Enemy(Clone)"))
 			enemy_move = move;
 		else
 			Debug.LogError("Unknown player: " + name);		
@@ -212,5 +219,10 @@ public class CombatRules : MonoBehaviour {
 			message = "Oh no! You were defeated by Thnaaake :(";
 		
 		GUI.Label(new Rect(0, 0, Screen.width, Screen.height), message, game_over_background);
+	}
+	
+	void OnNetworkInstantiate(NetworkMessageInfo info)
+	{
+		Debug.Log ("network instantiation: " + info);	
 	}
 }
