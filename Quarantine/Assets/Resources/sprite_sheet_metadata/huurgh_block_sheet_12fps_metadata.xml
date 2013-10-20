@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frames>
+<frame id="0001" x="0" y="1536" width="512" height="512"/>
+<frame id="0002" x="512" y="1536" width="512" height="512"/>
+<frame id="0003" x="1024" y="1536" width="512" height="512"/>
+<frame id="0004" x="1536" y="1536" width="512" height="512"/>
+<frame id="0005" x="0" y="2048" width="512" height="512"/>
+<frame id="0006" x="512" y="2048" width="512" height="512"/>
+<frame id="0007" x="1024" y="2048" width="512" height="512"/>
+<frame id="0008" x="1536" y="2048" width="512" height="512"/>
+<frame id="0009" x="0" y="2560" width="512" height="512"/>
+<frame id="0010" x="512" y="2560" width="512" height="512"/>
+<frame id="0011" x="1024" y="2560" width="512" height="512"/>
+<frame id="0012" x="1536" y="2560" width="512" height="512"/>
+</frames>
