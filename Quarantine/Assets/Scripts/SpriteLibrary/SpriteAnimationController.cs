@@ -20,9 +20,14 @@ public class SpriteAnimationController : MonoBehaviour {
 		if(animations == null)
 			animations = new List<SpriteAnimation>();
 		
+		// TODO: Figure out why I'm getting the error "Instantiating a non-readable 'huurgh_block_sheet_12fps' texture is not allowed! Please mark the texture readable in the inspector or don't instantiate it."
 		idle_animation.Init();
+		idle_animation.sprite_sheet = Instantiate(idle_animation.sprite_sheet) as Texture2D;
 		foreach(SpriteAnimation animation in animations)
+		{
 			animation.Init();
+			animation.sprite_sheet = Instantiate(animation.sprite_sheet) as Texture2D;
+		}
 		
 		// initialize the queue
 		animation_queue = new Queue<int>();
@@ -59,8 +64,10 @@ public class SpriteAnimationController : MonoBehaviour {
 			}
 			
 			// set the size of this texture
+			//renderer.material.mainTexure = Instantiate (curr_animation.sprite_sheet) as Texture2D;
+			renderer.material.SetTexture("_MainTex", curr_animation.sprite_sheet);
 			Vector2 size = new Vector2(1f/idle_animation.cols, 1f/idle_animation.rows);
-			renderer.sharedMaterial.SetTextureScale("_MainTex", size);
+			renderer.material.SetTextureScale("_MainTex", size);
 			
 			// go through each frame in the sequence
 			for(int frame = 0; frame < curr_animation.num_frames; frame++)
@@ -71,7 +78,7 @@ public class SpriteAnimationController : MonoBehaviour {
 				// calculate the UV offset
 				Vector2 offset = new Vector2((float)sprite_index/curr_animation.cols - (sprite_index/curr_animation.cols), // x
 					(1-(float)1/curr_animation.rows) - (sprite_index/curr_animation.cols)/(float)curr_animation.rows);
-				renderer.sharedMaterial.SetTextureOffset("_MainTex", offset);
+				renderer.material.SetTextureOffset("_MainTex", offset);
 				
 				// wait for the next frame
 				yield return new WaitForSeconds(1f/curr_animation.default_fps);
