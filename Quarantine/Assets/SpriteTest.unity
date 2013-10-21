@@ -227,6 +227,7 @@ GameObject:
   - 64: {fileID: 1524316792}
   - 23: {fileID: 1524316791}
   - 114: {fileID: 1524316795}
+  - 114: {fileID: 1524316796}
   m_Layer: 0
   m_Name: Huurgh
   m_TagString: Untagged
@@ -289,7 +290,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1524316790}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fba2c87a96933e244b9658aaebb3fc5e, type: 3}
   m_Name: 
@@ -297,42 +298,22 @@ MonoBehaviour:
   columns: 4
   rows: 3
   framesPerSecond: 24
---- !u!1 &2022408737
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2022408738}
-  - 114: {fileID: 2022408739}
-  m_Layer: 0
-  m_Name: MetadataLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2022408738
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2022408737}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.74227794e-07, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
---- !u!114 &2022408739
+--- !u!114 &1524316796
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2022408737}
+  m_GameObject: {fileID: 1524316790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb5bfab35e94a3f48ac24f2af7e4d769, type: 3}
+  m_Script: {fileID: 11500000, guid: 797e9376f9657e34ca5680ae3835c479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  file_name: sprite_sheet_metadata/huurgh_block_sheet_12fps_metadata
+  idle_animation:
+    sprite_sheet: {fileID: 2800000, guid: ae8a804bbf06b684b89dd2b2875a83ff, type: 3}
+    rows: 3
+    cols: 4
+    num_frames: 0
+    sequence: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000a00000009000000080000000700000006000000050000000400000003000000020000000100000000000000
+    default_fps: 24
+  animations: []
