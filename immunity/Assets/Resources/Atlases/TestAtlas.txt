@@ -2,15 +2,23 @@
 
 "CreatureButton.png":
 {
-	"frame": {"x":256,"y":2,"w":253,"h":284},
+	"frame": {"x":760,"y":2,"w":253,"h":284},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":253,"h":284},
 	"sourceSize": {"w":253,"h":284}
 },
+"ImmunityFont.png":
+{
+	"frame": {"x":2,"y":2,"w":502,"h":502},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":3,"w":502,"h":502},
+	"sourceSize": {"w":512,"h":512}
+},
 "InventoryButton.png":
 {
-	"frame": {"x":2,"y":2,"w":252,"h":286},
+	"frame": {"x":506,"y":2,"w":252,"h":286},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":286},
@@ -21,8 +29,8 @@
 	"version": "1.0",
 	"image": "TestAtlas.png",
 	"format": "RGBA8888",
-	"size": {"w":512,"h":512},
+	"size": {"w":1024,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a36684dc13bbf490f22f040c5b144610:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:770df1be83d3fbc9a2876d020be4f412:1/1$"
 }
 }

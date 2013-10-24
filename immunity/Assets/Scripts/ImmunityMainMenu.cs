@@ -15,28 +15,17 @@ public class ImmunityMainMenu : MonoBehaviour {
 		
 		Futile.instance.Init(fparams);
 		
-		
-		
 		Futile.atlasManager.LoadAtlas("Atlases/TestAtlas");
+		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
 		
+		test_label = new FLabel("ImmunityFont", "Testing");
 		test_sprite = new FSprite("CreatureButton");
 		Futile.stage.AddChild(test_sprite);
-		
-		//Futile.atlasManager.LoadAtlas("Atlases/MainMenuAtlas");
-		
-		
-		//Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/MainMenuAtlas", 0.0f, 0.0f);
-				
-		//test_label = new FLabel("ImmunityFont", "TESTING!");
-		
-		//test_sprite = new FSprite("CreatureButton.png");
-		
-		//Futile.stage.AddChild(test_label);
-		//Futile.stage.AddChild(test_sprite);
+		Futile.stage.AddChild(test_label);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		//test_label.scale = test_label.scale*1.1f;
 	}
 }
