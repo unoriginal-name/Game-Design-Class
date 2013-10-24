@@ -1,10 +1,10 @@
 # =============== #
 # Unity generated #
 # =============== #
-quarantine/Temp/
-quarantine/Obj/
-quarantine/UnityGenerated/
-quarantine/Library/
+immunity/Temp/
+immunity/Obj/
+immunity/UnityGenerated/
+immunity/Library/
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
