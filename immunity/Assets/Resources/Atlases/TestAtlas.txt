@@ -1,0 +1,28 @@
+{"frames": {
+
+"CreatureButton.png":
+{
+	"frame": {"x":256,"y":2,"w":253,"h":284},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":253,"h":284},
+	"sourceSize": {"w":253,"h":284}
+},
+"InventoryButton.png":
+{
+	"frame": {"x":2,"y":2,"w":252,"h":286},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":286},
+	"sourceSize": {"w":252,"h":286}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "TestAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a36684dc13bbf490f22f040c5b144610:1/1$"
+}
+}
