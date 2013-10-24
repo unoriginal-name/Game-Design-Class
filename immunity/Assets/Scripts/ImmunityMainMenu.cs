@@ -15,7 +15,7 @@ public class ImmunityMainMenu : MonoBehaviour {
 		
 		Futile.instance.Init(fparams);
 		
-		Futile.atlasManager.LoadAtlas("Atlases/TestAtlas");
+		Futile.atlasManager.LoadAtlas("Atlases/MainMenu");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
 		
 		test_label = new FLabel("ImmunityFont", "Testing");
