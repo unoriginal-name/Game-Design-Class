@@ -104,6 +104,7 @@ public class MainMenu : MonoBehaviour {
 			if(GUI.Button (creatureBtnRect, "", creatureBtnStyle))
 			{
 				Debug.Log ("creature button pressed");
+				Application.LoadLevel ("SpriteTest");
 			}
 			if(GUI.Button (inventoryBtnRect, "", inventoryBtnStyle))
 			{
