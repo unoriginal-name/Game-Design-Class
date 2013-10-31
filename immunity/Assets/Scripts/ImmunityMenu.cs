@@ -1,10 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class ImmunityMainMenu : MonoBehaviour {
+public enum MenuType
+{
+	None,
+    TitleMenu,
+	NetworkMenu,
+	SettingsMenu,
+	AboutMenu
+}
+
+
+public class ImmunityMenu : MonoBehaviour {
 	
-	public FLabel test_label;
-	public FSprite test_sprite;
+	private MenuType currentMenuType = MenuType.None;
+	private Menu currentMenu = null;
 	
 	// Use this for initialization
 	void Start () {
@@ -17,15 +28,20 @@ public class ImmunityMainMenu : MonoBehaviour {
 		
 		Futile.atlasManager.LoadAtlas("Atlases/MainMenu");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
+
 		
-		test_label = new FLabel("ImmunityFont", "Testing");
-		test_sprite = new FSprite("CreatureButton");
-		Futile.stage.AddChild(test_sprite);
-		Futile.stage.AddChild(test_label);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//test_label.scale = test_label.scale*1.1f;
+	}
+		
+	public void GoToMenu(MenuType menuType) {
+		if(currentMenuType == menuType) return; // already on this menu
+		
+		Menu menuToCreate = null;
+		
+		
 	}
 }
