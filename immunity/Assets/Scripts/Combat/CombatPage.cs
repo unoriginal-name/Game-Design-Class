@@ -114,6 +114,17 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			}
 		}
 		
+		for(int b = dyingBacterias_.Count-1; b >= 0; b--)
+		{
+			BacteriaBubble bacteria = dyingBacterias_[b];
+			
+			if(bacteria.isFinished)
+			{
+				dyingBacterias_.Remove(bacteria);
+				dyingBacteriaHolder_.RemoveChild(bacteria);
+			}
+		}
+		
 		frameCount_++;
 		
 	}

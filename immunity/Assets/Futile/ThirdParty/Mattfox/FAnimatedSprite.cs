@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class FAnimatedSprite : FSprite {
 	
 	protected bool _pause = false;
+	protected bool _finished = false;
 	protected float _time = 0;
 	protected int _currentFrame = 0;
 	
@@ -55,6 +56,7 @@ public class FAnimatedSprite : FSprite {
 						_currentFrame = 0;
 					} else {
 						_currentFrame = _currentAnim.totalFrames - 1;
+						_finished = true;
 					}
 					
 					// send Signal if it exists
@@ -134,6 +136,10 @@ public class FAnimatedSprite : FSprite {
 	
 	public bool isPaused {
 		get { return _pause; }
+	}
+	
+	public bool isFinished {
+		get { return _finished; }	
 	}
 	
 	[Obsolete("baseExtension is unnecessary and unused")]
