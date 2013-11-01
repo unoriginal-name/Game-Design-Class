@@ -61,8 +61,8 @@ public class TitlePage : ImmunityPage
 		
 		//playButton_.y = (howToPlayButton_.hitRect.yMax - howToPlayButton_.hitRect.yMin)/2.0f + 50.0f ;
 		//settingsButton_.y = -((howToPlayButton_.hitRect.yMax - howToPlayButton_.hitRect.yMin)/2.0f + 50.0f);
-		playButton_.y = 50.0f;
-		settingsButton_.y = -50.0f;
+		playButton_.y = 100.0f;
+		settingsButton_.y = 0.0f;
 	}
 	
 	private void HandlePlayButtonRelease(FButton button)
