@@ -11,7 +11,7 @@ public class ImmunityCombatManager : MonoBehaviour {
 	
 	private ImmunityPage gamePage;
 	
-	public int score_;
+	public int score;
 	
 	void Start () {
 		instance = this;
