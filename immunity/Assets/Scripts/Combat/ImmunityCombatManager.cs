@@ -13,6 +13,8 @@ public class ImmunityCombatManager : MonoBehaviour {
 	
 	public int score;
 	
+	public FCamObject camera;
+	
 	void Start () {
 		instance = this;
 		
@@ -33,9 +35,12 @@ public class ImmunityCombatManager : MonoBehaviour {
 		
 		stage_ = Futile.stage;
 		
+		camera = new FCamObject();
+		stage_.AddChild(camera);
+		
 		gamePage = new CombatPage();
 		gamePage.Start();
-		stage_.AddChild(gamePage);			
+		camera.AddChild(gamePage);			
 	}
 	
 	// Update is called once per frame

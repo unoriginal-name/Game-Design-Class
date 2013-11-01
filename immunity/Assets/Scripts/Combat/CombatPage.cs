@@ -21,7 +21,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private int maxFramesTillNextBacteria_ = 22;
 	private int framesTillNextBacteria_ = 0;
 	
-	
+	private PlayerCharacter player_;
+		
 	public CombatPage()
 	{
 		EnableMultiTouch();
@@ -54,7 +55,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		scoreLabel_.color = Color.white;
 		AddChild(scoreLabel_);
 		
-		
+		player_ = new PlayerCharacter();
+		AddChild(player_);
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -102,6 +104,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			CreateBacteria();
 		}
 		
+		bool bacteriaHit = false;
 		for(int b = bacterias_.Count-1; b >= 0; b--)
 		{
 			BacteriaBubble bacteria = bacterias_[b];
@@ -111,8 +114,15 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			{
 				bacterias_.Remove(bacteria);
 				bacteriaContainer_.RemoveChild(bacteria);
+				bacteriaHit = true;
 			}
 		}
+		if(bacteriaHit)
+		{
+			Debug.Log("Shaking!");
+			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
+		}
+		
 		
 		for(int b = dyingBacterias_.Count-1; b >= 0; b--)
 		{
@@ -149,6 +159,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						break; // a touch can only hit one bacteria at a time
 					}
 				}
+				
+				if(touch.position.y < -Futile.screen.halfHeight/2.0f)
+					Go.to(player_, 5.0f, new TweenConfig().setDelay(0.1f).floatProp("x", touch.position.x));
 			}
 		}
 	}
