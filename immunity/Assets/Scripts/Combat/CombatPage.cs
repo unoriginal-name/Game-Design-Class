@@ -77,6 +77,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bacteriaContainer_.AddChild(bacteria);
 		bacteria.x = RXRandom.Range(-Futile.screen.width/2 + 50, Futile.screen.width/2-50); // padded inside the screen width
 		bacteria.y = Futile.screen.height/2 + 60; // above the screen
+		bacteria.play("punchyswarm_idle");
 		bacterias_.Add(bacteria);
 		totalBacterialCreated_++;
 	}
