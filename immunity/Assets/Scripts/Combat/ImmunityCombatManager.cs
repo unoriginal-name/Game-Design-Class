@@ -29,6 +29,8 @@ public class ImmunityCombatManager : MonoBehaviour {
 		Futile.atlasManager.LoadAtlas("Atlases/StomachForeAtlas");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
 		
+		Futile.atlasManager.LogAllElementNames();
+		
 		stage_ = Futile.stage;
 		
 		gamePage = new CombatPage();

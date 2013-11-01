@@ -12,11 +12,15 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FContainer bacteriaContainer_;
 	private List<BacteriaBubble> bacterias_ = new List<BacteriaBubble>();
 	
+	private FContainer dyingBacteriaHolder_;
+	private List<BacteriaBubble> dyingBacterias_ = new List<BacteriaBubble>();
+	
 	private FLabel scoreLabel_;
 	
 	private int frameCount_ = 0;
 	private int maxFramesTillNextBacteria_ = 22;
 	private int framesTillNextBacteria_ = 0;
+	
 	
 	public CombatPage()
 	{
@@ -37,6 +41,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bacteriaContainer_ = new FContainer();
 		AddChild(bacteriaContainer_);
 		
+		dyingBacteriaHolder_ = new FContainer();
+		AddChild(dyingBacteriaHolder_);
+		
 		ImmunityCombatManager.instance.score = 0;
 		
 		scoreLabel_ = new FLabel("ImmunityFont", "0 Bacteria");
@@ -47,15 +54,19 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		scoreLabel_.color = Color.white;
 		AddChild(scoreLabel_);
 		
+		
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
 	{
 		
-		// TODO: create the pop animation here
-		
 		bacteriaContainer_.RemoveChild(bacteria);
 		bacterias_.Remove(bacteria);
+		
+		dyingBacteriaHolder_.AddChild(bacteria);
+		dyingBacterias_.Add(bacteria);
+		bacteria.play("punchyswarm_pop");		
+
 		
 		ImmunityCombatManager.instance.score++;
 		
@@ -67,8 +78,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		{
 			scoreLabel_.text = ImmunityCombatManager.instance.score+" Bacterias";	
 		}
-		
-		// show particle effect
 	}
 	
 	public void CreateBacteria()

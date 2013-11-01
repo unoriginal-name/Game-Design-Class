@@ -61,7 +61,7 @@ public class FAnimatedSprite : FSprite {
 					//_currentAnim.checkFinished();
 				}
 				
-				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+_currentAnim.frames[_currentFrame]);
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.name+"_"+_currentAnim.frames[_currentFrame]);
 				
 				_time -= (float)_currentAnim.delay / 1000.0f;
 			}
@@ -87,7 +87,7 @@ public class FAnimatedSprite : FSprite {
 				_time = 0;
 				
 				// redraw
-				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+_currentAnim.frames[0]);
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.name+"_"+_currentAnim.frames[0]);
 			}
 			
 			return;
@@ -95,7 +95,8 @@ public class FAnimatedSprite : FSprite {
 		
 		// find the animation with the name given, no change if not found
 		foreach (FAnimation anim in _animations) {
-			if (anim.name == animName) {
+			if (anim.name.Equals(animName, StringComparison.Ordinal)) {
+				Debug.Log("Playing " + anim.name);
 				_currentAnim = anim;
 				_currentFrame = 0;
 				_time = 0;

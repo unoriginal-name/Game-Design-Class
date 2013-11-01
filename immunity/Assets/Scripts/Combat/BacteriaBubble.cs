@@ -10,13 +10,13 @@ public class BacteriaBubble : FAnimatedSprite {
 		ListenForUpdate(HandleUpdate);
 		
 		int[] idle_frames = {1, 2};
-		int[] pop_frames = {1,2,3,4};
+		int[] pop_frames = {1, 2, 3, 4};
 		
 		FAnimation idle_animation = new FAnimation("punchyswarm_idle", idle_frames, 250, true);
 		FAnimation pop_animation = new FAnimation("punchyswarm_pop", pop_frames, 250, false);
 		
-		addAnimation(idle_animation);
-		addAnimation(pop_animation);		
+		base.addAnimation(idle_animation);
+		base.addAnimation(pop_animation);		
 	}
 	
 	public void HandleUpdate () {
