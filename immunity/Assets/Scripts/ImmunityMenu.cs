@@ -2,23 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum MenuType
+public enum PageType
 {
 	None,
-    TitleMenu,
-	NetworkMenu,
-	SettingsMenu,
-	AboutMenu
+    TitlePage
 }
 
 
 public class ImmunityMenu : MonoBehaviour {
 	
-	private MenuType currentMenuType = MenuType.None;
-	private Menu currentMenu = null;
+	public static ImmunityMenu instance;
+	
+	private PageType currentPageType = PageType.None;
+	private ImmunityPage currentPage = null;
+	
+	private FStage stage_;
 	
 	// Use this for initialization
 	void Start () {
+		instance = this;
+		
 		FutileParams fparams = new FutileParams(false, false, true, true);
 		
 		fparams.AddResolutionLevel(800.0f, 1.0f, 1.0f, "");
@@ -26,10 +29,16 @@ public class ImmunityMenu : MonoBehaviour {
 		
 		Futile.instance.Init(fparams);
 		
-		Futile.atlasManager.LoadAtlas("Atlases/MainMenu");
+		Futile.atlasManager.LoadAtlas("Atlases/ImmunityMenus");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
-
 		
+		stage_ = Futile.stage;
+		
+		currentPageType = PageType.TitlePage;
+		currentPage = new TitlePage();
+		
+		stage_.AddChild(currentPage);
+		currentPage.Start();
 	}
 	
 	// Update is called once per frame
@@ -37,10 +46,10 @@ public class ImmunityMenu : MonoBehaviour {
 		//test_label.scale = test_label.scale*1.1f;
 	}
 		
-	public void GoToMenu(MenuType menuType) {
-		if(currentMenuType == menuType) return; // already on this menu
+	public void GoToMenu(PageType pageType) {
+		if(currentPageType == pageType) return; // already on this menu
 		
-		Menu menuToCreate = null;
+		ImmunityPage menuToCreate = null;
 		
 		
 	}

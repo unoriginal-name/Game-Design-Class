@@ -1,0 +1,36 @@
+{"frames": {
+
+"BigButton.png":
+{
+	"frame": {"x":2,"y":1752,"w":177,"h":201},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":177,"h":201},
+	"sourceSize": {"w":177,"h":201}
+},
+"ImmunityFont.png":
+{
+	"frame": {"x":2,"y":1246,"w":498,"h":504},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":3,"w":498,"h":504},
+	"sourceSize": {"w":512,"h":512}
+},
+"hhhh.png":
+{
+	"frame": {"x":2,"y":2,"w":897,"h":1242},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":169,"y":71,"w":897,"h":1242},
+	"sourceSize": {"w":1161,"h":1394}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "ImmunityMenus.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c6143ac105f6c19c33baef54b20df57f:1/1$"
+}
+}
