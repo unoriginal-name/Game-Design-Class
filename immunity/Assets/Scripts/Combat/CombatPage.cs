@@ -39,6 +39,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(levelMid_);
 		AddChild(levelFore_);
 		
+		player_ = new PlayerCharacter();
+		AddChild(player_);
+		
 		bacteriaContainer_ = new FContainer();
 		AddChild(bacteriaContainer_);
 		
@@ -55,8 +58,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		scoreLabel_.color = Color.white;
 		AddChild(scoreLabel_);
 		
-		player_ = new PlayerCharacter();
-		AddChild(player_);
+
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -104,7 +106,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			CreateBacteria();
 		}
 		
-		bool bacteriaHit = false;
 		for(int b = bacterias_.Count-1; b >= 0; b--)
 		{
 			BacteriaBubble bacteria = bacterias_[b];
@@ -114,7 +115,21 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			{
 				bacterias_.Remove(bacteria);
 				bacteriaContainer_.RemoveChild(bacteria);
+			}
+		}
+		
+		// check if player was hit
+		bool bacteriaHit = false;
+		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(player_.scaleX, player_.scaleY, player_.x, player_.y);
+		for(int b = bacterias_.Count-1; b >= 0; b--)
+		{
+			BacteriaBubble bacteria = bacterias_[b];
+			Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(bacteria.scaleX, bacteria.scaleY, bacteria.x, bacteria.y);
+			
+			if(playerRect.CheckIntersect(bacteriaRect))
+			{
 				bacteriaHit = true;
+				HandleGotBacteria(bacteria);
 			}
 		}
 		if(bacteriaHit)
