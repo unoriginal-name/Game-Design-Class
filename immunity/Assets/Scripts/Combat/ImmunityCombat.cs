@@ -3,15 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class ImmunityCombat : MonoBehaviour {
+public class ImmunityCombat : MonoBehaviour/*, FMultiTouchableInterface*/ {
 	
 	public static ImmunityCombat instance;
 	
 	private FStage stage_;
 	
-	public BacteriaBubble bacteria_;
+	private FSprite levelFore_;
+	private FSprite levelMid_;
+	private FSprite levelBack_;
 	
-	// Use this for initialization
+	private FLabel scoreLabel_;
+	private int score_ = 0;
+	
+	private int totalBacterialCreated_ = 0;
+	private FContainer bacteriaContainer_;
+	private List<BacteriaBubble> bacterias_ = new List<BacteriaBubble>();
+	
+	private int frameCount_ = 0;
+	private int maxFramesTillNextBacteria = 22;
+	private int framesTillNextBacteria = 0;
+			
 	void Start () {
 		instance = this;
 		
@@ -23,14 +35,33 @@ public class ImmunityCombat : MonoBehaviour {
 		Futile.instance.Init(fparams);
 		
 		Futile.atlasManager.LoadAtlas("Atlases/CombatAtlas");
+		Futile.atlasManager.LoadAtlas("Atlases/StomachBackAtlas");
+		Futile.atlasManager.LoadAtlas("Atlases/StomachMidAtlas");
+		Futile.atlasManager.LoadAtlas("Atlases/StomachForeAtlas");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
 		
 		stage_ = Futile.stage;
 		
-		bacteria_ = new BacteriaBubble();
-		stage_.AddChild(bacteria_);
+		levelFore_ = new FSprite("Stomach_Fore");
+		levelMid_ = new FSprite("Stomach_Mid");
+		levelBack_ = new FSprite("Stomach_Lake");
 		
-	
+		stage_.AddChild(levelBack_);
+		stage_.AddChild(levelMid_);
+		stage_.AddChild(levelFore_);
+		
+		bacteriaContainer_ = new FContainer();
+		stage_.AddChild(bacteriaContainer_);
+		
+		scoreLabel_ = new FLabel("ImmunityFont", "0 Bacteria");
+		scoreLabel_.anchorX = 0.0f;
+		scoreLabel_.anchorY = 1.0f;
+		scoreLabel_.x = -Futile.screen.halfWidth + 50.0f;
+		scoreLabel_.y = Futile.screen.halfHeight - 50.0f;
+		scoreLabel_.color = Color.white;
+		stage_.AddChild(scoreLabel_);
+				
+		//EnableMultiTouch();
 	}
 	
 	// Update is called once per frame
@@ -52,23 +83,11 @@ using System;
 
 public class BInGamePage : BPage, FMultiTouchableInterface
 {
-        
-        private FSprite _background;
-        
-        private FButton _closeButton;
-        
+       
         private FLabel _scoreLabel;
         private FLabel _timeLabel;
         
-        private int _frameCount = 0;
         private float _secondsLeft = 15.9f;
-        
-        private int _totalBananasCreated = 0;
-        private FContainer _bananaContainer;
-        private List<BBanana> _bananas = new List<BBanana>();
-        
-        private int _maxFramesTillNextBanana = 22;
-        private int _framesTillNextBanana = 0;        
         
         private FContainer _effectHolder;
         
@@ -84,32 +103,6 @@ public class BInGamePage : BPage, FMultiTouchableInterface
         override public void Start()
         {
                 BMain.instance.score = 0;
-                
-                _background = new FSprite("JungleBlurryBG");
-                AddChild(_background);
-
-                //the banana container will make it easy to keep the bananas at the right depth
-                _bananaContainer = new FContainer(); 
-                AddChild(_bananaContainer); 
-                
-                
-                _closeButton = new FButton("CloseButton_normal", "CloseButton_down","CloseButton_over", "ClickSound");
-                AddChild(_closeButton);
-                
-                
-                _closeButton.SignalRelease += HandleCloseButtonRelease;
-                
-                _scoreLabel = new FLabel("Franchise", "0 Bananas");
-                _scoreLabel.anchorX = 0.0f;
-                _scoreLabel.anchorY = 1.0f;
-                _scoreLabel.scale = 0.75f;
-                _scoreLabel.color = new Color(1.0f,0.90f,0.0f);
-                
-                _timeLabel = new FLabel("Franchise", ((int)_secondsLeft) + " Seconds Left");
-                _timeLabel.anchorX = 1.0f;
-                _timeLabel.anchorY = 1.0f;
-                _timeLabel.scale = 0.75f;
-                _timeLabel.color = new Color(1.0f,1.0f,1.0f);
                 
                 AddChild(_scoreLabel);
                 AddChild(_timeLabel);
