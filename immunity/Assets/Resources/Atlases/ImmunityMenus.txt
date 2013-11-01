@@ -2,6 +2,14 @@
 
 "BigButton.png":
 {
+	"frame": {"x":181,"y":1752,"w":177,"h":201},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":177,"h":201},
+	"sourceSize": {"w":177,"h":201}
+},
+"BigButton_down.png":
+{
 	"frame": {"x":2,"y":1752,"w":177,"h":201},
 	"rotated": false,
 	"trimmed": false,
@@ -31,6 +39,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c6143ac105f6c19c33baef54b20df57f:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:95a5665f71a139117fb5f6abdf88fc1a:1/1$"
 }
 }
