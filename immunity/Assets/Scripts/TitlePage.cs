@@ -67,6 +67,7 @@ public class TitlePage : ImmunityPage
 	private void HandlePlayButtonRelease(FButton button)
 	{
 		Debug.Log("Play Button Clicked");
+		Application.LoadLevel("BubblePopDemo");
 	}
 	
 	private void HandleHowToPlayButtonRelease(FButton button)

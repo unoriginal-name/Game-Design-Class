@@ -6,6 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/ImmunityMainMenu.unity
+  - enabled: 1
     path: Assets/BubblePopDemo.unity
   - enabled: 1
     path: Assets/MainMenu.unity
