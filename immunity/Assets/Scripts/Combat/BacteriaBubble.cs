@@ -3,16 +3,16 @@ using System.Collections;
 
 public class BacteriaBubble : FSprite {
 	
-	private float _speedY;
+	private float speedY_;
 		
-	public BacteriaBubble() : base("punchyswarm_idle1") {
-		scale = 0.5f;
+	public BacteriaBubble() : base("punchyswarm_idle_1") {
+		scale = RXRandom.Range(0.25f, 0.75f);
 		ListenForUpdate(HandleUpdate);
 	}
 	
 	public void HandleUpdate () {
-		_speedY -= 0.013f;
+		speedY_ -= 0.013f;
 		
-		this.y += _speedY;
+		this.y += speedY_;
 	}
 }
