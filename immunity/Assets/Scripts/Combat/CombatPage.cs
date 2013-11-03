@@ -23,6 +23,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	private PlayerCharacter player_;
 	private FContainer playerContainer;
+	
+	private FParallaxContainer background;
+	private FParallaxContainer mid;
+	private FParallaxContainer foreground;
 		
 	public CombatPage()
 	{
@@ -33,9 +37,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	// Use this for initialization
 	override public void Start () {
 		
-		ImmunityCombatManager.instance.background = new FParallaxContainer();
-		ImmunityCombatManager.instance.mid = new FParallaxContainer();
-		ImmunityCombatManager.instance.foreground = new FParallaxContainer();
+		background = new FParallaxContainer();
+		mid = new FParallaxContainer();
+		foreground = new FParallaxContainer();
 		
 		/*
 		background.size = new Vector2(Futile.screen.width * 1.5f, Futile.screen.height * 1.5f);
@@ -60,9 +64,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		levelFore_.y = -Futile.screen.height;
 		*/
 		
-		ImmunityCombatManager.instance.background.AddChild (levelBack_);
-		ImmunityCombatManager.instance.mid.AddChild (levelMid_);
-		ImmunityCombatManager.instance.foreground.AddChild (levelFore_);
+		background.AddChild (levelBack_);
+		mid.AddChild (levelMid_);
+		foreground.AddChild (levelFore_);
 		
 		background.setSize (new Vector2(Futile.screen.width + 20f, Futile.screen.height + 20f));
 		mid.setSize (new Vector2(Futile.screen.width - 1f, Futile.screen.width - 1f));
