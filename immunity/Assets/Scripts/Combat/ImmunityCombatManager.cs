@@ -31,6 +31,9 @@ public class ImmunityCombatManager : MonoBehaviour {
 		Futile.atlasManager.LoadAtlas("Atlases/StomachForeAtlas");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
 		
+		FSoundManager.PreloadSound("player_hit");
+		FSoundManager.PreloadSound("bacteria_pop");
+		
 		Futile.atlasManager.LogAllElementNames();
 		
 		stage_ = Futile.stage;
