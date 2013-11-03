@@ -190,6 +190,13 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						current_movement.destroy();
 					}
 					
+					// flip the player if the movement is behind the player
+					if(touch.position.x - player_.x < 0)
+						player_.scaleX = -1*Math.Abs(player_.scaleX);
+					else
+						player_.scaleX = Math.Abs(player_.scaleX);
+					
+					// calculate movement time based on player's speed attribute
 					float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
 					
 					current_movement = Go.to(player_, tween_time, new TweenConfig().setDelay(0.1f).floatProp("x", touch.position.x));
