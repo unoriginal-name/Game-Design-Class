@@ -15,6 +15,10 @@ public class ImmunityCombatManager : MonoBehaviour {
 	
 	public FCamObject camera;
 	
+	private FParallaxContainer background;
+	private FParallaxContainer mid;
+	private FParallaxContainer foreground;
+	
 	void Start () {
 		instance = this;
 		
@@ -40,7 +44,19 @@ public class ImmunityCombatManager : MonoBehaviour {
 		
 		gamePage = new CombatPage();
 		gamePage.Start();
-		camera.AddChild(gamePage);			
+		camera.AddChild(gamePage);	
+		
+		background.AddChild (CombatPage.instance.levelBack_);
+		mid.AddChild (CombatPage.instance.levelMid_);
+		foreground.AddChild (CombatPage.instance.levelFore_);
+		
+		background.camObject = ImmunityCombatManager.instance.camera;
+		mid.camObject = ImmunityCombatManager.instance.camera;
+		foreground.camObject = ImmunityCombatManager.instance.camera;
+		
+		Rect worldBounds = new Rect(0, 0, Futile.screen.pixelWidth, Futile.screen.pixelHeight);
+		camera.setWorldBounds (worldBounds);
+		camera.setBounds (new Rect(0, 0, Futile.screen.pixelWidth/2, Futile.screen.pixelHeight/2));
 	}
 	
 	// Update is called once per frame

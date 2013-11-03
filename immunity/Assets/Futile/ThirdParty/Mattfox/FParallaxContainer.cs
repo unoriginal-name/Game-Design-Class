@@ -66,6 +66,11 @@ public class FParallaxContainer : FContainer {
 		}
 	}
 	
+	public void setSize(Vector2 newSize)
+	{
+		_size = newSize;
+	}
+	
 	public FCamObject camObject {
 		get { return _cam; }
 		set { _cam = value; }
