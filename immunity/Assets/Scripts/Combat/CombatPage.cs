@@ -23,6 +23,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private int framesTillNextBacteria_ = 0;
 	
 	private PlayerCharacter player_;
+	private HealthBar player_healthbar;
 		
 	private Tween current_movement = null;
 	
@@ -41,7 +42,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(levelMid_);
 		AddChild(levelFore_);
 		
-		player_ = new PlayerCharacter();
+		player_healthbar = new HealthBar();
+		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 20.0f;
+		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 20.0f;
+		player_ = new PlayerCharacter(player_healthbar);
 		AddChild(player_);
 		
 		bacteriaContainer_ = new FContainer();
@@ -60,7 +64,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		scoreLabel_.color = Color.white;
 		AddChild(scoreLabel_);
 		
-
+		AddChild(player_healthbar);
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -123,11 +127,11 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		// check if player was hit
 		bool bacteriaHit = false;
-		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(player_.scaleX, player_.scaleY, player_.x, player_.y);
+		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
 		for(int b = bacterias_.Count-1; b >= 0; b--)
 		{
 			BacteriaBubble bacteria = bacterias_[b];
-			Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(bacteria.scaleX, bacteria.scaleY, bacteria.x, bacteria.y);
+			Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
 			
 			if(playerRect.CheckIntersect(bacteriaRect))
 			{
@@ -138,8 +142,15 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(bacteriaHit)
 		{
 			Debug.Log("Shaking!");
+			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
 			FSoundManager.PlaySound("player_hit");
 			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
+			
+			if(player_.isDead)
+			{
+				Debug.Log("Game Over!");
+				Application.LoadLevel("ImmunityMainMenu");
+			}
 		}
 		
 		

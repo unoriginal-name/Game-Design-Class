@@ -1,5 +1,21 @@
 {"frames": {
 
+"HealthBar_background.png":
+{
+	"frame": {"x":502,"y":1246,"w":460,"h":23},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":460,"h":23},
+	"sourceSize": {"w":460,"h":23}
+},
+"HealthBar_overlay.png":
+{
+	"frame": {"x":502,"y":1271,"w":450,"h":13},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":5,"w":450,"h":13},
+	"sourceSize": {"w":460,"h":23}
+},
 "ImmunityFont.png":
 {
 	"frame": {"x":2,"y":1246,"w":498,"h":504},
@@ -26,7 +42,7 @@
 },
 "punchyswarm_idle_2.png":
 {
-	"frame": {"x":502,"y":1246,"w":183,"h":145},
+	"frame": {"x":502,"y":1286,"w":183,"h":145},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":58,"y":84,"w":183,"h":145},
@@ -42,7 +58,7 @@
 },
 "punchyswarm_pop_2.png":
 {
-	"frame": {"x":735,"y":1246,"w":213,"h":145},
+	"frame": {"x":735,"y":1286,"w":213,"h":145},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":42,"y":82,"w":213,"h":145},
@@ -71,6 +87,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:dffa1b9a58b47ff54c073313a4361bf0:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:fd6d1e12f6c7da1fd3d14fa949160c6c:1/1$"
 }
 }
