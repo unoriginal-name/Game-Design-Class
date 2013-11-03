@@ -71,6 +71,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		dyingBacterias_.Add(bacteria);
 		bacteria.play("punchyswarm_pop");		
 
+		FSoundManager.PlaySound("bacteria_pop");
 		
 		ImmunityCombatManager.instance.score++;
 		
