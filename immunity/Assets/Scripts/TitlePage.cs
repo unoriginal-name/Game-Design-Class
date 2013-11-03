@@ -23,7 +23,7 @@ public class TitlePage : ImmunityPage
 		background_.x = background_.width/2.0f - Futile.screen.halfWidth;
 		background_.y = background_.height/2.0f - Futile.screen.halfHeight;
 		
-		playButton_ = new FButton("BigButton", "BigButton_down"); // "BigButton_down"); //"ButtonClickSound");
+		playButton_ = new FButton("BigButton", "BigButton_down", "BigButton_down", "button_click");
 		playButton_.AddLabel("ImmunityFont", "Play", Color.white);
 		AddChild(playButton_);
 		
@@ -34,7 +34,7 @@ public class TitlePage : ImmunityPage
 		Go.to(playButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleX", 1.0f).setEaseType(EaseType.BackOut));
 		Go.to(playButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleY", 0.5f).setEaseType(EaseType.BackOut));
 		
-		howToPlayButton_ = new FButton("BigButton", "BigButton_down"); // "BigButton", "ButtonClickSound");
+		howToPlayButton_ = new FButton("BigButton", "BigButton_down", "BigButton_down", "button_click");
 		howToPlayButton_.AddLabel("ImmunityFont", "How To Play", Color.white);
 		AddChild(howToPlayButton_);
 		
@@ -46,7 +46,7 @@ public class TitlePage : ImmunityPage
 		//Go.to(howToPlayButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleY", 0.5f).setEaseType(EaseType.BackOut));
 
 		
-		settingsButton_ = new FButton("BigButton", "BigButton_down"); // "BigButton", "ButtonClickSound");
+		settingsButton_ = new FButton("BigButton", "BigButton_down", "BigButton_down", "button_click");
 		settingsButton_.AddLabel("ImmunityFont", "Settings", Color.white);
 		AddChild(settingsButton_);
 		
