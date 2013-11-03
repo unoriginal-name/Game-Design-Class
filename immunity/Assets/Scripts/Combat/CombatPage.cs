@@ -135,6 +135,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(bacteriaHit)
 		{
 			Debug.Log("Shaking!");
+			FSoundManager.PlaySound("player_hit");
 			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
 		}
 		
