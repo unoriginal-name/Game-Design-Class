@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -189,7 +190,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						current_movement.destroy();
 					}
 					
-					current_movement = Go.to(player_, 5.0f, new TweenConfig().setDelay(0.1f).floatProp("x", touch.position.x));
+					float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
+					
+					current_movement = Go.to(player_, tween_time, new TweenConfig().setDelay(0.1f).floatProp("x", touch.position.x));
 				}
 			}
 		}
