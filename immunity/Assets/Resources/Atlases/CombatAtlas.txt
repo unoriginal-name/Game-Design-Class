@@ -1,0 +1,76 @@
+{"frames": {
+
+"ImmunityFont.png":
+{
+	"frame": {"x":2,"y":1246,"w":498,"h":504},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":3,"w":498,"h":504},
+	"sourceSize": {"w":512,"h":512}
+},
+"hhhh.png":
+{
+	"frame": {"x":2,"y":2,"w":897,"h":1242},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":169,"y":71,"w":897,"h":1242},
+	"sourceSize": {"w":1161,"h":1394}
+},
+"punchyswarm_idle_1.png":
+{
+	"frame": {"x":281,"y":1752,"w":179,"h":151},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":56,"y":83,"w":179,"h":151},
+	"sourceSize": {"w":291,"h":291}
+},
+"punchyswarm_idle_2.png":
+{
+	"frame": {"x":502,"y":1246,"w":183,"h":145},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":58,"y":84,"w":183,"h":145},
+	"sourceSize": {"w":291,"h":291}
+},
+"punchyswarm_pop_1.png":
+{
+	"frame": {"x":281,"y":1752,"w":179,"h":151},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":56,"y":83,"w":179,"h":151},
+	"sourceSize": {"w":291,"h":291}
+},
+"punchyswarm_pop_2.png":
+{
+	"frame": {"x":735,"y":1246,"w":213,"h":145},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":82,"w":213,"h":145},
+	"sourceSize": {"w":291,"h":291}
+},
+"punchyswarm_pop_3.png":
+{
+	"frame": {"x":462,"y":1752,"w":271,"h":149},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":83,"w":271,"h":149},
+	"sourceSize": {"w":291,"h":291}
+},
+"punchyswarm_pop_4.png":
+{
+	"frame": {"x":2,"y":1752,"w":277,"h":159},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":59,"w":277,"h":159},
+	"sourceSize": {"w":291,"h":291}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "CombatAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:dffa1b9a58b47ff54c073313a4361bf0:1/1$"
+}
+}
