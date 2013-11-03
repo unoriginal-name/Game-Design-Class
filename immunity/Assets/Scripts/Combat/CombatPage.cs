@@ -27,6 +27,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FParallaxContainer background;
 	private FParallaxContainer mid;
 	private FParallaxContainer foreground;
+	
+	private Vector2 playerPosition;
 		
 	public CombatPage()
 	{
@@ -51,26 +53,17 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		levelMid_ = new FSprite("Stomach_Mid");
 		levelFore_ = new FSprite("Stomach_Fore");
 		
-		Debug.Log ("width is " + Futile.screen.width);
-		Debug.Log ("height is " + Futile.screen.height);
-		
-		/*
-		levelBack_.x = -Futile.screen.width;
-		levelMid_.x = -Futile.screen.width;
-		levelFore_.x = -Futile.screen.width;
-		
-		levelBack_.y = -Futile.screen.height;
-		levelMid_.y = -Futile.screen.height;
-		levelFore_.y = -Futile.screen.height;
-		*/
+		levelBack_.scaleX = 1.5f;
+		levelMid_.scaleX = 1.5f;
+		levelFore_.scaleX = 1.5f;
 		
 		background.AddChild (levelBack_);
 		mid.AddChild (levelMid_);
 		foreground.AddChild (levelFore_);
 		
-		background.setSize (new Vector2(Futile.screen.width + 20f, Futile.screen.height + 20f));
-		mid.setSize (new Vector2(Futile.screen.width - 1f, Futile.screen.width - 1f));
-		foreground.setSize (new Vector2(Futile.screen.width * 2f, Futile.screen.height * 2f));
+		background.setSize (new Vector2(1500, 800));
+		mid.setSize (new Vector2(1000, 1000));
+		foreground.setSize (new Vector2(3000, 3000));
 		
 		AddChild(background);
 		AddChild(mid);
@@ -78,7 +71,13 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		playerContainer = new FContainer();
 		player_ = new PlayerCharacter();
+		Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
+		
 		playerContainer.AddChild (player_);
+		
+		Debug.Log ("playerContainer at x is " + playerContainer.x);
+		Debug.Log ("playerContainer at y is " + playerContainer.y);
+		
 		AddChild(playerContainer);
 		
 		bacteriaContainer_ = new FContainer();

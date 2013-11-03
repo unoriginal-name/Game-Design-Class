@@ -42,9 +42,10 @@ public class ImmunityCombatManager : MonoBehaviour {
 		gamePage.Start();
 		camera.AddChild(gamePage);	
 		
-		Rect worldBounds = new Rect(0, 0, Futile.screen.pixelWidth, Futile.screen.pixelHeight);
+		Rect worldBounds = new Rect(0, 0, 2000, 2000);
 		camera.setWorldBounds (worldBounds);
-		camera.setBounds (new Rect(0, 0, Futile.screen.pixelWidth/2, Futile.screen.pixelHeight/2));
+		camera.setBounds (new Rect(0, 0, 1500, 1500));
+
 	}
 	
 	// Update is called once per frame
