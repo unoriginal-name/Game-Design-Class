@@ -196,14 +196,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
-		/*framesTillNextBacteria_--;
-		
-		if(framesTillNextBacteria_ <= 0)
-		{
-			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
-			
-			CreateBacteria();
-		}*/
 		
 		switch(enemy_.curr_behavior_)
 		{
