@@ -108,12 +108,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 	}
 	
-	public void CreateBacteria()
+	public void CreateBacteria(Vector2 location, Vector2 direction)
 	{
-		BacteriaBubble bacteria = new BacteriaBubble();
+		BacteriaBubble bacteria = new BacteriaBubble(location, direction);
 		bacteriaContainer_.AddChild(bacteria);
-		bacteria.x = RXRandom.Range(-Futile.screen.width/2 + 50, Futile.screen.width/2-50); // padded inside the screen width
-		bacteria.y = Futile.screen.height/2 + 60; // above the screen
 		bacteria.play("punchyswarm_idle");
 		bacterias_.Add(bacteria);
 		totalBacterialCreated_++;
@@ -186,12 +184,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void SpawnSwarmBehavior()
 	{
-		for(int i=0; i< enemy_.NUM_SPAWNED_SWARM; i++)
+		framesTillNextBacteria_--;
+		
+		if(framesTillNextBacteria_ <= 0)
 		{
-			CreateBacteria();	
+			float angle = Mathf.PI/(float)enemy_.NUM_SPAWNED_SWARM * (enemy_.NUM_SPAWNED_SWARM - enemy_.spawn_count++);
+			Vector2 bacteria_direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+			CreateBacteria(enemy_.GetPosition(), bacteria_direction);
+		
+			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
 		}
 		
-		enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+		if(enemy_.spawn_count >= enemy_.NUM_SPAWNED_SWARM)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			
+			enemy_.spawn_count = 0;
+		}
 	}
 	
 	protected void HandleUpdate()

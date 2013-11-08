@@ -72,6 +72,7 @@ public class EnemyCharacter : FAnimatedSprite {
 			{
 				// switch to swarm behavior	
 				curr_behavior_ = BehaviorType.SPAWN_SWARM;
+				spawn_count = 0;
 				Debug.Log("Behavior: spawn swarm");
 			}
 			behavior_start_time_ = Time.time;
