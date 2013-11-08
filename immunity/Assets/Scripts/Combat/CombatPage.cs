@@ -16,6 +16,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FContainer dyingBacteriaHolder_;
 	private List<BacteriaBubble> dyingBacterias_ = new List<BacteriaBubble>();
 	
+	private FContainer bubbleContainer_;
+	private List<PlayerBubble> bubbles_ = new List<PlayerBubble>(); 
+	
 	private FLabel scoreLabel_;
 	
 	private int frameCount_ = 0;
@@ -26,6 +29,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private HealthBar player_healthbar;
 		
 	private Tween current_movement = null;
+	
+	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
 	
 	public CombatPage()
 	{
@@ -43,13 +48,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(levelFore_);
 		
 		player_healthbar = new HealthBar();
-		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 20.0f;
-		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 20.0f;
+		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
+		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
 		player_ = new PlayerCharacter(player_healthbar);
 		AddChild(player_);
 		
 		bacteriaContainer_ = new FContainer();
 		AddChild(bacteriaContainer_);
+		
+		bubbleContainer_ = new FContainer();
+		AddChild(bubbleContainer_);
 		
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
@@ -102,6 +110,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		totalBacterialCreated_++;
 	}
 	
+	public void CreateBubble(Vector2 direction)
+	{
+		PlayerBubble bubble = new PlayerBubble(direction);
+		bubbleContainer_.AddChild(bubble);
+		bubble.x = player_.x;
+		bubble.y = player_.y;
+		bubble.play("player_cell_swim");
+		bubbles_.Add(bubble);
+	}
+	
 	protected void HandleUpdate()
 	{
 		framesTillNextBacteria_--;
@@ -122,6 +140,46 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			{
 				bacterias_.Remove(bacteria);
 				bacteriaContainer_.RemoveChild(bacteria);
+			}
+		}
+		
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			// remove a bubble if it falls off screen
+			if(bubble.y < -Futile.screen.halfHeight - 50 || 
+				bubble.y > Futile.screen.halfHeight + 50)
+			{
+				if(bubble.x < -Futile.screen.halfWidth - 50 ||
+					bubble.x > Futile.screen.halfWidth + 50)
+				{
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+				}
+			}
+		}
+		
+		// check if any of the bubbles have collided with any of the bacteria
+		// TODO: Make this algorithm more efficient
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(bubble.scale, bubble.scale, bubble.x, bubble.y);
+			for(int j = bacterias_.Count-1; j >= 0; j--)
+			{
+				BacteriaBubble bacteria = bacterias_[j];
+				
+				Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
+				
+				if(bubbleRect.CheckIntersect(bacteriaRect))
+				{
+					HandleGotBacteria(bacteria);
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+					break;
+				}
 			}
 		}
 		
@@ -173,44 +231,58 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	{
 		foreach(FTouch touch in touches)
 		{
+			
 			if(touch.phase == TouchPhase.Began)
 			{
-				bool touchedEmptySpace = true;
-				// go in reverse order so if bacteria is removed it doesn't matter
-				// also checks sprites in front to back order
-				for(int b = bacterias_.Count-1; b >= 0; b--)
+				touch_starts.Add(touch.tapCount, touch);	
+			}
+			else if(touch.phase == TouchPhase.Ended)
+			{
+				FTouch touch_start = touch_starts[touch.tapCount];
+				
+				Vector2 swipe_vector = touch.position - touch_start.position;
+				
+				// normalize the swipe vector
+				float swipe_magnitude = Mathf.Sqrt(swipe_vector.x*swipe_vector.x + swipe_vector.y*swipe_vector.y);
+				
+				// TODO: Change this to a reasonable threshold
+				if(swipe_magnitude <= 30.0f)
 				{
-					BacteriaBubble bacteria = bacterias_[b];
+					// This is a tap
+					Debug.Log("Detected a tap");
 					
-					Vector2 touchPos = bacteria.GlobalToLocal(touch.position);
-					
-					if(bacteria.textureRect.Contains(touchPos))
+					if(touch.position.y < -Futile.screen.halfHeight/2.0f)
 					{
-						HandleGotBacteria(bacteria);
-						touchedEmptySpace = false;
-						break; // a touch can only hit one bacteria at a time
+						// if already executing a move, first stop it
+						if(current_movement != null)
+						{
+							current_movement.destroy();
+						}
+											
+						// flip the player if the movement is behind the player
+						if(touch.position.x - player_.x < 0)
+							player_.scaleX = -1*Math.Abs(player_.scaleX);
+						else
+							player_.scaleX = Math.Abs(player_.scaleX);
+						
+						// calculate movement time based on player's speed attribute
+						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
+						
+						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x));
 					}
+				}
+				else
+				{
+					Debug.Log("Detected a swipe");
+					swipe_vector.x /= swipe_magnitude;
+					swipe_vector.y /=swipe_magnitude;
+					
+					Debug.Log("Swipe vector: <" + swipe_vector.x + ", " + swipe_vector.y + "> Magnitude: " + swipe_magnitude);
+					
+					CreateBubble(swipe_vector);
 				}
 				
-				if(touchedEmptySpace && touch.position.y < -Futile.screen.halfHeight/2.0f)
-				{
-					// if already executing a move, first stop it
-					if(current_movement != null)
-					{
-						current_movement.destroy();
-					}
-										
-					// flip the player if the movement is behind the player
-					if(touch.position.x - player_.x < 0)
-						player_.scaleX = -1*Math.Abs(player_.scaleX);
-					else
-						player_.scaleX = Math.Abs(player_.scaleX);
-					
-					// calculate movement time based on player's speed attribute
-					float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
-					
-					current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x));
-				}
+				touch_starts.Remove(touch.tapCount);
 			}
 		}
 	}
