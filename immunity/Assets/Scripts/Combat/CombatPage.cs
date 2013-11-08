@@ -52,17 +52,24 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(levelMid_);
 		AddChild(levelFore_);
 		
+		FSprite enemy_headshot = new FSprite("punchy_headshot");
+		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
+		enemy_headshot.y = Futile.screen.halfHeight - enemy_headshot.height/2.0f - 50.0f;
 		enemy_healthbar_ = new HealthBar();
 		enemy_healthbar_.scaleX = -.8f;
-		enemy_healthbar_.x = Futile.screen.halfWidth - 50.0f;
-		enemy_healthbar_.y = Futile.screen.halfHeight - enemy_healthbar_.height/2.0f - 50.0f;
+		enemy_healthbar_.x = enemy_headshot.x - enemy_headshot.width/2.0f - 25.0f;
+		enemy_healthbar_.y = enemy_headshot.y;
 		enemy_ = new EnemyCharacter(enemy_healthbar_);
 		AddChild(enemy_);
 		
+		FSprite player_headshot = new FSprite("hero_headshot");
+		player_headshot.scale = .2f;
+		player_headshot.x = -Futile.screen.halfWidth + player_headshot.width/2.0f + 50.0f;
+		player_headshot.y = Futile.screen.halfHeight - player_headshot.height/2.0f - 50.0f;
 		player_healthbar = new HealthBar();
 		player_healthbar.scaleX = .8f;
-		player_healthbar.x = -Futile.screen.halfWidth + 50.0f;
-		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
+		player_healthbar.x = player_headshot.x + player_headshot.width/2.0f + 25.0f;
+		player_healthbar.y = player_headshot.y;
 		player_ = new PlayerCharacter(player_healthbar);
 		AddChild(player_);
 		
@@ -74,8 +81,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
-				
+		
+		AddChild(player_headshot);
 		AddChild(player_healthbar);
+		AddChild(enemy_headshot);
 		AddChild(enemy_healthbar_);
 	}
 	
