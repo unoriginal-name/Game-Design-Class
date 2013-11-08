@@ -9,11 +9,3 @@ EditorBuildSettings:
     path: Assets/ImmunityMainMenu.unity
   - enabled: 1
     path: Assets/BubblePopDemo.unity
-  - enabled: 1
-    path: Assets/MainMenu.unity
-  - enabled: 1
-    path: Assets/NetworkCombat.unity
-  - enabled: 1
-    path: Assets/SinglePlayer.unity
-  - enabled: 1
-    path: Assets/SpriteTest.unity

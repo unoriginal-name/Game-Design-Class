@@ -18,6 +18,8 @@ public class ImmunityMenu : MonoBehaviour {
 	
 	private FStage stage_;
 	
+	public FSoundManager sound_manager_;
+	
 	// Use this for initialization
 	void Start () {
 		instance = this;
@@ -31,6 +33,9 @@ public class ImmunityMenu : MonoBehaviour {
 		
 		Futile.atlasManager.LoadAtlas("Atlases/ImmunityMenus");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
+		
+		FSoundManager.PlayMusic("background_music");
+		FSoundManager.PreloadSound("button_click");
 		
 		stage_ = Futile.stage;
 		

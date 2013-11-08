@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,6 +16,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FContainer dyingBacteriaHolder_;
 	private List<BacteriaBubble> dyingBacterias_ = new List<BacteriaBubble>();
 	
+	private FContainer bubbleContainer_;
+	private List<PlayerBubble> bubbles_ = new List<PlayerBubble>(); 
+	
 	private FLabel scoreLabel_;
 	
 	private int frameCount_ = 0;
@@ -29,13 +33,17 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FParallaxContainer foreground;
 	
 	private Vector2 playerPosition;
+	private HealthBar player_healthbar;
 		
+	private Tween current_movement = null;
+	
+	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
+	
 	public CombatPage()
 	{
 		EnableMultiTouch();
 		ListenForUpdate(HandleUpdate);
 	}
-	
 	// Use this for initialization
 	override public void Start () {
 		
@@ -64,13 +72,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		background.setSize (new Vector2(1500, 800));
 		mid.setSize (new Vector2(1000, 1000));
 		foreground.setSize (new Vector2(3000, 3000));
+		player_healthbar = new HealthBar();
+		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
+		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
+		player_ = new PlayerCharacter(player_healthbar);
 		
 		AddChild(background);
 		AddChild(mid);
 		AddChild(foreground);
 		
 		playerContainer = new FContainer();
-		player_ = new PlayerCharacter();
 		Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
 		
 		playerContainer.AddChild (player_);
@@ -82,6 +93,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		bacteriaContainer_ = new FContainer();
 		AddChild(bacteriaContainer_);
+		
+		bubbleContainer_ = new FContainer();
+		AddChild(bubbleContainer_);
 		
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
@@ -96,11 +110,13 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		scoreLabel_.color = Color.white;
 		AddChild(scoreLabel_);
 		
+
 		background.camObject = ImmunityCombatManager.instance.camera;
 		mid.camObject = ImmunityCombatManager.instance.camera;
 		foreground.camObject = ImmunityCombatManager.instance.camera;
 		
 		ImmunityCombatManager.instance.camera.follow(player_);
+		AddChild(player_healthbar);
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -113,6 +129,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		dyingBacterias_.Add(bacteria);
 		bacteria.play("punchyswarm_pop");		
 
+		FSoundManager.PlaySound("bacteria_pop");
 		
 		ImmunityCombatManager.instance.score++;
 		
@@ -135,6 +152,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bacteria.play("punchyswarm_idle");
 		bacterias_.Add(bacteria);
 		totalBacterialCreated_++;
+	}
+	
+	public void CreateBubble(Vector2 direction)
+	{
+		PlayerBubble bubble = new PlayerBubble(direction);
+		bubbleContainer_.AddChild(bubble);
+		bubble.x = player_.x;
+		bubble.y = player_.y;
+		bubble.play("player_cell_swim");
+		bubbles_.Add(bubble);
 	}
 	
 	protected void HandleUpdate()
@@ -160,13 +187,53 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			}
 		}
 		
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			// remove a bubble if it falls off screen
+			if(bubble.y < -Futile.screen.halfHeight - 50 || 
+				bubble.y > Futile.screen.halfHeight + 50)
+			{
+				if(bubble.x < -Futile.screen.halfWidth - 50 ||
+					bubble.x > Futile.screen.halfWidth + 50)
+				{
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+				}
+			}
+		}
+		
+		// check if any of the bubbles have collided with any of the bacteria
+		// TODO: Make this algorithm more efficient
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(bubble.scale, bubble.scale, bubble.x, bubble.y);
+			for(int j = bacterias_.Count-1; j >= 0; j--)
+			{
+				BacteriaBubble bacteria = bacterias_[j];
+				
+				Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
+				
+				if(bubbleRect.CheckIntersect(bacteriaRect))
+				{
+					HandleGotBacteria(bacteria);
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+					break;
+				}
+			}
+		}
+		
 		// check if player was hit
 		bool bacteriaHit = false;
-		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(player_.scaleX, player_.scaleY, player_.x, player_.y);
+		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
 		for(int b = bacterias_.Count-1; b >= 0; b--)
 		{
 			BacteriaBubble bacteria = bacterias_[b];
-			Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(bacteria.scaleX, bacteria.scaleY, bacteria.x, bacteria.y);
+			Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
 			
 			if(playerRect.CheckIntersect(bacteriaRect))
 			{
@@ -177,7 +244,15 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(bacteriaHit)
 		{
 			Debug.Log("Shaking!");
+			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
+			FSoundManager.PlaySound("player_hit");
 			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
+			
+			if(player_.isDead)
+			{
+				Debug.Log("Game Over!");
+				Application.LoadLevel("ImmunityMainMenu");
+			}
 		}
 		
 		
@@ -200,191 +275,59 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	{
 		foreach(FTouch touch in touches)
 		{
+			
 			if(touch.phase == TouchPhase.Began)
 			{
-				// go in reverse order so if bacteria is removed it doesn't matter
-				// also checks sprites in front to back order
-				for(int b = bacterias_.Count-1; b >= 0; b--)
+				touch_starts.Add(touch.tapCount, touch);	
+			}
+			else if(touch.phase == TouchPhase.Ended)
+			{
+				FTouch touch_start = touch_starts[touch.tapCount];
+				
+				Vector2 swipe_vector = touch.position - touch_start.position;
+				
+				// normalize the swipe vector
+				float swipe_magnitude = Mathf.Sqrt(swipe_vector.x*swipe_vector.x + swipe_vector.y*swipe_vector.y);
+				
+				// TODO: Change this to a reasonable threshold
+				if(swipe_magnitude <= 30.0f)
 				{
-					BacteriaBubble bacteria = bacterias_[b];
+					// This is a tap
+					Debug.Log("Detected a tap");
 					
-					Vector2 touchPos = bacteria.GlobalToLocal(touch.position);
-					
-					if(bacteria.textureRect.Contains(touchPos))
+					if(touch.position.y < -Futile.screen.halfHeight/2.0f)
 					{
-						HandleGotBacteria(bacteria);
-						break; // a touch can only hit one bacteria at a time
+						// if already executing a move, first stop it
+						if(current_movement != null)
+						{
+							current_movement.destroy();
+						}
+											
+						// flip the player if the movement is behind the player
+						if(touch.position.x - player_.x < 0)
+							player_.scaleX = -1*Math.Abs(player_.scaleX);
+						else
+							player_.scaleX = Math.Abs(player_.scaleX);
+						
+						// calculate movement time based on player's speed attribute
+						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
+						
+						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x));
 					}
 				}
+				else
+				{
+					Debug.Log("Detected a swipe");
+					swipe_vector.x /= swipe_magnitude;
+					swipe_vector.y /=swipe_magnitude;
+					
+					Debug.Log("Swipe vector: <" + swipe_vector.x + ", " + swipe_vector.y + "> Magnitude: " + swipe_magnitude);
+					
+					CreateBubble(swipe_vector);
+				}
 				
-				if(touch.position.y < -Futile.screen.halfHeight/2.0f)
-					Go.to(player_, 5.0f, new TweenConfig().setDelay(0.1f).floatProp("x", touch.position.x));
+				touch_starts.Remove(touch.tapCount);
 			}
 		}
 	}
 }
-
-
-
-/*
-
-
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
-
-public class BInGamePage : BPage, FMultiTouchableInterface
-{
-       
-        private FLabel _scoreLabel;
-        private FLabel _timeLabel;
-        
-        private float _secondsLeft = 15.9f;
-        
-        private FContainer _effectHolder;
-        
-        private GameObject _particlePrefab;
-
-        public BInGamePage()
-        {
-                EnableMultiTouch();
-                ListenForUpdate(HandleUpdate);
-                ListenForResize(HandleResize);
-        }
-
-        public void HandleGotBanana(BBanana banana)
-        {
-                CreateBananaExplodeEffect(banana);
-                
-                _bananaContainer.RemoveChild (banana);
-                _bananas.Remove(banana);
-
-                BMain.instance.score++;
-                
-                if(BMain.instance.score == 1)
-                {
-                        _scoreLabel.text = "1 Banana";        
-                }
-                else 
-                {
-                        _scoreLabel.text = BMain.instance.score+" Bananas";        
-                }
-                
-                FUnityParticleSystemNode particleNode = new FUnityParticleSystemNode(_particlePrefab, true);
-                
-                AddChild (particleNode);
-                
-                particleNode.x = banana.x;
-                particleNode.y = banana.y;
-                
-                FSoundManager.PlaySound("BananaSound", 1.0f);
-        }
-
-        public void CreateBanana ()
-        {
-                BBanana banana = new BBanana();
-                _bananaContainer.AddChild(banana);
-                banana.x = RXRandom.Range(-Futile.screen.width/2 + 50, Futile.screen.width/2 - 50); //padded inside the screen width
-                banana.y = Futile.screen.height/2 + 60; //above the screen
-                _bananas.Add(banana);
-                _totalBananasCreated++;
-        }
-        
-        
-        protected void HandleUpdate ()
-        {
-                _secondsLeft -= Time.deltaTime;
-                
-                if(_secondsLeft <= 0)
-                {
-                        FSoundManager.PlayMusic("VictoryMusic",0.5f);
-                        BMain.instance.GoToPage(BPageType.ScorePage);
-                        return;
-                }
-                
-                _timeLabel.text = ((int)_secondsLeft) + " Seconds Left";
-                
-                if(_secondsLeft < 10) //make the timer red with 10 seconds left
-                {
-                        _timeLabel.color = new Color(1.0f,0.2f,0.0f);
-                }
-                
-                _framesTillNextBanana--;
-                
-                if(_framesTillNextBanana <= 0)
-                {
-                        if(_totalBananasCreated % 4 == 0) //every 4 bananas, make the bananas come a little bit sooner
-                        {
-                                _maxFramesTillNextBanana--;
-                        }
-                        
-                        _framesTillNextBanana = _maxFramesTillNextBanana;
-                        
-                        CreateBanana();
-                }
-                
-                
-                //loop backwards so that if we remove a banana from _bananas it won't cause problems
-                for (int b = _bananas.Count-1; b >= 0; b--) 
-                {
-                        BBanana banana = _bananas[b];
-                        
-                        //remove a banana if it falls off screen
-                        if(banana.y < -Futile.screen.halfHeight - 50)
-                        {
-                                _bananas.Remove(banana);
-                                _bananaContainer.RemoveChild(banana);
-                        }
-                }
-                
-                _frameCount++;
-        }
-        
-        public void HandleMultiTouch(FTouch[] touches)
-        {
-                foreach(FTouch touch in touches)
-                {
-                        if(touch.phase == TouchPhase.Began)
-                        {
-                                
-                                //we go reverse order so that if we remove a banana it doesn't matter
-                                //and also so that that we check from front to back
-                                
-                                for (int b = _bananas.Count-1; b >= 0; b--) 
-                                {
-                                        BBanana banana = _bananas[b];
-                                        
-                                        Vector2 touchPos = banana.GlobalToLocal(touch.position);
-                                        
-                                        if(banana.textureRect.Contains(touchPos))
-                                        {
-                                                HandleGotBanana(banana);        
-                                                break; //break so that a touch can only hit one banana at a time
-                                        }
-                                }
-                        }
-                }
-        }
-        
-        private void CreateBananaExplodeEffect(BBanana banana)
-        {
-                //we can't just get its x and y, because they might be transformed somehow
-                Vector2 bananaPos = _effectHolder.OtherToLocal(banana,Vector2.zero);
-                
-                FSprite explodeSprite = new FSprite("Banana");
-                _effectHolder.AddChild(explodeSprite);
-                explodeSprite.shader = FShader.Additive;
-                explodeSprite.x = bananaPos.x;
-                explodeSprite.y = bananaPos.y;
-                explodeSprite.rotation = banana.rotation;
-                
-                Go.to (explodeSprite, 0.3f, new TweenConfig().floatProp("scale",1.3f).floatProp("alpha",0.0f).onComplete(HandleExplodeSpriteComplete));
-        }
-        
-        private static void HandleExplodeSpriteComplete (AbstractTween tween)
-        {
-                FSprite explodeSprite = (tween as Tween).target as FSprite;
-                explodeSprite.RemoveFromContainer();
-        }
-}*/
