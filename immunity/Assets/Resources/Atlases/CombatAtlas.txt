@@ -32,6 +32,70 @@
 	"spriteSourceSize": {"x":169,"y":71,"w":897,"h":1242},
 	"sourceSize": {"w":1161,"h":1394}
 },
+"player_cell_swim_1.png":
+{
+	"frame": {"x":2,"y":1913,"w":226,"h":133},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":37,"y":54,"w":226,"h":133},
+	"sourceSize": {"w":308,"h":245}
+},
+"player_cell_swim_2.png":
+{
+	"frame": {"x":735,"y":1433,"w":174,"h":149},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":64,"y":54,"w":174,"h":149},
+	"sourceSize": {"w":308,"h":245}
+},
+"player_cell_swim_3.png":
+{
+	"frame": {"x":502,"y":1584,"w":164,"h":149},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":68,"y":54,"w":164,"h":149},
+	"sourceSize": {"w":308,"h":245}
+},
+"player_cell_swim_4.png":
+{
+	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
+	"sourceSize": {"w":308,"h":245}
+},
+"player_cell_swim_5.png":
+{
+	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
+	"sourceSize": {"w":308,"h":245}
+},
+"player_cell_swim_6.png":
+{
+	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
+	"sourceSize": {"w":308,"h":245}
+},
+"player_cell_swim_7.png":
+{
+	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
+	"sourceSize": {"w":308,"h":245}
+},
+"player_cell_swim_8.png":
+{
+	"frame": {"x":459,"y":1905,"w":168,"h":141},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":66,"y":54,"w":168,"h":141},
+	"sourceSize": {"w":308,"h":245}
+},
 "punchyswarm_idle_1.png":
 {
 	"frame": {"x":281,"y":1752,"w":179,"h":151},
@@ -87,6 +151,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fd6d1e12f6c7da1fd3d14fa949160c6c:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3ace03c4e8ae69e6129d87e45fc77715:1/1$"
 }
 }

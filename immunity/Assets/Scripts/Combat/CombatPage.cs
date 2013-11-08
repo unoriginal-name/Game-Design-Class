@@ -16,6 +16,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FContainer dyingBacteriaHolder_;
 	private List<BacteriaBubble> dyingBacterias_ = new List<BacteriaBubble>();
 	
+	private FContainer bubbleContainer_;
+	private List<PlayerBubble> bubbles_ = new List<PlayerBubble>(); 
+	
 	private FLabel scoreLabel_;
 	
 	private int frameCount_ = 0;
@@ -26,6 +29,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private HealthBar player_healthbar;
 		
 	private Tween current_movement = null;
+	
+	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
 	
 	public CombatPage()
 	{
@@ -43,13 +48,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(levelFore_);
 		
 		player_healthbar = new HealthBar();
-		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 20.0f;
-		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 20.0f;
+		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
+		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
 		player_ = new PlayerCharacter(player_healthbar);
 		AddChild(player_);
 		
 		bacteriaContainer_ = new FContainer();
 		AddChild(bacteriaContainer_);
+		
+		bubbleContainer_ = new FContainer();
+		AddChild(bubbleContainer_);
 		
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
@@ -100,6 +108,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bacteria.play("punchyswarm_idle");
 		bacterias_.Add(bacteria);
 		totalBacterialCreated_++;
+	}
+	
+	public void CreateBubble(Vector2 direction)
+	{
+		PlayerBubble bubble = new PlayerBubble(direction);
+		bubbleContainer_.AddChild(bubble);
+		bubble.x = player_.x;
+		bubble.y = player_.y;
+		bubble.play("player_cell_swim");
+		bubbles_.Add(bubble);
 	}
 	
 	protected void HandleUpdate()
@@ -173,6 +191,40 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	{
 		foreach(FTouch touch in touches)
 		{
+			
+			if(touch.phase == TouchPhase.Began)
+			{
+				touch_starts.Add(touch.tapCount, touch);	
+			}
+			else if(touch.phase == TouchPhase.Ended)
+			{
+				FTouch touch_start = touch_starts[touch.tapCount];
+				
+				Vector2 swipe_vector = touch.position - touch_start.position;
+				
+				// normalize the swipe vector
+				float swipe_magnitude = Mathf.Sqrt(swipe_vector.x*swipe_vector.x + swipe_vector.y*swipe_vector.y);
+				
+				// TODO: Change this to a reasonable threshold
+				if(swipe_magnitude <= 0.0f)
+				{
+					// This is a tap
+					Debug.Log("Detected a tap");
+				}
+				else
+				{
+					Debug.Log("Detected a swipe");
+					swipe_vector.x /= swipe_magnitude;
+					swipe_vector.y /=swipe_magnitude;
+					
+					Debug.Log("Swipe vector: <" + swipe_vector.x + ", " + swipe_vector.y + "> Magnitude: " + swipe_magnitude);
+					
+					CreateBubble(swipe_vector);
+				}
+				
+				touch_starts.Remove(touch.tapCount);
+			}
+			
 			if(touch.phase == TouchPhase.Began)
 			{
 				bool touchedEmptySpace = true;
