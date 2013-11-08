@@ -76,7 +76,7 @@ public class Stage : FStage {
 		level_background_sprite = new FSprite("Lung_Background");
 		level_mid_sprite = new FSprite("Lung_Mid");
 		level_foreground_sprite = new FSprite("Lung_Fore");
-		//level_animation_sprite = new FSprite("Lung_Breathe");
+		//level_animation_sprite = new FSprite("Lung_Dust");
 		
 		background.AddChild (level_background_sprite);
 		mid.AddChild (level_mid_sprite);

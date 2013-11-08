@@ -17,6 +17,7 @@ public class ImmunityCombatManager : MonoBehaviour {
 	public FCamObject camera;
 	
 	void Start () {
+		stage = new Stage();
 		instance = this;
 		
 		FutileParams fparams = new FutileParams(true, true, false, false);
