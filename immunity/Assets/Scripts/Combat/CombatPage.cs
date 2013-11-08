@@ -27,6 +27,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	private PlayerCharacter player_;
 	private HealthBar player_healthbar;
+	
+	private EnemyCharacter enemy_;
 		
 	private Tween current_movement = null;
 	
@@ -46,6 +48,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(levelBack_);
 		AddChild(levelMid_);
 		AddChild(levelFore_);
+		
+		enemy_ = new EnemyCharacter();
+		AddChild(enemy_);
 		
 		player_healthbar = new HealthBar();
 		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
