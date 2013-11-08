@@ -143,6 +143,46 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			}
 		}
 		
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			// remove a bubble if it falls off screen
+			if(bubble.y < -Futile.screen.halfHeight - 50 || 
+				bubble.y > Futile.screen.halfHeight + 50)
+			{
+				if(bubble.x < -Futile.screen.halfWidth - 50 ||
+					bubble.x > Futile.screen.halfWidth + 50)
+				{
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+				}
+			}
+		}
+		
+		// check if any of the bubbles have collided with any of the bacteria
+		// TODO: Make this algorithm more efficient
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(bubble.scale, bubble.scale, bubble.x, bubble.y);
+			for(int j = bacterias_.Count-1; j >= 0; j--)
+			{
+				BacteriaBubble bacteria = bacterias_[j];
+				
+				Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
+				
+				if(bubbleRect.CheckIntersect(bacteriaRect))
+				{
+					HandleGotBacteria(bacteria);
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+					break;
+				}
+			}
+		}
+		
 		// check if player was hit
 		bool bacteriaHit = false;
 		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
@@ -206,29 +246,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				float swipe_magnitude = Mathf.Sqrt(swipe_vector.x*swipe_vector.x + swipe_vector.y*swipe_vector.y);
 				
 				// TODO: Change this to a reasonable threshold
-				if(swipe_magnitude <= 0.0f)
+				if(swipe_magnitude <= 30.0f)
 				{
 					// This is a tap
 					Debug.Log("Detected a tap");
 					
-					bool touchedEmptySpace = true;
-					// go in reverse order so if bacteria is removed it doesn't matter
-					// also checks sprites in front to back order
-					for(int b = bacterias_.Count-1; b >= 0; b--)
-					{
-						BacteriaBubble bacteria = bacterias_[b];
-						
-						Vector2 touchPos = bacteria.GlobalToLocal(touch.position);
-						
-						if(bacteria.textureRect.Contains(touchPos))
-						{
-							HandleGotBacteria(bacteria);
-							touchedEmptySpace = false;
-							break; // a touch can only hit one bacteria at a time
-						}
-					}
-					
-					if(touchedEmptySpace && touch.position.y < -Futile.screen.halfHeight/2.0f)
+					if(touch.position.y < -Futile.screen.halfHeight/2.0f)
 					{
 						// if already executing a move, first stop it
 						if(current_movement != null)
