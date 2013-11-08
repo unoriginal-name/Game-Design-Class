@@ -16,7 +16,7 @@ public class PlayerBubble : FAnimatedSprite {
 		direction_ = direction;
 		
 		// turn sprite to the specified direction
-		rotation = Mathf.Atan2(direction.x, direction.y);
+		rotation = Mathf.Atan2(direction.x, direction.y) * 180.0f/Mathf.PI;
 		
 		// set up the swim animation
 		int[] swim_frames = {1, 2, 3, 4, 5, 6, 7, 8};
