@@ -47,6 +47,13 @@ public class EnemyCharacter : FAnimatedSprite {
 		x = Futile.screen.halfWidth - width/2.0f - 150.0f;
 		
 	}
+	
+	// TODO: refactor this into a base class (Character class)
+	public void ChangeHealth(int health_delta)
+	{
+		health_ += health_delta;
+		health_bar_.Percentage = (float)health_/(float)MAX_HEALTH;
+	}
 
 	void HandleUpdate()
 	{
