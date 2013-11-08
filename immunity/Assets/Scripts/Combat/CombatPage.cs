@@ -33,6 +33,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private HealthBar player_healthbar;
 	
 	private EnemyCharacter enemy_;
+	private HealthBar enemy_healthbar_;
 		
 	private Tween current_movement = null;
 	
@@ -53,11 +54,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(levelMid_);
 		AddChild(levelFore_);
 		
-		enemy_ = new EnemyCharacter();
+		enemy_healthbar_ = new HealthBar();
+		enemy_healthbar_.scaleX = -.8f;
+		enemy_healthbar_.x = Futile.screen.halfWidth - 50.0f;
+		enemy_healthbar_.y = Futile.screen.halfHeight - enemy_healthbar_.height/2.0f - 50.0f;
+		enemy_ = new EnemyCharacter(enemy_healthbar_);
 		AddChild(enemy_);
 		
 		player_healthbar = new HealthBar();
-		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
+		player_healthbar.scaleX = .8f;
+		player_healthbar.x = -Futile.screen.halfWidth + 50.0f;
 		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
 		player_ = new PlayerCharacter(player_healthbar);
 		AddChild(player_);
@@ -82,6 +88,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(scoreLabel_);
 		
 		AddChild(player_healthbar);
+		AddChild(enemy_healthbar_);
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)

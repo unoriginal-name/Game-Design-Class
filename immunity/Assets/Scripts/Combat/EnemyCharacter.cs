@@ -11,6 +11,11 @@ public class EnemyCharacter : FAnimatedSprite {
 		SPAWN_SWARM
 	}
 	
+	public const int MAX_HEALTH = 100;
+	private int health_ = MAX_HEALTH;
+	
+	private HealthBar health_bar_;
+	
 	public BehaviorType curr_behavior_ = BehaviorType.IDLE;
 	public float behavior_start_time_;
 	
@@ -19,9 +24,11 @@ public class EnemyCharacter : FAnimatedSprite {
 	public int NUM_SPAWNED_SWARM = 10;
 	public int spawn_count = 0;
 		
-	public EnemyCharacter() : base("punchy_idle")
+	public EnemyCharacter(HealthBar health_bar) : base("punchy_idle")
 	{
 		ListenForUpdate(HandleUpdate);
+		
+		this.health_bar_ = health_bar;
 		
 		// set up animations
 		// -------------------
