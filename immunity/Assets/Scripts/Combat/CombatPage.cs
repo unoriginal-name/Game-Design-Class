@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,22 +18,26 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	private FContainer bubbleContainer_;
 	private List<PlayerBubble> bubbles_ = new List<PlayerBubble>(); 
-	
-	private FLabel scoreLabel_;
-	
+		
 	private int frameCount_ = 0;
 	private int maxFramesTillNextBacteria_ = 22;
 	private int framesTillNextBacteria_ = 0;
-	
-	private PlayerCharacter player_;
-	private FContainer playerContainer;
-	
+
 	private FParallaxContainer background;
 	private FParallaxContainer mid;
-	private FParallaxContainer foreground;
-	
+	private FParallaxContainer foreground;	
+
+	private PlayerCharacter player_;
+	private FContainer playerContainer;
 	private Vector2 playerPosition;
+	public PlayerCharacter Player
+	{
+		get { return player_; }
+	}
 	private HealthBar player_healthbar;
+	
+	private EnemyCharacter enemy_;
+	private HealthBar enemy_healthbar_;
 		
 	private Tween current_movement = null;
 	
@@ -70,14 +74,31 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		mid.AddChild (levelMid_);
 		foreground.AddChild (levelFore_);
 		*/
-		player_healthbar = new HealthBar();
-		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
-		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
-		player_ = new PlayerCharacter(player_healthbar);
-		
+
 		AddChild(stage.background);
 		AddChild(stage.mid);
 		AddChild(stage.foreground);
+
+		FSprite enemy_headshot = new FSprite("punchy_headshot");
+		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
+		enemy_headshot.y = Futile.screen.halfHeight - enemy_headshot.height/2.0f - 50.0f;
+		enemy_healthbar_ = new HealthBar();
+		enemy_healthbar_.scaleX = -.8f;
+		enemy_healthbar_.x = enemy_headshot.x - enemy_headshot.width/2.0f - 25.0f;
+		enemy_healthbar_.y = enemy_headshot.y;
+		enemy_ = new EnemyCharacter(enemy_healthbar_);
+		AddChild(enemy_);
+		
+		FSprite player_headshot = new FSprite("hero_headshot");
+		player_headshot.scale = .2f;
+		player_headshot.x = -Futile.screen.halfWidth + player_headshot.width/2.0f + 50.0f;
+		player_headshot.y = Futile.screen.halfHeight - player_headshot.height/2.0f - 50.0f;
+		player_healthbar = new HealthBar();
+		player_healthbar.scaleX = .8f;
+		player_healthbar.x = player_headshot.x + player_headshot.width/2.0f + 25.0f;
+		player_healthbar.y = player_headshot.y;
+		player_ = new PlayerCharacter(player_healthbar);
+
 		
 		playerContainer = new FContainer();
 		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
@@ -98,20 +119,11 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
 		
-		ImmunityCombatManager.instance.score = 0;
-		
-		scoreLabel_ = new FLabel("ImmunityFont", "0 Bacteria");
-		scoreLabel_.anchorX = 0.0f;
-		scoreLabel_.anchorY = 1.0f;
-		scoreLabel_.x = -Futile.screen.halfWidth + 50.0f;
-		scoreLabel_.y = Futile.screen.halfHeight - 50.0f;
-		scoreLabel_.color = Color.white;
-		AddChild(scoreLabel_);
-		
-
-		
 		ImmunityCombatManager.instance.camera.follow(playerContainer);
+		AddChild(player_headshot);
 		AddChild(player_healthbar);
+		AddChild(enemy_headshot);
+		AddChild(enemy_healthbar_);
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -122,28 +134,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		dyingBacteriaHolder_.AddChild(bacteria);
 		dyingBacterias_.Add(bacteria);
-		bacteria.play("punchyswarm_pop");		
-
+		
+		bacteria.play("punchyswarm_pop");
+		
 		FSoundManager.PlaySound("bacteria_pop");
-		
-		ImmunityCombatManager.instance.score++;
-		
-		if(ImmunityCombatManager.instance.score == 1)
-		{
-			scoreLabel_.text = "1 Bacteria";
-		}
-		else
-		{
-			scoreLabel_.text = ImmunityCombatManager.instance.score+" Bacterias";	
-		}
 	}
 	
-	public void CreateBacteria()
+	public void CreateBacteria(Vector2 location, Vector2 direction)
 	{
-		BacteriaBubble bacteria = new BacteriaBubble();
+		BacteriaBubble bacteria = new BacteriaBubble(location, direction);
 		bacteriaContainer_.AddChild(bacteria);
-		bacteria.x = RXRandom.Range(-Futile.screen.width/2 + 50, Futile.screen.width/2-50); // padded inside the screen width
-		bacteria.y = Futile.screen.height/2 + 60; // above the screen
 		bacteria.play("punchyswarm_idle");
 		bacterias_.Add(bacteria);
 		totalBacterialCreated_++;
@@ -159,15 +159,101 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bubbles_.Add(bubble);
 	}
 	
-	protected void HandleUpdate()
+	public void MoveTowardsPlayerBehavior()
+	{
+		// if we've been moving towards the player for more than 2 seconds
+		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+
+		// if we're within 50 of the player don't move anymore
+		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+		
+		enemy_.x -= enemy_.speed_*Futile.screen.width;
+		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
+			enemy_.x = player_.x + 50.0f + enemy_.width/2.0f + player_.width/2.0f;
+	}
+	
+	public void MoveAwayFromPlayerBehavior()
+	{
+		// if we've been moving away from the player for more than 2 seconds
+		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+		
+		// if we're within 50 of the border don't move anymore
+		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+		
+		enemy_.x += enemy_.speed_*Futile.screen.width;
+		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
+			enemy_.x = Futile.screen.halfWidth - enemy_.width/2.0f;
+	}
+	
+	public void PunchBehavior()
+	{
+		if(enemy_.isFinished)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("punchy_idle");
+			return;
+		}
+		
+		if(!enemy_.currentAnim.name.Equals("punchy_punch"))
+			enemy_.play("punchy_punch");
+	}
+	
+	public void SpawnSwarmBehavior()
 	{
 		framesTillNextBacteria_--;
 		
 		if(framesTillNextBacteria_ <= 0)
 		{
+			float angle = Mathf.PI/(float)enemy_.NUM_SPAWNED_SWARM * (enemy_.NUM_SPAWNED_SWARM - enemy_.spawn_count++);
+			Vector2 bacteria_direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+			CreateBacteria(enemy_.GetPosition(), bacteria_direction);
+		
 			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
+		}
+		
+		if(enemy_.spawn_count >= enemy_.NUM_SPAWNED_SWARM)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 			
-			CreateBacteria();
+			enemy_.spawn_count = 0;
+		}
+	}
+	
+	protected void HandleUpdate()
+	{
+		
+		switch(enemy_.curr_behavior_)
+		{
+		case EnemyCharacter.BehaviorType.MOVE_TOWARDS_PLAYER:
+			MoveTowardsPlayerBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.MOVE_AWAY_FROM_PLAYER:
+			MoveAwayFromPlayerBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.PUNCH:
+			PunchBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.SPAWN_SWARM:
+			SpawnSwarmBehavior();
+			break;
+		default:
+			break;
 		}
 		
 		for(int b = bacterias_.Count-1; b >= 0; b--)
@@ -220,6 +306,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					break;
 				}
 			}
+			
+			Rect enemyRect = enemy_.localRect.CloneAndScaleThenOffset(Mathf.Abs(enemy_.scaleX), enemy_.scaleY, enemy_.x, enemy_.y);
+			if(bubbleRect.CheckIntersect(enemyRect))
+			{
+				enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
+				// TODO: Play hit sound
+				// TODO: Play hit animation
+				if(enemy_.isDead)
+				{
+					// TODO: Show win screen
+					Debug.Log("You win!!");
+					Application.LoadLevel("ImmunityMainMenu");
+				}
+				
+				bubbles_.Remove(bubble);
+				bubbleContainer_.RemoveChild(bubble);
+			}
 		}
 		
 		// check if player was hit
@@ -232,6 +335,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			
 			if(playerRect.CheckIntersect(bacteriaRect))
 			{
+				// TODO: Show lose screen
 				bacteriaHit = true;
 				HandleGotBacteria(bacteria);
 			}

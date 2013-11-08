@@ -11,6 +11,10 @@ public class ImmunityCombatManager : MonoBehaviour {
 	private Stage stage;
 	
 	private ImmunityPage gamePage;
+	public ImmunityPage GamePage
+	{
+		get { return gamePage; }	
+	}
 	
 	public int score;
 	

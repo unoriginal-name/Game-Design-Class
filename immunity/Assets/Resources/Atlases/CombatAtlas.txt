@@ -2,7 +2,7 @@
 
 "HealthBar_background.png":
 {
-	"frame": {"x":502,"y":1246,"w":460,"h":23},
+	"frame": {"x":1051,"y":2,"w":460,"h":23},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":460,"h":23},
@@ -10,7 +10,7 @@
 },
 "HealthBar_overlay.png":
 {
-	"frame": {"x":502,"y":1271,"w":450,"h":13},
+	"frame": {"x":1513,"y":2,"w":450,"h":13},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":5,"y":5,"w":450,"h":13},
@@ -24,6 +24,14 @@
 	"spriteSourceSize": {"x":1,"y":3,"w":498,"h":504},
 	"sourceSize": {"w":512,"h":512}
 },
+"hero_headshot.png":
+{
+	"frame": {"x":502,"y":1246,"w":492,"h":492},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":492,"h":492},
+	"sourceSize": {"w":492,"h":492}
+},
 "hhhh.png":
 {
 	"frame": {"x":2,"y":2,"w":897,"h":1242},
@@ -34,7 +42,7 @@
 },
 "player_cell_swim_1.png":
 {
-	"frame": {"x":2,"y":1913,"w":226,"h":133},
+	"frame": {"x":1819,"y":464,"w":226,"h":133},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":37,"y":54,"w":226,"h":133},
@@ -42,7 +50,7 @@
 },
 "player_cell_swim_2.png":
 {
-	"frame": {"x":735,"y":1433,"w":174,"h":149},
+	"frame": {"x":1643,"y":457,"w":174,"h":149},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":64,"y":54,"w":174,"h":149},
@@ -50,7 +58,7 @@
 },
 "player_cell_swim_3.png":
 {
-	"frame": {"x":502,"y":1584,"w":164,"h":149},
+	"frame": {"x":901,"y":1043,"w":164,"h":149},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":68,"y":54,"w":164,"h":149},
@@ -58,7 +66,7 @@
 },
 "player_cell_swim_4.png":
 {
-	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"frame": {"x":1643,"y":314,"w":176,"h":141},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
@@ -66,7 +74,7 @@
 },
 "player_cell_swim_5.png":
 {
-	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"frame": {"x":1643,"y":314,"w":176,"h":141},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
@@ -74,7 +82,7 @@
 },
 "player_cell_swim_6.png":
 {
-	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"frame": {"x":1643,"y":314,"w":176,"h":141},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
@@ -82,7 +90,7 @@
 },
 "player_cell_swim_7.png":
 {
-	"frame": {"x":281,"y":1905,"w":176,"h":141},
+	"frame": {"x":1643,"y":314,"w":176,"h":141},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":62,"y":54,"w":176,"h":141},
@@ -90,15 +98,111 @@
 },
 "player_cell_swim_8.png":
 {
-	"frame": {"x":459,"y":1905,"w":168,"h":141},
+	"frame": {"x":1819,"y":599,"w":168,"h":141},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":66,"y":54,"w":168,"h":141},
 	"sourceSize": {"w":308,"h":245}
 },
+"punchy_headshot.png":
+{
+	"frame": {"x":901,"y":2,"w":107,"h":107},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":107},
+	"sourceSize": {"w":107,"h":107}
+},
+"punchy_idle_1.png":
+{
+	"frame": {"x":1672,"y":742,"w":243,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":131,"y":0,"w":243,"h":299},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_idle_2.png":
+{
+	"frame": {"x":1415,"y":608,"w":255,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":0,"w":255,"h":299},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_idle_3.png":
+{
+	"frame": {"x":784,"y":1740,"w":265,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":121,"y":0,"w":265,"h":299},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_idle_4.png":
+{
+	"frame": {"x":1158,"y":475,"w":255,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":0,"w":255,"h":299},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_punch_1.png":
+{
+	"frame": {"x":1158,"y":776,"w":243,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":131,"y":0,"w":243,"h":299},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_punch_2.png":
+{
+	"frame": {"x":901,"y":742,"w":255,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":0,"w":255,"h":299},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_punch_3.png":
+{
+	"frame": {"x":1051,"y":27,"w":311,"h":295},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":74,"y":5,"w":311,"h":295},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_punch_4.png":
+{
+	"frame": {"x":393,"y":1752,"w":389,"h":293},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":6,"w":389,"h":293},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_punch_5.png":
+{
+	"frame": {"x":2,"y":1752,"w":389,"h":293},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":6,"w":389,"h":293},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_punch_6.png":
+{
+	"frame": {"x":1513,"y":17,"w":311,"h":295},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":74,"y":5,"w":311,"h":295},
+	"sourceSize": {"w":407,"h":301}
+},
+"punchy_punch_7.png":
+{
+	"frame": {"x":1158,"y":776,"w":243,"h":299},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":131,"y":0,"w":243,"h":299},
+	"sourceSize": {"w":407,"h":301}
+},
 "punchyswarm_idle_1.png":
 {
-	"frame": {"x":281,"y":1752,"w":179,"h":151},
+	"frame": {"x":1826,"y":311,"w":179,"h":151},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":56,"y":83,"w":179,"h":151},
@@ -106,7 +210,7 @@
 },
 "punchyswarm_idle_2.png":
 {
-	"frame": {"x":502,"y":1286,"w":183,"h":145},
+	"frame": {"x":1826,"y":164,"w":183,"h":145},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":58,"y":84,"w":183,"h":145},
@@ -114,7 +218,7 @@
 },
 "punchyswarm_pop_1.png":
 {
-	"frame": {"x":281,"y":1752,"w":179,"h":151},
+	"frame": {"x":1826,"y":311,"w":179,"h":151},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":56,"y":83,"w":179,"h":151},
@@ -122,7 +226,7 @@
 },
 "punchyswarm_pop_2.png":
 {
-	"frame": {"x":735,"y":1286,"w":213,"h":145},
+	"frame": {"x":1826,"y":17,"w":213,"h":145},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":42,"y":82,"w":213,"h":145},
@@ -130,7 +234,7 @@
 },
 "punchyswarm_pop_3.png":
 {
-	"frame": {"x":462,"y":1752,"w":271,"h":149},
+	"frame": {"x":1051,"y":324,"w":271,"h":149},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":14,"y":83,"w":271,"h":149},
@@ -138,7 +242,7 @@
 },
 "punchyswarm_pop_4.png":
 {
-	"frame": {"x":2,"y":1752,"w":277,"h":159},
+	"frame": {"x":1364,"y":314,"w":277,"h":159},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":4,"y":59,"w":277,"h":159},
@@ -149,8 +253,8 @@
 	"version": "1.0",
 	"image": "CombatAtlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1024,"h":2048},
+	"size": {"w":2048,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:3ace03c4e8ae69e6129d87e45fc77715:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:14a00d300c53a4669d695ddf0455f2d0:1/1$"
 }
 }
