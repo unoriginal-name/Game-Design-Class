@@ -32,6 +32,7 @@ public class PlayerBubble : FAnimatedSprite {
 		base.Update(); // this is required for the animation
 		
 		// update the sprite position based on the direction and the speed
+		// TODO: This should really be update rate independent (should be based off of time delta from last update)
 		x += direction_.x*speed_*Futile.screen.width;
 		y += direction_.y*speed_*Futile.screen.height;
 	}
