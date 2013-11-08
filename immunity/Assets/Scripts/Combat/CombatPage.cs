@@ -210,6 +210,43 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				{
 					// This is a tap
 					Debug.Log("Detected a tap");
+					
+					bool touchedEmptySpace = true;
+					// go in reverse order so if bacteria is removed it doesn't matter
+					// also checks sprites in front to back order
+					for(int b = bacterias_.Count-1; b >= 0; b--)
+					{
+						BacteriaBubble bacteria = bacterias_[b];
+						
+						Vector2 touchPos = bacteria.GlobalToLocal(touch.position);
+						
+						if(bacteria.textureRect.Contains(touchPos))
+						{
+							HandleGotBacteria(bacteria);
+							touchedEmptySpace = false;
+							break; // a touch can only hit one bacteria at a time
+						}
+					}
+					
+					if(touchedEmptySpace && touch.position.y < -Futile.screen.halfHeight/2.0f)
+					{
+						// if already executing a move, first stop it
+						if(current_movement != null)
+						{
+							current_movement.destroy();
+						}
+											
+						// flip the player if the movement is behind the player
+						if(touch.position.x - player_.x < 0)
+							player_.scaleX = -1*Math.Abs(player_.scaleX);
+						else
+							player_.scaleX = Math.Abs(player_.scaleX);
+						
+						// calculate movement time based on player's speed attribute
+						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
+						
+						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x));
+					}
 				}
 				else
 				{
@@ -223,46 +260,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				}
 				
 				touch_starts.Remove(touch.tapCount);
-			}
-			
-			if(touch.phase == TouchPhase.Began)
-			{
-				bool touchedEmptySpace = true;
-				// go in reverse order so if bacteria is removed it doesn't matter
-				// also checks sprites in front to back order
-				for(int b = bacterias_.Count-1; b >= 0; b--)
-				{
-					BacteriaBubble bacteria = bacterias_[b];
-					
-					Vector2 touchPos = bacteria.GlobalToLocal(touch.position);
-					
-					if(bacteria.textureRect.Contains(touchPos))
-					{
-						HandleGotBacteria(bacteria);
-						touchedEmptySpace = false;
-						break; // a touch can only hit one bacteria at a time
-					}
-				}
-				
-				if(touchedEmptySpace && touch.position.y < -Futile.screen.halfHeight/2.0f)
-				{
-					// if already executing a move, first stop it
-					if(current_movement != null)
-					{
-						current_movement.destroy();
-					}
-										
-					// flip the player if the movement is behind the player
-					if(touch.position.x - player_.x < 0)
-						player_.scaleX = -1*Math.Abs(player_.scaleX);
-					else
-						player_.scaleX = Math.Abs(player_.scaleX);
-					
-					// calculate movement time based on player's speed attribute
-					float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
-					
-					current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x));
-				}
 			}
 		}
 	}
