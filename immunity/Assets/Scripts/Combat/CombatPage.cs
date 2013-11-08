@@ -26,6 +26,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private int framesTillNextBacteria_ = 0;
 	
 	private PlayerCharacter player_;
+	public PlayerCharacter Player
+	{
+		get { return player_; }
+	}
 	private HealthBar player_healthbar;
 	
 	private EnemyCharacter enemy_;
@@ -125,15 +129,98 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bubbles_.Add(bubble);
 	}
 	
+	public void MoveTowardsPlayerBehavior()
+	{
+		// if we've been moving towards the player for more than 2 seconds
+		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+
+		// if we're within 50 of the player don't move anymore
+		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+		
+		enemy_.x -= enemy_.speed_*Futile.screen.width;
+		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
+			enemy_.x = player_.x + 50.0f + enemy_.width/2.0f + player_.width/2.0f;
+	}
+	
+	public void MoveAwayFromPlayerBehavior()
+	{
+		// if we've been moving away from the player for more than 2 seconds
+		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+		
+		// if we're within 50 of the border don't move anymore
+		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			return;
+		}
+		
+		enemy_.x += enemy_.speed_*Futile.screen.width;
+		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
+			enemy_.x = Futile.screen.halfWidth - enemy_.width/2.0f;
+	}
+	
+	public void PunchBehavior()
+	{
+		if(enemy_.isFinished)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("punchy_idle");
+			return;
+		}
+		
+		if(!enemy_.currentAnim.name.Equals("punchy_punch"))
+			enemy_.play("punchy_punch");
+	}
+	
+	public void SpawnSwarmBehavior()
+	{
+		for(int i=0; i< enemy_.NUM_SPAWNED_SWARM; i++)
+		{
+			CreateBacteria();	
+		}
+		
+		enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+	}
+	
 	protected void HandleUpdate()
 	{
-		framesTillNextBacteria_--;
+		/*framesTillNextBacteria_--;
 		
 		if(framesTillNextBacteria_ <= 0)
 		{
 			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
 			
 			CreateBacteria();
+		}*/
+		
+		switch(enemy_.curr_behavior_)
+		{
+		case EnemyCharacter.BehaviorType.MOVE_TOWARDS_PLAYER:
+			MoveTowardsPlayerBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.MOVE_AWAY_FROM_PLAYER:
+			MoveAwayFromPlayerBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.PUNCH:
+			PunchBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.SPAWN_SWARM:
+			SpawnSwarmBehavior();
+			break;
+		default:
+			break;
 		}
 		
 		for(int b = bacterias_.Count-1; b >= 0; b--)
