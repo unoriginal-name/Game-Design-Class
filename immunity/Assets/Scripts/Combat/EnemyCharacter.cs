@@ -54,7 +54,17 @@ public class EnemyCharacter : FAnimatedSprite {
 		health_ += health_delta;
 		health_bar_.Percentage = (float)health_/(float)MAX_HEALTH;
 	}
-
+	
+	public int Health
+	{
+		get { return this.health_; }	
+	}
+	
+	public bool isDead
+	{
+		get { return (health_ <= 0); }	
+	}
+	
 	void HandleUpdate()
 	{
 		base.Update();

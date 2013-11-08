@@ -268,6 +268,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					break;
 				}
 			}
+			
+			Rect enemyRect = enemy_.localRect.CloneAndScaleThenOffset(Mathf.Abs(enemy_.scaleX), enemy_.scaleY, enemy_.x, enemy_.y);
+			if(bubbleRect.CheckIntersect(enemyRect))
+			{
+				enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
+				// TODO: Play hit sound
+				// TODO: Play hit animation
+				if(enemy_.isDead)
+				{
+					// TODO: Show win screen
+					Debug.Log("You win!!");
+					Application.LoadLevel("ImmunityMainMenu");
+				}
+				
+				bubbles_.Remove(bubble);
+				bubbleContainer_.RemoveChild(bubble);
+			}
 		}
 		
 		// check if player was hit
@@ -280,6 +297,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			
 			if(playerRect.CheckIntersect(bacteriaRect))
 			{
+				// TODO: Show lose screen
 				bacteriaHit = true;
 				HandleGotBacteria(bacteria);
 			}
