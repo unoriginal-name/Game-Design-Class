@@ -26,6 +26,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private int framesTillNextBacteria_ = 0;
 	
 	private PlayerCharacter player_;
+<<<<<<< HEAD
 	private FContainer playerContainer;
 	
 	private FParallaxContainer background;
@@ -33,7 +34,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FParallaxContainer foreground;
 	
 	private Vector2 playerPosition;
+=======
 	private HealthBar player_healthbar;
+>>>>>>> team/master
 		
 	private Tween current_movement = null;
 	
@@ -47,47 +50,54 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	// Use this for initialization
 	override public void Start () {
 		
-		Stage stage = new Stage();
-		stage.setStomach();
-		/*
 		background = new FParallaxContainer();
 		mid = new FParallaxContainer();
 		foreground = new FParallaxContainer();
 		
-		background.size.Set (Futile.screen.width /2, Futile.screen.height / 2);
-		mid.size.Set (Futile.screen.width, Futile.screen.height);
-		foreground.size.Set (Futile.screen.width * 2, Futile.screen.height * 2);
+		/*
+		background.size = new Vector2(Futile.screen.width * 1.5f, Futile.screen.height * 1.5f);
+		mid.size = new Vector2(Futile.screen.width * 2f, Futile.screen.height * 2f);
+		foreground.size = new Vector2(Futile.screen.width * 3f, Futile.screen.height * 3f);
+		*/
 	
 		levelBack_ = new FSprite("Stomach_Lake");
 		levelMid_ = new FSprite("Stomach_Mid");
 		levelFore_ = new FSprite("Stomach_Fore");
 		
-		//levelBack_.scaleX = 1.5f;
-		//levelMid_.scaleX = 1.5f;
-		//levelFore_.scaleX = 1.5f;
+<<<<<<< HEAD
+		levelBack_.scaleX = 1.5f;
+		levelMid_.scaleX = 1.5f;
+		levelFore_.scaleX = 1.5f;
 		
 		background.AddChild (levelBack_);
 		mid.AddChild (levelMid_);
 		foreground.AddChild (levelFore_);
-		*/
+		
+		background.setSize (new Vector2(1500, 800));
+		mid.setSize (new Vector2(1000, 1000));
+		foreground.setSize (new Vector2(3000, 3000));
+		
+		AddChild(background);
+		AddChild(mid);
+		AddChild(foreground);
+		
+		playerContainer = new FContainer();
+		player_ = new PlayerCharacter();
+		Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
+		
+		playerContainer.AddChild (player_);
+		
+		Debug.Log ("playerContainer at x is " + playerContainer.x);
+		Debug.Log ("playerContainer at y is " + playerContainer.y);
+		
+		AddChild(playerContainer);
+=======
 		player_healthbar = new HealthBar();
 		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
 		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
 		player_ = new PlayerCharacter(player_healthbar);
-		
-		AddChild(stage.background);
-		AddChild(stage.mid);
-		AddChild(stage.foreground);
-		
-		playerContainer = new FContainer();
-		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
-		
-		playerContainer.AddChild (player_);
-		
-		//Debug.Log ("playerContainer at x is " + playerContainer.x);
-		//Debug.Log ("playerContainer at y is " + playerContainer.y);
-		
-		AddChild(playerContainer);
+		AddChild(player_);
+>>>>>>> team/master
 		
 		bacteriaContainer_ = new FContainer();
 		AddChild(bacteriaContainer_);
@@ -108,10 +118,15 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		scoreLabel_.color = Color.white;
 		AddChild(scoreLabel_);
 		
-
+<<<<<<< HEAD
+		background.camObject = ImmunityCombatManager.instance.camera;
+		mid.camObject = ImmunityCombatManager.instance.camera;
+		foreground.camObject = ImmunityCombatManager.instance.camera;
 		
-		ImmunityCombatManager.instance.camera.follow(playerContainer);
+		ImmunityCombatManager.instance.camera.follow(player_);
+=======
 		AddChild(player_healthbar);
+>>>>>>> team/master
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
