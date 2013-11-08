@@ -18,9 +18,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	private FContainer bubbleContainer_;
 	private List<PlayerBubble> bubbles_ = new List<PlayerBubble>(); 
-	
-	private FLabel scoreLabel_;
-	
+		
 	private int frameCount_ = 0;
 	private int maxFramesTillNextBacteria_ = 22;
 	private int framesTillNextBacteria_ = 0;
@@ -76,17 +74,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
-		
-		ImmunityCombatManager.instance.score = 0;
-		
-		scoreLabel_ = new FLabel("ImmunityFont", "0 Bacteria");
-		scoreLabel_.anchorX = 0.0f;
-		scoreLabel_.anchorY = 1.0f;
-		scoreLabel_.x = -Futile.screen.halfWidth + 50.0f;
-		scoreLabel_.y = Futile.screen.halfHeight - 50.0f;
-		scoreLabel_.color = Color.white;
-		AddChild(scoreLabel_);
-		
+				
 		AddChild(player_healthbar);
 		AddChild(enemy_healthbar_);
 	}
@@ -103,16 +91,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 
 		FSoundManager.PlaySound("bacteria_pop");
 		
-		ImmunityCombatManager.instance.score++;
-		
-		if(ImmunityCombatManager.instance.score == 1)
-		{
-			scoreLabel_.text = "1 Bacteria";
-		}
-		else
-		{
-			scoreLabel_.text = ImmunityCombatManager.instance.score+" Bacterias";	
-		}
 	}
 	
 	public void CreateBacteria(Vector2 location, Vector2 direction)
