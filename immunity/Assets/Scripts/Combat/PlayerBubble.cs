@@ -18,6 +18,9 @@ public class PlayerBubble : FAnimatedSprite {
 		// turn sprite to the specified direction
 		rotation = Mathf.Atan2(direction.x, direction.y) * 180.0f/Mathf.PI;
 		
+		// scale this down to a reasonable number
+		scale = .5f;
+		
 		// set up the swim animation
 		int[] swim_frames = {1, 2, 3, 4, 5, 6, 7, 8};
 		FAnimation swim_animation = new FAnimation("player_cell_swim", swim_frames, 250, true);
