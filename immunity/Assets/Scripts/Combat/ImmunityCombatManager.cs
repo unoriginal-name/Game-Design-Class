@@ -8,6 +8,7 @@ public class ImmunityCombatManager : MonoBehaviour {
 	public static ImmunityCombatManager instance;
 	
 	private FStage stage_;
+	private Stage stage;
 	
 	private ImmunityPage gamePage;
 	
@@ -45,10 +46,10 @@ public class ImmunityCombatManager : MonoBehaviour {
 		gamePage.Start();
 		camera.AddChild(gamePage);	
 		
-		//Rect worldBounds = new Rect(0, 0, 2000, 2000);
-		//camera.setWorldBounds (worldBounds);
-		//camera.setBounds (new Rect(0, 0, 1500, 1500));
-
+		
+		Rect worldBounds = stage.worldBounds;
+		camera.setWorldBounds (worldBounds);
+		//camera.setBounds(stage.cameraBounds);	
 	}
 	
 	// Update is called once per frame

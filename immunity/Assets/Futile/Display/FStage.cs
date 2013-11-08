@@ -48,6 +48,20 @@ public class FStage : FContainer
 		_screenConcatenatedMatrix = new FMatrix();
 		_screenInverseConcatenatedMatrix = new FMatrix();
 	}
+	
+	public FStage() : base(){
+		
+		_stage = this;
+		
+		_renderer = new FRenderer(this);
+		
+		_identityMatrix = new FMatrix();
+		_identityMatrix.ResetToIdentity();
+		
+		_inverseConcatenatedMatrix = new FMatrix();
+		_screenConcatenatedMatrix = new FMatrix();
+		_screenInverseConcatenatedMatrix = new FMatrix();
+	}
 
 	public void HandleAddedToFutile()
 	{
