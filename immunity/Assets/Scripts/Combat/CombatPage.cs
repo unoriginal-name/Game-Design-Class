@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,8 +22,14 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private int frameCount_ = 0;
 	private int maxFramesTillNextBacteria_ = 22;
 	private int framesTillNextBacteria_ = 0;
-	
+
+	private FParallaxContainer background;
+	private FParallaxContainer mid;
+	private FParallaxContainer foreground;	
+
 	private PlayerCharacter player_;
+	private FContainer playerContainer;
+	private Vector2 playerPosition;
 	public PlayerCharacter Player
 	{
 		get { return player_; }
@@ -44,14 +50,35 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 	// Use this for initialization
 	override public void Start () {
+		
+		Stage stage = new Stage();
+		stage.setStomach();
+		/*
+		background = new FParallaxContainer();
+		mid = new FParallaxContainer();
+		foreground = new FParallaxContainer();
+		
+		background.size.Set (Futile.screen.width /2, Futile.screen.height / 2);
+		mid.size.Set (Futile.screen.width, Futile.screen.height);
+		foreground.size.Set (Futile.screen.width * 2, Futile.screen.height * 2);
 	
 		levelBack_ = new FSprite("Stomach_Lake");
 		levelMid_ = new FSprite("Stomach_Mid");
 		levelFore_ = new FSprite("Stomach_Fore");
-		AddChild(levelBack_);
-		AddChild(levelMid_);
-		AddChild(levelFore_);
 		
+		//levelBack_.scaleX = 1.5f;
+		//levelMid_.scaleX = 1.5f;
+		//levelFore_.scaleX = 1.5f;
+		
+		background.AddChild (levelBack_);
+		mid.AddChild (levelMid_);
+		foreground.AddChild (levelFore_);
+		*/
+
+		AddChild(stage.background);
+		AddChild(stage.mid);
+		AddChild(stage.foreground);
+
 		FSprite enemy_headshot = new FSprite("punchy_headshot");
 		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
 		enemy_headshot.y = Futile.screen.halfHeight - enemy_headshot.height/2.0f - 50.0f;
@@ -71,7 +98,17 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		player_healthbar.x = player_headshot.x + player_headshot.width/2.0f + 25.0f;
 		player_healthbar.y = player_headshot.y;
 		player_ = new PlayerCharacter(player_healthbar);
-		AddChild(player_);
+
+		
+		playerContainer = new FContainer();
+		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
+		
+		playerContainer.AddChild (player_);
+		
+		//Debug.Log ("playerContainer at x is " + playerContainer.x);
+		//Debug.Log ("playerContainer at y is " + playerContainer.y);
+		
+		AddChild(playerContainer);
 		
 		bacteriaContainer_ = new FContainer();
 		AddChild(bacteriaContainer_);
@@ -82,6 +119,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
 		
+		ImmunityCombatManager.instance.camera.follow(playerContainer);
 		AddChild(player_headshot);
 		AddChild(player_healthbar);
 		AddChild(enemy_headshot);
@@ -96,10 +134,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		dyingBacteriaHolder_.AddChild(bacteria);
 		dyingBacterias_.Add(bacteria);
-		bacteria.play("punchyswarm_pop");		
-
-		FSoundManager.PlaySound("bacteria_pop");
 		
+		bacteria.play("punchyswarm_pop");
+		
+		FSoundManager.PlaySound("bacteria_pop");
 	}
 	
 	public void CreateBacteria(Vector2 location, Vector2 direction)
