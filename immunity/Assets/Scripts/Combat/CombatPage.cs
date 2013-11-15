@@ -40,6 +40,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private HealthBar enemy_healthbar_;
 		
 	private Tween current_movement = null;
+	private bool player_being_punched = false;
 	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
 	
@@ -326,7 +327,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 		
 		// check if player was hit
-		bool bacteriaHit = false;
+		bool playerHit = false;
 		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
 		for(int b = bacterias_.Count-1; b >= 0; b--)
 		{
@@ -336,11 +337,11 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			if(playerRect.CheckIntersect(bacteriaRect))
 			{
 				// TODO: Show lose screen
-				bacteriaHit = true;
+				playerHit = true;
 				HandleGotBacteria(bacteria);
 			}
 		}
-		if(bacteriaHit)
+		if(playerHit)
 		{
 			Debug.Log("Shaking!");
 			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
@@ -353,7 +354,41 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				Application.LoadLevel("ImmunityMainMenu");
 			}
 		}
+
+		Rect enemyCollisionRect;
+		if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
+			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(.75f, 1, enemy_.x, enemy_.y);
+		else
+			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(.2f, 1, enemy_.x, enemy_.y);
 		
+		if(!player_being_punched && playerRect.CheckIntersect(enemyCollisionRect))
+		{
+			Debug.Log("Player hit enemy");
+			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.2f));
+			FSoundManager.PlaySound("player_hit");
+			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
+			
+			current_movement.destroy();
+			
+			if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
+			{
+				float endX = enemy_.x - (1.2f*enemy_.width)/2.0f;
+				float tween_time = Math.Abs(player_.x - endX)/.1f;
+						
+				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX));
+				//current_movement.setOnCompleteHandler(onPunchComplete);
+				
+				player_being_punched = true;
+			}
+			else
+				player_.x = enemy_.x - (.5f*enemy_.width)/2.0f;
+			
+			if(player_.isDead)
+			{
+				Debug.Log("Game Over!");
+				Application.LoadLevel("ImmunityMainMenu");
+			}
+		}
 		
 		for(int b = dyingBacterias_.Count-1; b >= 0; b--)
 		{
@@ -368,6 +403,11 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		frameCount_++;
 		
+	}
+	
+	public void onPunchComplete()
+	{
+		player_being_punched = false;
 	}
 	
 	public void HandleMultiTouch(FTouch[] touches)

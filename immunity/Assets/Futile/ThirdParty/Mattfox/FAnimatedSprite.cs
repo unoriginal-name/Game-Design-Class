@@ -85,6 +85,7 @@ public class FAnimatedSprite : FSprite {
 		if (_currentAnim.name == animName) {
 			if (forced) {
 				// restart at first frame
+				_finished = false;
 				_currentFrame = 0;
 				_time = 0;
 				
@@ -99,6 +100,7 @@ public class FAnimatedSprite : FSprite {
 		foreach (FAnimation anim in _animations) {
 			if (anim.name.Equals(animName, StringComparison.Ordinal)) {
 				Debug.Log("Playing " + anim.name);
+				_finished = false;
 				_currentAnim = anim;
 				_currentFrame = 0;
 				_time = 0;
