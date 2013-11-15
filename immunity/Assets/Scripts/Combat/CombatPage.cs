@@ -291,7 +291,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		{
 			PlayerBubble bubble = bubbles_[b];
 			
-			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(bubble.scale, bubble.scale, bubble.x, bubble.y);
+			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(.2f, .2f, bubble.x, bubble.y); //bubble.scale, bubble.scale, bubble.x, bubble.y);
 			for(int j = bacterias_.Count-1; j >= 0; j--)
 			{
 				BacteriaBubble bacteria = bacterias_[j];
@@ -307,7 +307,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				}
 			}
 			
-			Rect enemyRect = enemy_.localRect.CloneAndScaleThenOffset(Mathf.Abs(enemy_.scaleX), enemy_.scaleY, enemy_.x, enemy_.y);
+			Rect enemyRect = enemy_.localRect.CloneAndScaleThenOffset(.25f, enemy_.scaleY, enemy_.x, enemy_.y); //Mathf.Abs(enemy_.scaleX)*.25f, enemy_.scaleY, enemy_.x, enemy_.y);
 			if(bubbleRect.CheckIntersect(enemyRect))
 			{
 				enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
