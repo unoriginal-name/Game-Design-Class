@@ -74,25 +74,25 @@ public class EnemyCharacter : FAnimatedSprite {
 		{
 			float behavior_selection = Random.value;
 			
-			if(behavior_selection < .3f)
+			if(behavior_selection < .2f)
 			{
 				// switch to move_towards_player behavior
 				curr_behavior_ = BehaviorType.MOVE_TOWARDS_PLAYER;
 				Debug.Log("Behavior: Move towards player");
 			}
-			else if(behavior_selection < .6f)
+			else if(behavior_selection < .4f)
 			{
 				// switch to move_away_from_player behavior
 				curr_behavior_ = BehaviorType.MOVE_AWAY_FROM_PLAYER;
 				Debug.Log("Behavior: Move away from player");
 			}
-			else if(behavior_selection < .7f)
+			else if(behavior_selection < .6f)
 			{
 				// switch to punch behavior	
 				curr_behavior_ = BehaviorType.PUNCH;
 				Debug.Log("Behavior: Punch");
 			}
-			else if(behavior_selection < .9f)
+			else if(behavior_selection < .8f)
 			{
 				// switch to swarm behavior	
 				curr_behavior_ = BehaviorType.SPAWN_SWARM;
