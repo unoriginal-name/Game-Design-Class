@@ -496,10 +496,11 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						}
 											
 						// flip the player if the movement is behind the player
-						if(touch.position.x - player_.x < 0)
+						/*if(touch.position.x - player_.x < 0)
 							player_.scaleX = -1*Math.Abs(player_.scaleX);
 						else
-							player_.scaleX = Math.Abs(player_.scaleX);
+							player_.scaleX = Math.Abs(player_.scaleX);*/
+						player_.scaleX = Math.Abs(player_.scaleX);
 						
 						// calculate movement time based on player's speed attribute
 						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
@@ -517,7 +518,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					Debug.Log("touch: (" + touch.position.x + ", " + touch.position.y + ")");
 					Debug.Log("touch start: (" + touch_start.position.x + ", " + touch_start.position.y + ")");
 					Debug.Log("Player " + player_.x);
-					if(touch.position.x < (player_.x - player_.width/4.0f) && touch_start.position.x > (player_.x - player_.width/4.0f) &&
+					float sign = player_.scaleX/Mathf.Abs(player_.scaleX);
+					if(touch.position.x < (player_.x - sign*player_.width/4.0f) && touch_start.position.x > (player_.x - sign*player_.width/4.0f) &&
 						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
 						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
 					{
@@ -525,7 +527,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						Debug.Log("player block");
 						player_.play("huro_block");
 					}
-					else if(touch.position.x > (player_.x - player_.width/4.0f)  && touch_start.position.x < (player_.x - player_.width/4.0f) &&
+					else if(touch.position.x > (player_.x - sign*player_.width/4.0f)  && touch_start.position.x < (player_.x - sign*player_.width/4.0f) &&
 						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
 						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
 					{
