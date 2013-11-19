@@ -24,9 +24,9 @@ public class ImmunityMenu : MonoBehaviour {
 	void Start () {
 		instance = this;
 		
-		FutileParams fparams = new FutileParams(false, false, true, true);
+		FutileParams fparams = new FutileParams(true, true, false, false);
 		
-		fparams.AddResolutionLevel(800.0f, 1.0f, 1.0f, "");
+		fparams.AddResolutionLevel(1280.0f, 1.0f, 1.0f, "");
 		fparams.origin = new Vector2(0.5f, 0.5f);
 		
 		Futile.instance.Init(fparams);
@@ -34,8 +34,7 @@ public class ImmunityMenu : MonoBehaviour {
 		Futile.atlasManager.LoadAtlas("Atlases/ImmunityMenus");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
 		
-		FSoundManager.PlayMusic("background_music");
-		FSoundManager.PreloadSound("button_click");
+
 		
 		stage_ = Futile.stage;
 		

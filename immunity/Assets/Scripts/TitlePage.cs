@@ -16,6 +16,11 @@ public class TitlePage : ImmunityPage
 	
 	override public void Start()
 	{
+		FSoundManager.StopMusic();
+		FSoundManager.UnloadAllSoundsAndMusic();
+		FSoundManager.PlayMusic("background_music");
+		FSoundManager.PreloadSound("button_click");
+		
 		background_ = new FSprite("hhhh");
 		AddChild(background_);
 		
