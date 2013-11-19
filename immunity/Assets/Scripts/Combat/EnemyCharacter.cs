@@ -86,7 +86,7 @@ public class EnemyCharacter : FAnimatedSprite {
 		{
 			float behavior_selection = Random.value;
 			
-			if(behavior_selection < .1f)
+			/*if(behavior_selection < .1f)
 			{
 				// switch to move_towards_player behavior
 				curr_behavior_ = BehaviorType.MOVE_TOWARDS_PLAYER;
@@ -116,7 +116,7 @@ public class EnemyCharacter : FAnimatedSprite {
 				curr_behavior_ = BehaviorType.SPAWN_SWARM;
 				spawn_count = 0;
 				Debug.Log("Behavior: spawn swarm");
-			}
+			}*/
 			behavior_start_time_ = Time.time;
 		}
 	}

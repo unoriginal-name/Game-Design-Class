@@ -510,8 +510,30 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					swipe_vector.y /=swipe_magnitude;
 					
 					Debug.Log("Swipe vector: <" + swipe_vector.x + ", " + swipe_vector.y + "> Magnitude: " + swipe_magnitude);
+					Debug.Log("touch: (" + touch.position.x + ", " + touch.position.y + ")");
+					Debug.Log("touch start: (" + touch_start.position.x + ", " + touch_start.position.y + ")");
+					Debug.Log("Player " + player_.x);
+					if(touch.position.x < (player_.x - player_.width/4.0f) && touch_start.position.x > (player_.x - player_.width/4.0f) &&
+						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
+						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
+					{
+						// this is a block
+						Debug.Log("player block");
+						player_.play("huro_block");
+					}
+					else if(touch.position.x > (player_.x - player_.width/4.0f)  && touch_start.position.x < (player_.x - player_.width/4.0f) &&
+						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
+						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
+					{
+						// this a punch
+						Debug.Log("player punch");
+						player_.play("huro_punch");
+					}
+					else
+					{
+						CreateBubble(swipe_vector);
+					}
 					
-					CreateBubble(swipe_vector);
 				}
 				
 				touch_starts.Remove(touch.tapCount);

@@ -16,7 +16,8 @@ public class PlayerCharacter : FAnimatedSprite {
 		
 		this.health_bar_ = health_bar;
 		
-		this.scale = .75f;
+		this.scaleX = .75f;
+		this.scaleY = .75f;
 
 		// idle animation
 		int[] idle_frames = {1, 2, 3, 4};
