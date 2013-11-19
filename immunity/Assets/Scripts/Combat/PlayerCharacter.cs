@@ -38,6 +38,8 @@ public class PlayerCharacter : FAnimatedSprite {
 		FAnimation hit_animation = new FAnimation("huro_hit", hit_frames, 150, false);
 		base.addAnimation(hit_animation);
 		
+		base.setDefaultAnimation("huro_idle");
+		
 		speed_ = 0.5f;
 		
 		y = -Futile.screen.halfHeight + height/2.0f + 50.0f;
@@ -71,4 +73,5 @@ public class PlayerCharacter : FAnimatedSprite {
 	void HandleUpdate () {
 		base.Update();
 	}
+
 }

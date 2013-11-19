@@ -42,6 +42,8 @@ public class EnemyCharacter : FAnimatedSprite {
 		int[] punch_frames = {1, 2, 3, 4, 5, 6, 7};
 		FAnimation punch_animation = new FAnimation("punchy_punch", punch_frames, 100, false);
 		base.addAnimation(punch_animation);
+		
+		base.setDefaultAnimation("punchy_idle");
 				
 		y = -Futile.screen.halfHeight + height/2.0f + 50.0f;
 		x = Futile.screen.halfWidth - width/2.0f - 150.0f;
@@ -89,7 +91,7 @@ public class EnemyCharacter : FAnimatedSprite {
 			else */if(behavior_selection < 1f)
 			{
 				// switch to punch behavior	
-				curr_behavior_ = BehaviorType.PUNCH;
+				curr_behavior_ = BehaviorType.SPAWN_SWARM; //BehaviorType.PUNCH;
 				Debug.Log("Behavior: Punch");
 			}/*
 			else if(behavior_selection < .4f)

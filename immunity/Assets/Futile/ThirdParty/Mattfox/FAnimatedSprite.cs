@@ -13,6 +13,7 @@ public class FAnimatedSprite : FSprite {
 	protected string _baseExtension;
 	
 	protected List<FAnimation> _animations;
+	protected string _defaultAnim;
 	
 	protected FAnimation _currentAnim;
 	
@@ -57,6 +58,8 @@ public class FAnimatedSprite : FSprite {
 					} else {
 						_currentFrame = _currentAnim.totalFrames - 1;
 						_finished = true;
+						
+						play(_defaultAnim, true);
 					}
 					
 					// send Signal if it exists
@@ -78,6 +81,10 @@ public class FAnimatedSprite : FSprite {
 			_currentFrame = 0;
 			_pause = false;
 		}
+	}
+	
+	public void setDefaultAnimation(string animName) {
+		_defaultAnim = animName;
 	}
 	
 	public void play(string animName, bool forced=false) {

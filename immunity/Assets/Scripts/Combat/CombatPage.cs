@@ -42,6 +42,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private Tween current_movement = null;
 	private bool player_being_punched = false;
 	
+	private bool player_won_ = false;
+	private bool player_lost_ = false;
+	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
 	
 	public CombatPage()
@@ -238,6 +241,11 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
+		
+		if(player_won_ || player_lost_)
+		{
+			return; // do nothing	
+		}
 		
 		switch(enemy_.curr_behavior_)
 		{
