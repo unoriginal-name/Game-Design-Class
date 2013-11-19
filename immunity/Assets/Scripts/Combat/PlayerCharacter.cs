@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerCharacter : FSprite {
+public class PlayerCharacter : FAnimatedSprite {
 	
 	public const int MAX_HEALTH = 100;
 	private float speed_;
@@ -10,13 +10,33 @@ public class PlayerCharacter : FSprite {
 	
 	private HealthBar health_bar_;
 		
-	public PlayerCharacter(HealthBar health_bar) : base("hhhh")
+	public PlayerCharacter(HealthBar health_bar) : base("huro_idle")
 	{
 		ListenForUpdate(HandleUpdate);
 		
 		this.health_bar_ = health_bar;
-				
-		scale = 0.15f;
+		
+		this.scale = .75f;
+
+		// idle animation
+		int[] idle_frames = {1, 2, 3, 4};
+		FAnimation idle_animation = new FAnimation("huro_idle", idle_frames, 150, true);
+		base.addAnimation(idle_animation);
+		
+		// block animation
+		int[] block_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+		FAnimation block_animation = new FAnimation("huro_block", block_frames, 150, false);
+		base.addAnimation(block_animation);
+		
+		// punch animation
+		int[] punch_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+		FAnimation punch_animation = new FAnimation("huro_punch", punch_frames, 150, false);
+		base.addAnimation(punch_animation);
+		
+		// hit animation
+		int[] hit_frames = {1, 2, 3, 4, 5, 6};
+		FAnimation hit_animation = new FAnimation("huro_hit", hit_frames, 150, false);
+		base.addAnimation(hit_animation);
 		
 		speed_ = 0.5f;
 		
@@ -49,5 +69,6 @@ public class PlayerCharacter : FSprite {
 	}
 	
 	void HandleUpdate () {
+		base.Update();
 	}
 }
