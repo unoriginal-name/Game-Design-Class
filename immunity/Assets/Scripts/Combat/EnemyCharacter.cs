@@ -8,7 +8,9 @@ public class EnemyCharacter : FAnimatedSprite {
 		MOVE_TOWARDS_PLAYER,
 		MOVE_AWAY_FROM_PLAYER,
 		PUNCH,
-		SPAWN_SWARM
+		SPAWN_SWARM,
+		BLOCK,
+		HIT
 	}
 	
 	public const int MAX_HEALTH = 100;
@@ -42,6 +44,14 @@ public class EnemyCharacter : FAnimatedSprite {
 		int[] punch_frames = {1, 2, 3, 4, 5, 6, 7};
 		FAnimation punch_animation = new FAnimation("punchy_punch", punch_frames, 100, false);
 		base.addAnimation(punch_animation);
+		
+		int[] hit_frames = {1, 2, 3, 4, 5, 6};
+		FAnimation hit_animation = new FAnimation("punchy_hit", hit_frames, 100, false);
+		base.addAnimation(hit_animation);
+		
+		int[] block_frames = {1, 2, 3, 4, 5};
+		FAnimation block_animation = new FAnimation("punchy_block", block_frames, 100, false);
+		base.addAnimation(block_animation);
 		
 		base.setDefaultAnimation("punchy_idle");
 				
@@ -91,7 +101,7 @@ public class EnemyCharacter : FAnimatedSprite {
 			else */if(behavior_selection < 1f)
 			{
 				// switch to punch behavior	
-				curr_behavior_ = BehaviorType.SPAWN_SWARM; //BehaviorType.PUNCH;
+				curr_behavior_ = BehaviorType.BLOCK;
 				Debug.Log("Behavior: Punch");
 			}/*
 			else if(behavior_selection < .4f)

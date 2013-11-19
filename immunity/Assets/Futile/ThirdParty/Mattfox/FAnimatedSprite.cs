@@ -59,7 +59,8 @@ public class FAnimatedSprite : FSprite {
 						_currentFrame = _currentAnim.totalFrames - 1;
 						_finished = true;
 						
-						play(_defaultAnim, true);
+						Debug.Log("_finished: " + _finished);
+						play(_defaultAnim, true, false);
 					}
 					
 					// send Signal if it exists
@@ -87,19 +88,26 @@ public class FAnimatedSprite : FSprite {
 		_defaultAnim = animName;
 	}
 	
-	public void play(string animName, bool forced=false) {
+	public void play(string animName, bool forced=false)
+	{
+		play(animName, forced, true);	
+	}
+	
+	private void play(string animName, bool forced, bool resetIsFinished) {
 		// check if we are given the same animation that is currently playing
 		if (_currentAnim.name == animName) {
 			if (forced) {
 				// restart at first frame
-				_finished = false;
+				if(resetIsFinished)
+					_finished = false;
 				_currentFrame = 0;
 				_time = 0;
+				
+				Debug.Log("changed _finished: " + _finished);
 				
 				// redraw
 				element = Futile.atlasManager.GetElementWithName(_currentAnim.name+"_"+_currentAnim.frames[0]);
 			}
-			
 			return;
 		}
 		
@@ -107,10 +115,14 @@ public class FAnimatedSprite : FSprite {
 		foreach (FAnimation anim in _animations) {
 			if (anim.name.Equals(animName, StringComparison.Ordinal)) {
 				Debug.Log("Playing " + anim.name);
-				_finished = false;
+				if(resetIsFinished)
+					_finished = false;
 				_currentAnim = anim;
 				_currentFrame = 0;
 				_time = 0;
+				
+				Debug.Log("changed _finished: " + _finished);
+
 				
 				// force redraw to first frame
 				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+anim.frames[0]);

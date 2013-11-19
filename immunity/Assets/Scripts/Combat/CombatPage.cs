@@ -207,10 +207,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void PunchBehavior()
 	{
+		Debug.Log("in punch behavior");
+		Debug.Log("punch finished: " + enemy_.isFinished);
 		if(enemy_.isFinished)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle");
+			enemy_.play("punchy_idle", true);
 			return;
 		}
 		
@@ -239,6 +241,29 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 	}
 	
+	public void PunchyBlockBehavior()
+	{
+		if(enemy_.isFinished)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("punchy_idle", true);
+			return;
+		}
+		
+		if(!enemy_.currentAnim.name.Equals("punchy_block"))
+			enemy_.play("punchy_block");
+	}
+	
+	public void PunchyHitBehavior()
+	{
+		if(enemy_.isFinished)
+		{
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("punchy_idle", true);
+			return;
+		}
+	}
+	
 	protected void HandleUpdate()
 	{
 		
@@ -260,6 +285,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			break;
 		case EnemyCharacter.BehaviorType.SPAWN_SWARM:
 			SpawnSwarmBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.HIT:
+			PunchyHitBehavior();
+			break;
+		case EnemyCharacter.BehaviorType.BLOCK:
+			PunchyBlockBehavior();
 			break;
 		default:
 			break;
@@ -316,17 +347,26 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				}
 			}
 			
+
+
+				
 			Rect enemyRect = enemy_.localRect.CloneAndScaleThenOffset(.25f, enemy_.scaleY, enemy_.x, enemy_.y); //Mathf.Abs(enemy_.scaleX)*.25f, enemy_.scaleY, enemy_.x, enemy_.y);
 			if(bubbleRect.CheckIntersect(enemyRect))
 			{
-				enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
-				// TODO: Play hit sound
-				// TODO: Play hit animation
-				if(enemy_.isDead)
+				// if the enemy is currently being hit or its blocking then don't bother taking away more health
+				if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
 				{
-					// TODO: Show win screen
-					Debug.Log("You win!!");
-					Application.LoadLevel("ImmunityMainMenu");
+					enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
+					// TODO: Play hit sound
+					enemy_.play("punchy_hit", true);
+					enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
+					if(enemy_.isDead)
+					{
+						// TODO: Show win screen
+						player_won_ = true;
+						Debug.Log("You win!!");
+						Application.LoadLevel("ImmunityMainMenu");
+					}
 				}
 				
 				bubbles_.Remove(bubble);
@@ -354,10 +394,11 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
 			FSoundManager.PlaySound("player_hit");
 			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
-			player_.play("huro_hit", false);
+			player_.play("huro_hit", true);
 			
 			if(player_.isDead)
 			{
+				player_lost_ = true;
 				Debug.Log("Game Over!");
 				Application.LoadLevel("ImmunityMainMenu");
 			}
@@ -392,6 +433,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			
 			if(player_.isDead)
 			{
+				player_lost_ = true;
 				Debug.Log("Game Over!");
 				Application.LoadLevel("ImmunityMainMenu");
 			}
