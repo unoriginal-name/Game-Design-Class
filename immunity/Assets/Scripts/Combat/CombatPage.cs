@@ -78,6 +78,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		mid.AddChild (levelMid_);
 		foreground.AddChild (levelFore_);
 		*/
+		
+		FSoundManager.StopMusic();
+		FSoundManager.UnloadAllSoundsAndMusic();
+		FSoundManager.PlayMusic("stomach_ambience");
 
 		AddChild(stage.background);
 		AddChild(stage.mid);
