@@ -343,10 +343,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 		if(playerHit)
 		{
-			Debug.Log("Shaking!");
 			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
 			FSoundManager.PlaySound("player_hit");
 			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
+			player_.play("huro_hit", false);
 			
 			if(player_.isDead)
 			{
@@ -357,9 +357,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 
 		Rect enemyCollisionRect;
 		if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(.75f, 1, enemy_.x, enemy_.y);
+			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
 		else
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(.2f, 1, enemy_.x, enemy_.y);
+			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
 		
 		if(!player_being_punched && playerRect.CheckIntersect(enemyCollisionRect))
 		{
@@ -373,10 +373,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
 			{
 				float endX = enemy_.x - (1.2f*enemy_.width)/2.0f;
-				float tween_time = Math.Abs(player_.x - endX)/.1f;
-						
-				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX));
-				//current_movement.setOnCompleteHandler(onPunchComplete);
+				float tween_time = Math.Abs(player_.x - endX)/1000f;
+				Debug.Log("Punch tween for " + tween_time + " seconds");
+				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX).onComplete(originalTween => player_being_punched = false));
 				
 				player_being_punched = true;
 			}
