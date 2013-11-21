@@ -1,0 +1,20 @@
+{"frames": {
+
+"lightyellow_Clipart_Free.png":
+{
+	"frame": {"x":2,"y":2,"w":300,"h":300},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":300,"h":300},
+	"sourceSize": {"w":300,"h":300}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "DrawingAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:409496d77be633df160c52ff5a9b4629:733cb001d3d9e71f217e15db8183c211:bbbba7c6beb6653d8cad72f86b3c302e$"
+}
+}

@@ -8,7 +8,9 @@ public class EnemyCharacter : FAnimatedSprite {
 		MOVE_TOWARDS_PLAYER,
 		MOVE_AWAY_FROM_PLAYER,
 		PUNCH,
-		SPAWN_SWARM
+		SPAWN_SWARM,
+		BLOCK,
+		HIT
 	}
 	
 	public const int MAX_HEALTH = 100;
@@ -42,6 +44,16 @@ public class EnemyCharacter : FAnimatedSprite {
 		int[] punch_frames = {1, 2, 3, 4, 5, 6, 7};
 		FAnimation punch_animation = new FAnimation("punchy_punch", punch_frames, 100, false);
 		base.addAnimation(punch_animation);
+		
+		int[] hit_frames = {1, 2, 3, 4, 5, 6};
+		FAnimation hit_animation = new FAnimation("punchy_hit", hit_frames, 100, false);
+		base.addAnimation(hit_animation);
+		
+		int[] block_frames = {1, 2, 3, 4, 5};
+		FAnimation block_animation = new FAnimation("punchy_block", block_frames, 100, false);
+		base.addAnimation(block_animation);
+		
+		base.setDefaultAnimation("punchy_idle");
 				
 		y = -Futile.screen.halfHeight + height/2.0f + 50.0f;
 		x = Futile.screen.halfWidth - width/2.0f - 150.0f;
@@ -74,25 +86,31 @@ public class EnemyCharacter : FAnimatedSprite {
 		{
 			float behavior_selection = Random.value;
 			
-			if(behavior_selection < .3f)
+			if(behavior_selection < .1f)
 			{
 				// switch to move_towards_player behavior
 				curr_behavior_ = BehaviorType.MOVE_TOWARDS_PLAYER;
 				Debug.Log("Behavior: Move towards player");
 			}
-			else if(behavior_selection < .6f)
+			else if(behavior_selection < .2f)
 			{
 				// switch to move_away_from_player behavior
 				curr_behavior_ = BehaviorType.MOVE_AWAY_FROM_PLAYER;
 				Debug.Log("Behavior: Move away from player");
 			}
-			else if(behavior_selection < .7f)
+			else if(behavior_selection < .3f)
 			{
 				// switch to punch behavior	
 				curr_behavior_ = BehaviorType.PUNCH;
 				Debug.Log("Behavior: Punch");
 			}
-			else if(behavior_selection < .9f)
+			else if(behavior_selection < .4f)
+			{
+				// switch to block behavior
+				curr_behavior_ = BehaviorType.BLOCK;
+				Debug.Log("Behavior: Block");
+			}
+			else if(behavior_selection < .45f)
 			{
 				// switch to swarm behavior	
 				curr_behavior_ = BehaviorType.SPAWN_SWARM;

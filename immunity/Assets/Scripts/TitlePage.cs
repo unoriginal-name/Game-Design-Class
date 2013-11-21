@@ -2,67 +2,35 @@
 using System.Collections;
 using System;
 
-public class TitlePage : ImmunityPage
+public class TitlePage : ImmunityPage, FMultiTouchableInterface
 {
 	private FSprite background_;
-	private FButton playButton_;
-	private FButton howToPlayButton_;
-	private FButton settingsButton_;
+	private Rect play_button_rect_;
+	private Rect settings_button_rect_;
 	
 	public TitlePage()
 	{
+		EnableMultiTouch();
 		ListenForUpdate(HandleUpdate);
 	}
 	
 	override public void Start()
 	{
-		background_ = new FSprite("hhhh");
+		FSoundManager.StopMusic();
+		FSoundManager.UnloadAllSoundsAndMusic();
+		FSoundManager.PlayMusic("background_music");
+		FSoundManager.PreloadSound("button_click");
+		
+		background_ = new FSprite("start_screen");
 		AddChild(background_);
 		
-		background_.scale = 0.25f;
-		background_.x = background_.width/2.0f - Futile.screen.halfWidth;
-		background_.y = background_.height/2.0f - Futile.screen.halfHeight;
+		background_.scale = 0.0f;
 		
-		playButton_ = new FButton("BigButton", "BigButton_down", "BigButton_down", "button_click");
-		playButton_.AddLabel("ImmunityFont", "Play", Color.white);
-		AddChild(playButton_);
+		Go.to(background_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scale", 1.0f).setEaseType(EaseType.BackOut));
 		
-		playButton_.SignalRelease += HandlePlayButtonRelease;
+		play_button_rect_ = new Rect(Futile.screen.halfWidth*.15f, Futile.screen.halfHeight*-0.05f, Futile.screen.halfWidth*.35f, Futile.screen.halfHeight*.3f);
+		settings_button_rect_ = new Rect(Futile.screen.halfWidth*.15f, Futile.screen.halfHeight*-0.45f, Futile.screen.halfWidth*.6f, Futile.screen.halfHeight*.3f);
 		
-		playButton_.scale = 0.0f;
-		
-		Go.to(playButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleX", 1.0f).setEaseType(EaseType.BackOut));
-		Go.to(playButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleY", 0.5f).setEaseType(EaseType.BackOut));
-		
-		howToPlayButton_ = new FButton("BigButton", "BigButton_down", "BigButton_down", "button_click");
-		howToPlayButton_.AddLabel("ImmunityFont", "How To Play", Color.white);
-		AddChild(howToPlayButton_);
-		
-		howToPlayButton_.SignalRelease += HandleHowToPlayButtonRelease;
-		
-		howToPlayButton_.scale = 0.0f;
-		
-		// Go.to(howToPlayButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleX", 1.0f).setEaseType(EaseType.BackOut));
-		//Go.to(howToPlayButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleY", 0.5f).setEaseType(EaseType.BackOut));
-
-		
-		settingsButton_ = new FButton("BigButton", "BigButton_down", "BigButton_down", "button_click");
-		settingsButton_.AddLabel("ImmunityFont", "Settings", Color.white);
-		AddChild(settingsButton_);
-		
-		
-		settingsButton_.SignalRelease += HandleSettingsButtonRelease;
-		
-		settingsButton_.scale = 0.0f;
-		
-		Go.to(settingsButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleX", 1.0f).setEaseType(EaseType.BackOut));
-		Go.to(settingsButton_, 0.5f, new TweenConfig().setDelay(0.1f).floatProp("scaleY", 0.5f).setEaseType(EaseType.BackOut));
-		
-		
-		//playButton_.y = (howToPlayButton_.hitRect.yMax - howToPlayButton_.hitRect.yMin)/2.0f + 50.0f ;
-		//settingsButton_.y = -((howToPlayButton_.hitRect.yMax - howToPlayButton_.hitRect.yMin)/2.0f + 50.0f);
-		playButton_.y = 100.0f;
-		settingsButton_.y = 0.0f;
 	}
 	
 	private void HandlePlayButtonRelease(FButton button)
@@ -83,5 +51,28 @@ public class TitlePage : ImmunityPage
 	
 	protected void HandleUpdate()
 	{
+	}
+	
+	public void HandleMultiTouch(FTouch[] touches)
+	{
+		
+		foreach(FTouch touch in touches)
+		{
+			if(touch.phase == TouchPhase.Ended)
+			{
+				if(play_button_rect_.xMin <= touch.position.x && play_button_rect_.xMax >= touch.position.x &&
+				play_button_rect_.yMin <= touch.position.y && play_button_rect_.yMax >= touch.position.y)
+				{
+					Debug.Log("Play button clicked");
+					Application.LoadLevel("BubblePopDemo");
+				}
+				else if(settings_button_rect_.xMin <= touch.position.x && settings_button_rect_.xMax >= touch.position.x &&
+				settings_button_rect_.yMin <= touch.position.y && settings_button_rect_.yMax >= touch.position.y)
+				{
+					Debug.Log("Settings button clicked");	
+				}
+			}
+			
+		}
 	}
 }
