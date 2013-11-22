@@ -47,6 +47,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
 	
+	//private Stage stage;
+	
 	public CombatPage()
 	{
 		EnableMultiTouch();
@@ -55,32 +57,13 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	// Use this for initialization
 	override public void Start () {
 		
+
+		/*stage = new Stage();
+		Debug.Log("calling setstomach");
+		//stage.setStomach();
+		Debug.Log("Finished calling setstomach");*/
+		
 		/*
-		Stage stage = new Stage();
-		stage.setStomach();
-		*/
-		
-		background = new FParallaxContainer();
-		mid = new FParallaxContainer();
-		foreground = new FParallaxContainer();
-		
-		background.AddChild (levelBack_);
-		mid.AddChild (levelMid_);
-		foreground.AddChild (levelFore_);
-		
-		background.size.Set (Futile.screen.width /2, Futile.screen.height / 2);
-		mid.size.Set (Futile.screen.width, Futile.screen.height);
-		foreground.size.Set (Futile.screen.width * 2, Futile.screen.height * 2);
-	
-		levelBack_ = new FSprite("Stomach_Lake");
-		levelMid_ = new FSprite("Stomach_Mid");
-		levelFore_ = new FSprite("Stomach_Fore");
-		
-		//levelBack_.scaleX = 1.5f;
-		//levelMid_.scaleX = 1.5f;
-		//levelFore_.scaleX = 1.5f;
-		
-<<<<<<< HEAD
 		background.AddChild (levelBack_);
 		mid.AddChild (levelMid_);
 		foreground.AddChild (levelFore_);
@@ -90,16 +73,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		FSoundManager.UnloadAllSoundsAndMusic();
 		FSoundManager.PlayMusic("stomach_ambience");
 
-		AddChild(stage.background);
-		AddChild(stage.mid);
-		AddChild(stage.foreground);
+		addComponentsToStage();
 
-=======
-		AddChild(background);
-		AddChild(mid);
-		AddChild(foreground);
-		
->>>>>>> 23f3bea522c53cdc33d727e0faca62bfaaead3a1
 		FSprite enemy_headshot = new FSprite("punchy_headshot");
 		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
 		enemy_headshot.y = Futile.screen.halfHeight - enemy_headshot.height/2.0f - 50.0f;
@@ -125,9 +100,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
 		
 		playerContainer.AddChild (player_);
-		
-		//Debug.Log ("playerContainer at x is " + playerContainer.x);
-		//Debug.Log ("playerContainer at y is " + playerContainer.y);
+
 		
 		AddChild(playerContainer);
 		
@@ -140,7 +113,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		dyingBacteriaHolder_ = new FContainer();
 		AddChild(dyingBacteriaHolder_);
 		
-		ImmunityCombatManager.instance.camera.follow(playerContainer);
+		ImmunityCombatManager.instance.camera_.follow(playerContainer);
 		AddChild(player_headshot);
 		AddChild(player_healthbar);
 		AddChild(enemy_headshot);
@@ -280,6 +253,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			return;
 		}
 	}
+
+	private void addComponentsToStage()
+	{
+		AddChild(ImmunityCombatManager.instance.stage.getBackground());
+		AddChild(ImmunityCombatManager.instance.stage.getMidBack ());
+		AddChild(ImmunityCombatManager.instance.stage.getMid ());
+		AddChild(ImmunityCombatManager.instance.stage.getForeMid ());
+		AddChild(ImmunityCombatManager.instance.stage.getForeground());
+		AddChild(ImmunityCombatManager.instance.stage.getAnimation ());
+	}
 	
 	protected void HandleUpdate()
 	{
@@ -410,7 +393,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		{
 			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
 			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
+			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
 			player_.play("huro_hit", true);
 			
 			if(player_.isDead)
@@ -432,7 +415,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			Debug.Log("Player hit enemy");
 			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.2f));
 			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera.shake(100.0f, 0.25f);
+			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
 			
 			current_movement.destroy();
 			
@@ -560,3 +543,5 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 	}
 }
+
+

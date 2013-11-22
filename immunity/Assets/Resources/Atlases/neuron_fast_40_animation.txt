@@ -1,0 +1,92 @@
+{"frames": {
+
+"NeuronFast40_1.png":
+{
+	"frame": {"x":1148,"y":2334,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_10.png":
+{
+	"frame": {"x":1148,"y":2334,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_2.png":
+{
+	"frame": {"x":1148,"y":1168,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_3.png":
+{
+	"frame": {"x":2294,"y":2,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_4.png":
+{
+	"frame": {"x":1148,"y":2,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_5.png":
+{
+	"frame": {"x":2,"y":2334,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_6.png":
+{
+	"frame": {"x":2,"y":1168,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_7.png":
+{
+	"frame": {"x":2,"y":2,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_8.png":
+{
+	"frame": {"x":1148,"y":2334,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+},
+"NeuronFast40_9.png":
+{
+	"frame": {"x":1148,"y":2334,"w":1144,"h":1164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":42,"y":18,"w":1144,"h":1164},
+	"sourceSize": {"w":1200,"h":1200}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "neuron_fast_40_animation.png",
+	"format": "RGBA8888",
+	"size": {"w":4096,"h":4096},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:47ddbebb0cf46553aec38719c56b6269:f63e54f6ce7a40c59b065f2a6c03f978:a2833f12cb60559e73c77d13cf258ae0$"
+}
+}
