@@ -6,12 +6,16 @@ public class Stage : FStage {
 	string name;
 	
 	FSprite level_background_sprite;
+	FSprite level_midback_sprite;
 	FSprite level_mid_sprite;
+	FSprite level_foremid_sprite;
 	FSprite level_foreground_sprite;
 	FSprite level_animation_sprite;
 	
 	public FParallaxContainer background;
+	public FParallaxContainer midBack;
 	public FParallaxContainer mid;
+	public FParallaxContainer foreMid;
 	public FParallaxContainer foreground;
 	public FParallaxContainer animation;
 	
@@ -42,25 +46,11 @@ public class Stage : FStage {
 	
 	public void setStomach()
 	{
-		background = new FParallaxContainer();
-		mid = new FParallaxContainer();
-		foreground = new FParallaxContainer();
-		animation = new FParallaxContainer();
+		initializeContainers();
 		
-		level_background_sprite = new FSprite("Stomach_Lake");
-		level_mid_sprite = new FSprite("Stomach_Mid");
-		level_foreground_sprite = new FSprite("Stomach_Fore");
-		//level_animation_sprite = new FSprite("Bubble_Pop");
+		setSprites ("STOMACH");
 		
-		background.AddChild (level_background_sprite);
-		mid.AddChild (level_mid_sprite);
-		foreground.AddChild (level_foreground_sprite);
-		//animation.AddChild(level_animation_sprite);
-		
-		background.size.Set (2000, 1000);
-		mid.size.Set (1024, 768);
-		foreground.size.Set (4096, 2048);
-		//animation.size.Set(float X, float Y)
+		putSpritesInContainers();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024);
 		setCameras();
@@ -68,25 +58,11 @@ public class Stage : FStage {
 	
 	public void setLungs()
 	{
-		background = new FParallaxContainer();
-		mid = new FParallaxContainer();
-		foreground = new FParallaxContainer();
-		animation = new FParallaxContainer();
+		initializeContainers();
 		
-		level_background_sprite = new FSprite("Lung_Background");
-		level_mid_sprite = new FSprite("Lung_Mid");
-		level_foreground_sprite = new FSprite("Lung_Fore");
-		//level_animation_sprite = new FSprite("Lung_Dust");
+		setSprites ("Lungs");
 		
-		background.AddChild (level_background_sprite);
-		mid.AddChild (level_mid_sprite);
-		foreground.AddChild (level_foreground_sprite);
-		//animation.AddChild(level_animation_sprite);
-		
-		background.size.Set (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
-		mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
-		foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-		//animation.size.Set(float X, float Y)
+		putSpritesInContainers();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
 		setCameras ();
@@ -94,34 +70,86 @@ public class Stage : FStage {
 	
 	public void setBrain()
 	{
-		background = new FParallaxContainer();
-		mid = new FParallaxContainer();
-		foreground = new FParallaxContainer();
-		animation = new FParallaxContainer();
+		initializeContainers();
 		
-		level_background_sprite = new FSprite("Brain_Background");
-		level_mid_sprite = new FSprite("Brain_Mid");
-		level_foreground_sprite = new FSprite("Brain_Fore");
-		//level_animation_sprite = new FSprite("Lung_Breathe");
-		
-		background.AddChild (level_background_sprite);
-		mid.AddChild (level_mid_sprite);
-		foreground.AddChild (level_foreground_sprite);
-		//animation.AddChild(level_animation_sprite);
-		
-		background.size.Set (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
-		mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
-		foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-		//animation.size.Set(float X, float Y)
+		setSprites ("brain");
+
+		putSpritesInContainers();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
 		setCameras ();
 	}
 	
-	void setCameras()
+	private void setCameras()
 	{
 		background.camObject = ImmunityCombatManager.instance.camera;
 		mid.camObject = ImmunityCombatManager.instance.camera;
 		foreground.camObject = ImmunityCombatManager.instance.camera;
+	}
+
+	private void initializeContainers()
+	{
+		background = new FParallaxContainer();
+		midBack = new FParallaxContainer();
+		mid = new FParallaxContainer();
+		foreMid = new FParallaxContainer();
+		foreground = new FParallaxContainer();
+		animation = new FParallaxContainer();
+	}
+
+	private void setSprites(String scene)
+	{
+		if (scene.toUpper().equals("BRAIN"))
+		{
+			level_background_sprite = new FSprite("Brain_Background");
+			level_mid_sprite = new FSprite("Brain_Mid");
+			level_foreground_sprite = new FSprite("Brain_Fore");
+			//level_animation_sprite = new FSprite("Brain_Neurons");
+
+			background.size.Set (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
+			mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
+			foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
+			//animation.size.Set(float X, float Y)
+		}
+		else if (scene.toUpper().equals("LUNGS"))
+		{
+			level_background_sprite = new FSprite("LungsBackground");
+			level_midback_sprite = new FSprite("LungsMidBack2");
+			level_mid_sprite = new FSprite("LungsMidBack");
+			level_foremid_sprite = new FSPrite("LungsForeMid");
+			level_foreground_sprite = new FSprite("LungsFore");
+			//level_animation_sprite = new FSprite("Lung_Dust");
+
+			background.size.Set (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
+			midBack.size.Set(1024, 768);
+			mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
+			foreMid.size.Set(4096, 2048);
+			foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
+			//animation.size.Set(float X, float Y)
+		}
+
+		//default case: set the stage to be the stomach
+		else
+		{
+			level_background_sprite = new FSprite("Stomach_Lake");
+			level_mid_sprite = new FSprite("Stomach_Mid");
+			level_foreground_sprite = new FSprite("Stomach_Fore");
+			//level_animation_sprite = new FSprite("Bubble_Pop");
+
+			background.size.Set (2000, 1000);
+			mid.size.Set (1024, 768);
+			foreground.size.Set (4096, 2048);
+			//animation.size.Set(float X, float Y)
+		}
+	}
+
+	private void putSpritesInContainers()
+	{
+		background.AddChild (level_background_sprite);
+		midBack.AddChild(level_midback_sprite);
+		mid.AddChild (level_mid_sprite);
+		foreMid.addChild(level_foremid_sprite);
+		foreground.AddChild (level_foreground_sprite);
+		//animation.AddChild(level_animation_sprite);
 	}
 }
