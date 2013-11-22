@@ -55,32 +55,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	// Use this for initialization
 	override public void Start () {
 		
-		/*
+
 		Stage stage = new Stage();
 		stage.setStomach();
-		*/
-		
-		background = new FParallaxContainer();
-		mid = new FParallaxContainer();
-		foreground = new FParallaxContainer();
-		
-		background.AddChild (levelBack_);
-		mid.AddChild (levelMid_);
-		foreground.AddChild (levelFore_);
-		
-		background.size.Set (Futile.screen.width /2, Futile.screen.height / 2);
-		mid.size.Set (Futile.screen.width, Futile.screen.height);
-		foreground.size.Set (Futile.screen.width * 2, Futile.screen.height * 2);
-	
-		levelBack_ = new FSprite("Stomach_Lake");
-		levelMid_ = new FSprite("Stomach_Mid");
-		levelFore_ = new FSprite("Stomach_Fore");
-		
-		//levelBack_.scaleX = 1.5f;
-		//levelMid_.scaleX = 1.5f;
-		//levelFore_.scaleX = 1.5f;
 		
 <<<<<<< HEAD
+			/*
 		background.AddChild (levelBack_);
 		mid.AddChild (levelMid_);
 		foreground.AddChild (levelFore_);
@@ -90,14 +70,14 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		FSoundManager.UnloadAllSoundsAndMusic();
 		FSoundManager.PlayMusic("stomach_ambience");
 
-		AddChild(stage.background);
-		AddChild(stage.mid);
-		AddChild(stage.foreground);
+		addComponentsToStage();
 
 =======
+			/*
 		AddChild(background);
 		AddChild(mid);
 		AddChild(foreground);
+		*/
 		
 >>>>>>> 23f3bea522c53cdc33d727e0faca62bfaaead3a1
 		FSprite enemy_headshot = new FSprite("punchy_headshot");
@@ -125,9 +105,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
 		
 		playerContainer.AddChild (player_);
-		
-		//Debug.Log ("playerContainer at x is " + playerContainer.x);
-		//Debug.Log ("playerContainer at y is " + playerContainer.y);
+
 		
 		AddChild(playerContainer);
 		
@@ -279,6 +257,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			enemy_.play("punchy_idle", true);
 			return;
 		}
+	}
+
+	private void addComponentsToStage()
+	{
+		AddChild(stage.getBackground());
+		AddChild(stage.getMidBack ());
+		AddChild(stage.getMid ());
+		AddChild(stage.getForeMid ());
+		AddChild(stage.getForeground());
+		AddChild (stage.getAnimation ());
 	}
 	
 	protected void HandleUpdate()
@@ -560,3 +548,5 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 	}
 }
+
+
