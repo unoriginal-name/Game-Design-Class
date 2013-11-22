@@ -55,12 +55,18 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	// Use this for initialization
 	override public void Start () {
 		
+		/*
 		Stage stage = new Stage();
 		stage.setStomach();
-		/*
+		*/
+		
 		background = new FParallaxContainer();
 		mid = new FParallaxContainer();
 		foreground = new FParallaxContainer();
+		
+		background.AddChild (levelBack_);
+		mid.AddChild (levelMid_);
+		foreground.AddChild (levelFore_);
 		
 		background.size.Set (Futile.screen.width /2, Futile.screen.height / 2);
 		mid.size.Set (Futile.screen.width, Futile.screen.height);
@@ -74,6 +80,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		//levelMid_.scaleX = 1.5f;
 		//levelFore_.scaleX = 1.5f;
 		
+<<<<<<< HEAD
 		background.AddChild (levelBack_);
 		mid.AddChild (levelMid_);
 		foreground.AddChild (levelFore_);
@@ -87,6 +94,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(stage.mid);
 		AddChild(stage.foreground);
 
+=======
+		AddChild(background);
+		AddChild(mid);
+		AddChild(foreground);
+		
+>>>>>>> 23f3bea522c53cdc33d727e0faca62bfaaead3a1
 		FSprite enemy_headshot = new FSprite("punchy_headshot");
 		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
 		enemy_headshot.y = Futile.screen.halfHeight - enemy_headshot.height/2.0f - 50.0f;

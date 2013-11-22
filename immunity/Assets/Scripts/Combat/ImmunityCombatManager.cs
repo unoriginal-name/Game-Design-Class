@@ -22,6 +22,7 @@ public class ImmunityCombatManager : MonoBehaviour {
 	
 	void Start () {
 		stage = new Stage();
+		stage.setStomach ();
 		instance = this;
 		
 		FutileParams fparams = new FutileParams(true, true, false, false);
