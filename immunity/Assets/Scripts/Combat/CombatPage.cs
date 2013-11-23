@@ -159,19 +159,33 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("punchy_idle");
 			return;
 		}
 
-		// if we're within 50 of the player don't move anymore
+		/*// if we're within 50 of the player don't move anymore
 		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
 		{
+			Debug.Log("Too close to player");
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 			return;
-		}
+		}*/
 		
 		enemy_.x -= enemy_.speed_*Futile.screen.width;
-		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
-			enemy_.x = player_.x + 50.0f + enemy_.width/2.0f + player_.width/2.0f;
+		/*if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
+		{
+			Debug.Log("Too close to player");
+			Debug.Log("player_.width/2.0f: " + player_.scaleX*player_.width/2.0f);
+			Debug.Log("enemy_.width/2.0f: " + enemy_.scaleX*enemy_.width/2.0f);
+			Debug.Log("enemy_.x: " + enemy_.x);
+			Debug.Log("player_.x: "  + player_.x);
+			enemy_.x = player_.x + 50.0f + enemy_.scaleX*enemy_.width/2.0f + player_.scaleY*player_.width/2.0f;
+			
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("punchy_idle");
+		}*/
+		if(!enemy_.currentAnim.name.Equals("punchy_walk"));
+			enemy_.play("punchy_walk");
 	}
 	
 	public void MoveAwayFromPlayerBehavior()
@@ -193,13 +207,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		enemy_.x += enemy_.speed_*Futile.screen.width;
 		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
 			enemy_.x = Futile.screen.halfWidth - enemy_.width/2.0f;
+		
+		/*if(!enemy_.currentAnim.name.Equals("punchy_walk"))
+			enemy_.play("punchy_walk");*/
 	}
 	
 	public void PunchBehavior()
 	{
 		Debug.Log("in punch behavior");
-		Debug.Log("punch finished: " + enemy_.isFinished);
-		if(enemy_.isFinished)
+		Debug.Log("punch finished count: " + enemy_.FinishedCount);
+		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 			enemy_.play("punchy_idle", true);
@@ -256,7 +273,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void PunchyBlockBehavior()
 	{
-		if(enemy_.isFinished)
+		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 			enemy_.play("punchy_idle", true);
@@ -264,12 +281,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 		
 		if(!enemy_.currentAnim.name.Equals("punchy_block"))
+		{
+			
 			enemy_.play("punchy_block");
+			
+		}
 	}
 	
 	public void PunchyHitBehavior()
 	{
-		if(enemy_.isFinished)
+		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 			enemy_.play("punchy_idle", true);
@@ -458,7 +479,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		{
 			BacteriaBubble bacteria = dyingBacterias_[b];
 			
-			if(bacteria.isFinished)
+			if(bacteria.FinishedCount >= 1)
 			{
 				dyingBacterias_.Remove(bacteria);
 				dyingBacteriaHolder_.RemoveChild(bacteria);
