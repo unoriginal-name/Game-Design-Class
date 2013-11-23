@@ -163,13 +163,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			{
 				enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 				enemy_.play("idle");
-				Debug.Log("player_center1: " + player_.GetPosition());
 			}
 			return;
 		}
-		
-		Debug.Log("player_center2: " + player_.GetPosition());
-		
+				
 		// if we've been moving towards the player for more than 2 seconds
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
@@ -478,6 +475,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
+		PunchBehavior();
+		return;
 		
 		if(player_won_ && enemy_.FinishedCount >= 1)
 		{
