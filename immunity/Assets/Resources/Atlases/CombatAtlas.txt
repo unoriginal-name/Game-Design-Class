@@ -621,7 +621,7 @@
 	"frame": {"x":2,"y":1400,"w":254,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":167,"y":89,"w":254,"h":300},
+	"spriteSourceSize": {"x":223,"y":75,"w":254,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_hit_2.png":
@@ -629,7 +629,7 @@
 	"frame": {"x":2,"y":496,"w":256,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":167,"y":89,"w":256,"h":300},
+	"spriteSourceSize": {"x":223,"y":77,"w":256,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_hit_3.png":
@@ -637,7 +637,7 @@
 	"frame": {"x":464,"y":1550,"w":244,"h":282},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":203,"y":107,"w":244,"h":282},
+	"spriteSourceSize": {"x":261,"y":96,"w":244,"h":282},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_hit_4.png":
@@ -645,7 +645,7 @@
 	"frame": {"x":725,"y":1382,"w":244,"h":282},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":203,"y":107,"w":244,"h":282},
+	"spriteSourceSize": {"x":262,"y":97,"w":244,"h":282},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_hit_5.png":
@@ -653,7 +653,7 @@
 	"frame": {"x":1582,"y":899,"w":256,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":167,"y":89,"w":256,"h":300},
+	"spriteSourceSize": {"x":231,"y":80,"w":256,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_hit_6.png":
@@ -661,7 +661,7 @@
 	"frame": {"x":469,"y":950,"w":254,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":167,"y":89,"w":254,"h":300},
+	"spriteSourceSize": {"x":234,"y":81,"w":254,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_idle_1.png":
@@ -839,6 +839,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":4096},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:ec1a6600d26f7e4ed70bd121e5e70110:abcb067d52d0bcc39834a79106f913f5:70c94c00f09909b399f64597a1e9cfc9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:90823289a65e068f169f7d3fc6fd6e7d:d40f79b4dbfc884bdb18901b4a64087c:70c94c00f09909b399f64597a1e9cfc9$"
 }
 }
