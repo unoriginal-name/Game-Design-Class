@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Stage : FStage {
@@ -86,13 +86,14 @@ public class Stage : FStage {
 	
 	private void setCameras()
 	{
-		background.camObject = ImmunityCombatManager.instance.camera;
-		mid.camObject = ImmunityCombatManager.instance.camera;
-		foreground.camObject = ImmunityCombatManager.instance.camera;
+		background.camObject = ImmunityCombatManager.instance.camera_;
+		mid.camObject = ImmunityCombatManager.instance.camera_;
+		foreground.camObject = ImmunityCombatManager.instance.camera_;
 	}
 
 	private void initializeContainers()
 	{
+		Debug.Log("Called initialize containers");
 		background = new FParallaxContainer();
 		midBack = new FParallaxContainer();
 		mid = new FParallaxContainer();
@@ -101,11 +102,12 @@ public class Stage : FStage {
 		animation = new FParallaxContainer();
 		animation2 = new FParallaxContainer();
 		animation3 = new FParallaxContainer();
+		Debug.Log("Finished calling initialize containers");
 	}
 
-	private void setSprites(String scene)
+	private void setSprites(string scene)
 	{
-		if (scene.toUpper().equals("BRAIN"))
+		if (scene.ToUpper().Equals("BRAIN"))
 		{
 			level_background_sprite = new FSprite("Brain_Background");
 			level_mid_sprite = new FSprite("Brain_Mid");
@@ -120,7 +122,7 @@ public class Stage : FStage {
 			foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
 			animation.size.Set(2000, 1000);
 		}
-		else if (scene.toUpper().equals("LUNGS"))
+		else if (scene.ToUpper().Equals("LUNGS"))
 		{
 			level_background_sprite = new FSprite("LungsBackground");
 			level_midback_sprite = new FSprite("LungsMidBack2");
@@ -143,7 +145,7 @@ public class Stage : FStage {
 			level_background_sprite = new FSprite("Stomach_Lake");
 			level_mid_sprite = new FSprite("Stomach_Mid");
 			level_foreground_sprite = new FSprite("Stomach_Fore");
-			level_animation_sprite = new FSprite("stomach_animations");
+			//level_animation_sprite = new FSprite("stomach_animations");
 
 			background.size.Set (2000, 1000);
 			mid.size.Set (1024, 768);
@@ -155,13 +157,13 @@ public class Stage : FStage {
 	private void putSpritesInContainers()
 	{
 		background.AddChild (level_background_sprite);
-		midBack.AddChild(level_midback_sprite);
+		//midBack.AddChild(level_midback_sprite);
 		mid.AddChild (level_mid_sprite);
-		foreMid.addChild(level_foremid_sprite);
+		//foreMid.AddChild(level_foremid_sprite);
 		foreground.AddChild (level_foreground_sprite);
-		animation.AddChild(level_animation_sprite);
-		animation2.AddChild (level_animation_sprite2);
-		animation3.AddChild (level_animation_sprite3);
+		//animation.AddChild(level_animation_sprite);
+		//animation2.AddChild (level_animation_sprite2);
+		//animation3.AddChild (level_animation_sprite3);
 	}
 
 	public FParallaxContainer getBackground()
@@ -199,7 +201,7 @@ public class Stage : FStage {
 		return animation2;
 	}
 
-	public FParallaxContainer getAnimation2()
+	public FParallaxContainer getAnimation3()
 	{
 		return animation3;
 	}

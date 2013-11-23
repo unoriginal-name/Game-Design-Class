@@ -8,7 +8,7 @@ public class ImmunityCombatManager : MonoBehaviour {
 	public static ImmunityCombatManager instance;
 	
 	private FStage stage_;
-	private Stage stage;
+	public Stage stage;
 	
 	private ImmunityPage gamePage;
 	public ImmunityPage GamePage
@@ -18,11 +18,9 @@ public class ImmunityCombatManager : MonoBehaviour {
 	
 	public int score;
 	
-	public FCamObject camera;
+	public FCamObject camera_;
 	
 	void Start () {
-		stage = new Stage();
-		stage.setStomach ();
 		instance = this;
 		
 		FutileParams fparams = new FutileParams(true, true, false, false);
@@ -45,17 +43,21 @@ public class ImmunityCombatManager : MonoBehaviour {
 		
 		stage_ = Futile.stage;
 		
-		camera = new FCamObject();
-		stage_.AddChild(camera);
+		camera_ = new FCamObject();
+		stage_.AddChild(camera_);
+		
+		stage = new Stage();
+		Debug.Log("calling setstomach");
+		stage.setStomach ();
+		Debug.Log("Finished calling setstomach");
+		
+		Rect worldBounds = stage.worldBounds;
+		camera_.setWorldBounds (worldBounds);
+		//camera_.setBounds(stage.cameraBounds);
 		
 		gamePage = new CombatPage();
 		gamePage.Start();
-		camera.AddChild(gamePage);	
-		
-		
-		Rect worldBounds = stage.worldBounds;
-		camera.setWorldBounds (worldBounds);
-		//camera.setBounds(stage.cameraBounds);	
+		camera_.AddChild(gamePage);	
 	}
 	
 	// Update is called once per frame
