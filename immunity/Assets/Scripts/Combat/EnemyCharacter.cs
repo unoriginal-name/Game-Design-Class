@@ -21,10 +21,12 @@ public class EnemyCharacter : FAnimatedSprite {
 	public BehaviorType curr_behavior_ = BehaviorType.IDLE;
 	public float behavior_start_time_;
 	
-	public float speed_ = .001f;
+	public float speed_ = .0025f;
 	
 	public int NUM_SPAWNED_SWARM = 4;
 	public int spawn_count = 0;
+	
+	private Vector2 animation_start_pos_;
 		
 	public EnemyCharacter(HealthBar health_bar) : base("punchy_idle")
 	{
@@ -45,13 +47,20 @@ public class EnemyCharacter : FAnimatedSprite {
 		FAnimation punch_animation = new FAnimation("punchy_punch", punch_frames, 100, false);
 		base.addAnimation(punch_animation);
 		
+		// taking damage animation
 		int[] hit_frames = {1, 2, 3, 4, 5, 6};
 		FAnimation hit_animation = new FAnimation("punchy_hit", hit_frames, 100, false);
 		base.addAnimation(hit_animation);
 		
+		// blocking animation
 		int[] block_frames = {1, 2, 3, 4, 5};
 		FAnimation block_animation = new FAnimation("punchy_block", block_frames, 100, false);
 		base.addAnimation(block_animation);
+		
+		// walking animation
+		int[] walk_frames = {1, 2, 3, 4};
+		FAnimation walk_animation = new FAnimation("punchy_walk", walk_frames, 100, true);
+		base.addAnimation(walk_animation);
 		
 		base.setDefaultAnimation("punchy_idle");
 				
@@ -86,7 +95,7 @@ public class EnemyCharacter : FAnimatedSprite {
 		{
 			float behavior_selection = Random.value;
 			
-			if(behavior_selection < .1f)
+			if(behavior_selection < 0.1f)
 			{
 				// switch to move_towards_player behavior
 				curr_behavior_ = BehaviorType.MOVE_TOWARDS_PLAYER;
@@ -119,5 +128,16 @@ public class EnemyCharacter : FAnimatedSprite {
 			}
 			behavior_start_time_ = Time.time;
 		}
+	}
+	
+	// This should probably be done by the animation library automatically
+	public void savePos()
+	{
+		animation_start_pos_ = this.GetPosition();
+	}
+	
+	public void restorePos()
+	{
+		this.SetPosition(animation_start_pos_);
 	}
 }

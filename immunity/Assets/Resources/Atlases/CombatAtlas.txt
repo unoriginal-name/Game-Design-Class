@@ -757,7 +757,7 @@
 	"frame": {"x":2,"y":1702,"w":254,"h":296},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":167,"y":90,"w":254,"h":296},
+	"spriteSourceSize": {"x":235,"y":76,"w":254,"h":296},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_walk_2.png":
@@ -765,7 +765,7 @@
 	"frame": {"x":1627,"y":599,"w":266,"h":298},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":160,"y":89,"w":266,"h":298},
+	"spriteSourceSize": {"x":223,"y":74,"w":266,"h":298},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_walk_3.png":
@@ -773,7 +773,7 @@
 	"frame": {"x":469,"y":1252,"w":254,"h":296},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":167,"y":90,"w":254,"h":296},
+	"spriteSourceSize": {"x":231,"y":77,"w":254,"h":296},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_walk_4.png":
@@ -781,7 +781,7 @@
 	"frame": {"x":1801,"y":2,"w":244,"h":298},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":171,"y":89,"w":244,"h":298},
+	"spriteSourceSize": {"x":238,"y":76,"w":244,"h":298},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchyswarm_idle_1.png":
@@ -839,6 +839,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":4096},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:9e5060e2dfaea7e98588e27fb30d51ab:018dc3f1707184818c0152bda858b90f:70c94c00f09909b399f64597a1e9cfc9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:af19fea12e82d57e6527fa406d9e5116:e92f9ff26715145a6278d821d48a0667:70c94c00f09909b399f64597a1e9cfc9$"
 }
 }
