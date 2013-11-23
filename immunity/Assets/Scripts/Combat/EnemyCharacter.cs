@@ -23,7 +23,7 @@ public class EnemyCharacter : FAnimatedSprite {
 	
 	public float speed_ = .001f;
 	
-	public int NUM_SPAWNED_SWARM = 10;
+	public int NUM_SPAWNED_SWARM = 4;
 	public int spawn_count = 0;
 		
 	public EnemyCharacter(HealthBar health_bar) : base("punchy_idle")
