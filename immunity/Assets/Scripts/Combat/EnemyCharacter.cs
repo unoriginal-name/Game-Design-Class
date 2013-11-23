@@ -66,6 +66,10 @@ public class EnemyCharacter : FAnimatedSprite {
 		FAnimation backwards_walk_animation = new FAnimation("backwards_walk", "punchy_walk", backwards_walk_frames, 100, true);
 		base.addAnimation(backwards_walk_animation);
 		
+		int[] death_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+		FAnimation death_animation = new FAnimation("death", "punchy_death", death_frames, 100, false);
+		base.addAnimation(death_animation);
+		
 		base.setDefaultAnimation("idle");
 				
 		y = -Futile.screen.halfHeight + height/2.0f + 50.0f;

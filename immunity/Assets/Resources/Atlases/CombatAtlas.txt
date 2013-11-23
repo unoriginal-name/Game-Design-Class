@@ -517,7 +517,7 @@
 	"frame": {"x":991,"y":821,"w":254,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":165,"y":87,"w":254,"h":300},
+	"spriteSourceSize": {"x":223,"y":75,"w":254,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_10.png":
@@ -525,7 +525,7 @@
 	"frame": {"x":1247,"y":923,"w":254,"h":124},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":158,"y":263,"w":254,"h":124},
+	"spriteSourceSize": {"x":200,"y":258,"w":254,"h":124},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_11.png":
@@ -533,7 +533,7 @@
 	"frame": {"x":1348,"y":335,"w":310,"h":80},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":129,"y":307,"w":310,"h":80},
+	"spriteSourceSize": {"x":173,"y":303,"w":310,"h":80},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_12.png":
@@ -541,7 +541,7 @@
 	"frame": {"x":1349,"y":297,"w":382,"h":36},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":93,"y":351,"w":382,"h":36},
+	"spriteSourceSize": {"x":138,"y":348,"w":382,"h":36},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_2.png":
@@ -549,7 +549,7 @@
 	"frame": {"x":476,"y":648,"w":256,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":166,"y":87,"w":256,"h":300},
+	"spriteSourceSize": {"x":223,"y":75,"w":256,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_3.png":
@@ -557,7 +557,7 @@
 	"frame": {"x":981,"y":1123,"w":244,"h":290},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":201,"y":105,"w":244,"h":290},
+	"spriteSourceSize": {"x":259,"y":94,"w":244,"h":290},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_4.png":
@@ -565,7 +565,7 @@
 	"frame": {"x":2,"y":2000,"w":244,"h":272},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":185,"y":115,"w":244,"h":272},
+	"spriteSourceSize": {"x":243,"y":104,"w":244,"h":272},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_5.png":
@@ -573,7 +573,7 @@
 	"frame": {"x":1033,"y":2125,"w":178,"h":240},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":200,"y":147,"w":178,"h":240},
+	"spriteSourceSize": {"x":245,"y":137,"w":178,"h":240},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_6.png":
@@ -581,7 +581,7 @@
 	"frame": {"x":1289,"y":2027,"w":178,"h":240},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":188,"y":147,"w":178,"h":240},
+	"spriteSourceSize": {"x":236,"y":138,"w":178,"h":240},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_7.png":
@@ -589,7 +589,7 @@
 	"frame": {"x":448,"y":2124,"w":192,"h":240},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":170,"y":147,"w":192,"h":240},
+	"spriteSourceSize": {"x":218,"y":139,"w":192,"h":240},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_8.png":
@@ -597,7 +597,7 @@
 	"frame": {"x":202,"y":2350,"w":188,"h":200},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":194,"y":187,"w":188,"h":200},
+	"spriteSourceSize": {"x":230,"y":180,"w":188,"h":200},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_9.png":
@@ -605,7 +605,7 @@
 	"frame": {"x":1082,"y":649,"w":230,"h":170},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":160,"y":218,"w":230,"h":170},
+	"spriteSourceSize": {"x":210,"y":211,"w":230,"h":170},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_headshot.png":
@@ -839,6 +839,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":4096},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:af19fea12e82d57e6527fa406d9e5116:e92f9ff26715145a6278d821d48a0667:70c94c00f09909b399f64597a1e9cfc9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:18c19c82c88c49c47455e4566281f9c1:b4cc7afda462b540ba757de4166aa55b:70c94c00f09909b399f64597a1e9cfc9$"
 }
 }
