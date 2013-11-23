@@ -154,6 +154,22 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void MoveTowardsPlayerBehavior()
 	{
+		// if we're within 50 of the player don't move anymore
+		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
+		{
+			Debug.Log("Too close to player");
+			
+			if(!enemy_.currentAnim.name.Equals("idle") && enemy_.FinishedCount >= 1)
+			{
+				enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+				enemy_.play("idle");
+				Debug.Log("player_center1: " + player_.GetPosition());
+			}
+			return;
+		}
+		
+		Debug.Log("player_center2: " + player_.GetPosition());
+		
 		// if we've been moving towards the player for more than 2 seconds
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
@@ -161,35 +177,25 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			enemy_.play("idle");
 			return;
 		}
-
-		// if we're within 50 of the player don't move anymore
-		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
-		{
-			Debug.Log("Too close to player");
-			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("idle");
-			return;
-		}
 		
+		Debug.Log("decreasing x");
 		enemy_.x -= enemy_.speed_*Futile.screen.width;
-		/*if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
-		{
-			Debug.Log("Too close to player");
-			Debug.Log("player_.width/2.0f: " + player_.scaleX*player_.width/2.0f);
-			Debug.Log("enemy_.width/2.0f: " + enemy_.scaleX*enemy_.width/2.0f);
-			Debug.Log("enemy_.x: " + enemy_.x);
-			Debug.Log("player_.x: "  + player_.x);
-			enemy_.x = player_.x + 50.0f + enemy_.scaleX*enemy_.width/2.0f + player_.scaleY*player_.width/2.0f;
-			
-			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle");
-		}*/
+		
 		if(!enemy_.currentAnim.name.Equals("walk"));
 			enemy_.play("walk");
 	}
 	
 	public void MoveAwayFromPlayerBehavior()
 	{
+				
+		if(enemy_.x > Futile.screen.halfWidth - enemy_.width/2.0f)
+		{
+			Debug.Log("Stop moving backwards");
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("idle");
+			return;
+		}
+		
 		// if we've been moving away from the player for more than 2 seconds
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
@@ -197,18 +203,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			enemy_.play("idle");
 			return;
 		}
-		
-		// if we're within 50 of the border don't move anymore
-		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
-		{
-			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("idle");
-			return;
-		}
-		
+
 		enemy_.x += enemy_.speed_*Futile.screen.width;
-		/*if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
-			enemy_.x = Futile.screen.halfWidth - enemy_.width/2.0f;*/
 		
 		if(!enemy_.currentAnim.name.Equals("backwards_walk"))
 			enemy_.play("backwards_walk");
@@ -482,6 +478,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
+		
 		if(player_won_ && enemy_.FinishedCount >= 1)
 		{
 			if(enemy_.FinishedCount >= 1)
