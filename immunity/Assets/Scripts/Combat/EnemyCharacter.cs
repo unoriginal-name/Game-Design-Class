@@ -24,15 +24,16 @@ public class EnemyCharacter : FAnimatedSprite {
 	public float speed_ = .0025f;
 	
 	public int NUM_SPAWNED_SWARM = 4;
-	public int spawn_count = 0;
-	
-	private Vector2 animation_start_pos_;
+	public int spawn_count = 0;	
 		
 	public EnemyCharacter(HealthBar health_bar) : base("punchy_idle")
 	{
 		ListenForUpdate(HandleUpdate);
 		
 		this.health_bar_ = health_bar;
+		
+		this.anchorX = .65f;
+		this.anchorY = .6f;
 		
 		// set up animations
 		// -------------------
@@ -138,14 +139,13 @@ public class EnemyCharacter : FAnimatedSprite {
 		}
 	}
 	
-	// This should probably be done by the animation library automatically
-	public void savePos()
+	public float width
 	{
-		animation_start_pos_ = this.GetPosition();
+		get { return base.width*.595f; }	
 	}
 	
-	public void restorePos()
+	public float height
 	{
-		this.SetPosition(animation_start_pos_);
+		get { return base.height*.993f; }	
 	}
 }

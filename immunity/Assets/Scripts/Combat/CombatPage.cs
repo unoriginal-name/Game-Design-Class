@@ -46,7 +46,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private bool player_lost_ = false;
 	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
-	
+		
 	//private Stage stage;
 	
 	public CombatPage()
@@ -94,7 +94,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		player_healthbar.x = player_headshot.x + player_headshot.width/2.0f + 25.0f;
 		player_healthbar.y = player_headshot.y;
 		player_ = new PlayerCharacter(player_healthbar);
-
 		
 		playerContainer = new FContainer();
 		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
@@ -163,13 +162,14 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			return;
 		}
 
-		/*// if we're within 50 of the player don't move anymore
+		// if we're within 50 of the player don't move anymore
 		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
 		{
 			Debug.Log("Too close to player");
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("idle");
 			return;
-		}*/
+		}
 		
 		enemy_.x -= enemy_.speed_*Futile.screen.width;
 		/*if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
@@ -199,11 +199,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 		
 		// if we're within 50 of the border don't move anymore
-		/*if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
+		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("idle");
 			return;
-		}*/
+		}
 		
 		enemy_.x += enemy_.speed_*Futile.screen.width;
 		/*if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
@@ -231,15 +232,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	public void SpawnSwarmBehavior()
 	{
 		framesTillNextBacteria_--;
-		
-		/*if(framesTillNextBacteria_ <= 0)
-		{
-			float angle = Mathf.PI/(float)enemy_.NUM_SPAWNED_SWARM * (enemy_.NUM_SPAWNED_SWARM - enemy_.spawn_count++);
-			Vector2 bacteria_direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-			CreateBacteria(enemy_.GetPosition(), bacteria_direction);
-		
-			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
-		}*/
 		
 		if(framesTillNextBacteria_ <= 0)
 		{
@@ -533,6 +525,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			break;
 		}
 		
+		
+		
 		checkForBacteriaOffScreen();
 		
 		checkForPlayerBubbleOffScreen();
@@ -587,18 +581,18 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						{
 							current_movement.destroy();
 						}
-											
-						// flip the player if the movement is behind the player
-						/*if(touch.position.x - player_.x < 0)
-							player_.scaleX = -1*Math.Abs(player_.scaleX);
-						else
-							player_.scaleX = Math.Abs(player_.scaleX);*/
+						
 						player_.scaleX = Math.Abs(player_.scaleX);
+						
+						if(touch.position.x - player_.x < 0)
+							player_.play("backwards_walk");
+						else
+							player_.play("walk");
 						
 						// calculate movement time based on player's speed attribute
 						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
 						
-						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x));
+						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x).onComplete(originalTween => player_.play("idle")));
 					}
 				}
 				else
@@ -607,22 +601,17 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					swipe_vector.x /= swipe_magnitude;
 					swipe_vector.y /=swipe_magnitude;
 					
-					Debug.Log("Swipe vector: <" + swipe_vector.x + ", " + swipe_vector.y + "> Magnitude: " + swipe_magnitude);
-					Debug.Log("touch: (" + touch.position.x + ", " + touch.position.y + ")");
-					Debug.Log("touch start: (" + touch_start.position.x + ", " + touch_start.position.y + ")");
-					Debug.Log("Player " + player_.x);
-					float sign = player_.scaleX/Mathf.Abs(player_.scaleX);
-					if(touch.position.x < (player_.x - sign*player_.width/4.0f) && touch_start.position.x > (player_.x - sign*player_.width/4.0f) &&
-						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
-						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
+					if(touch.position.x < player_.x && touch_start.position.x > player_.x &&
+						touch.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
+						touch_start.position.y < (player_.y + player_.width/2.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
 					{
 						// this is a block
 						Debug.Log("player block");
 						player_.play("block");
 					}
-					else if(touch.position.x > (player_.x - sign*player_.width/4.0f)  && touch_start.position.x < (player_.x - sign*player_.width/4.0f) &&
-						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
-						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
+					else if(touch.position.x > player_.x && touch_start.position.x < player_.x &&
+						touch.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
+						touch_start.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f))
 					{
 						// this a punch
 						Debug.Log("player punch");

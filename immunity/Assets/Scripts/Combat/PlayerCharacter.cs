@@ -10,6 +10,8 @@ public class PlayerCharacter : FAnimatedSprite {
 	
 	private HealthBar health_bar_;
 		
+	//protected Vector2 centroid_ = new Vector2(.806/8.333, 1.778/6.250);
+	
 	public PlayerCharacter(HealthBar health_bar) : base("huro_idle")
 	{
 		ListenForUpdate(HandleUpdate);
@@ -18,6 +20,9 @@ public class PlayerCharacter : FAnimatedSprite {
 		
 		this.scaleX = .75f;
 		this.scaleY = .75f;
+		
+		this.anchorX = .243f;
+		this.anchorY = .4f;
 
 		// idle animation
 		int[] idle_frames = {1, 2, 3, 4};
@@ -84,6 +89,16 @@ public class PlayerCharacter : FAnimatedSprite {
 	public bool isDead
 	{
 		get { return (health_ <= 0); }	
+	}
+	
+	public float width 
+	{
+		get { return base.width*.33f; }	
+	}
+	
+	public float height
+	{
+		get { return base.height*.613f; }	
 	}
 	
 	void HandleUpdate () {
