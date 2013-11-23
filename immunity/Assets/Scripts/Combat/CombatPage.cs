@@ -287,6 +287,185 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(ImmunityCombatManager.instance.stage.getAnimation ());
 	}
 	
+	private void checkForBacteriaOffScreen()
+	{
+		for(int b = bacterias_.Count-1; b >= 0; b--)
+		{
+			BacteriaBubble bacteria = bacterias_[b];
+			
+			// remove a bacteria if it falls off screen
+			if(bacteria.y < -Futile.screen.halfHeight - 50)
+			{
+				bacterias_.Remove(bacteria);
+				bacteriaContainer_.RemoveChild(bacteria);
+			}
+		}
+	}
+	
+	private void checkForPlayerBubbleOffScreen()
+	{
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			// remove a bubble if it falls off screen
+			if(bubble.y < -Futile.screen.halfHeight - 50 || 
+				bubble.y > Futile.screen.halfHeight + 50)
+			{
+				if(bubble.x < -Futile.screen.halfWidth - 50 ||
+					bubble.x > Futile.screen.halfWidth + 50)
+				{
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+				}
+			}
+		}
+	}
+	
+	private void checkForPlayerBubbleAndBacteriaCollision()
+	{
+		// check if any of the bubbles have collided with any of the bacteria
+		// TODO: Make this algorithm more efficient
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			
+			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(.2f, .2f, bubble.x, bubble.y); //bubble.scale, bubble.scale, bubble.x, bubble.y);
+			for(int j = bacterias_.Count-1; j >= 0; j--)
+			{
+				BacteriaBubble bacteria = bacterias_[j];
+				
+				Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
+				
+				if(bubbleRect.CheckIntersect(bacteriaRect))
+				{
+					HandleGotBacteria(bacteria);
+					bubbles_.Remove(bubble);
+					bubbleContainer_.RemoveChild(bubble);
+					break;
+				}
+			}
+		}
+	}
+	
+	void checkForPlayerBubbleAndEnemyCollision()
+	{
+		for(int b = bubbles_.Count-1; b >= 0; b--)
+		{
+			PlayerBubble bubble = bubbles_[b];
+			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(.2f, .2f, bubble.x, bubble.y); //bubble.scale, bubble.scale, bubble.x, bubble.y);
+
+			Rect enemyRect = enemy_.localRect.CloneAndScaleThenOffset(.25f, enemy_.scaleY, enemy_.x, enemy_.y); //Mathf.Abs(enemy_.scaleX)*.25f, enemy_.scaleY, enemy_.x, enemy_.y);
+			if(bubbleRect.CheckIntersect(enemyRect))
+			{
+				// if the enemy is currently being hit or its blocking then don't bother taking away more health
+				if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
+				{
+					enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
+					// TODO: Play hit sound
+					enemy_.play("punchy_hit", true);
+					enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
+					if(enemy_.isDead)
+					{
+						// TODO: Show win screen
+						player_won_ = true;
+						Debug.Log("You win!!");
+						Application.LoadLevel("ImmunityMainMenu");
+					}
+				}
+				
+				bubbles_.Remove(bubble);
+				bubbleContainer_.RemoveChild(bubble);
+			}
+		}
+	}
+	
+	void checkForBacteriaAndPlayerCollision()
+	{
+		// check if player was hit
+		bool playerHit = false;
+		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
+		for(int b = bacterias_.Count-1; b >= 0; b--)
+		{
+			BacteriaBubble bacteria = bacterias_[b];
+			Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
+			
+			if(playerRect.CheckIntersect(bacteriaRect))
+			{
+				// TODO: Show lose screen
+				playerHit = true;
+				HandleGotBacteria(bacteria);
+			}
+		}
+		if(playerHit)
+		{
+			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
+			FSoundManager.PlaySound("player_hit");
+			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
+			player_.play("huro_hit", true);
+			
+			if(player_.isDead)
+			{
+				player_lost_ = true;
+				Debug.Log("Game Over!");
+				Application.LoadLevel("ImmunityMainMenu");
+			}
+		}
+	}
+	
+	void checkForPlayerEnemyCollision()
+	{
+		Rect enemyCollisionRect;
+		if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
+			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
+		else
+			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
+		
+		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
+		if(!player_being_punched && playerRect.CheckIntersect(enemyCollisionRect))
+		{
+			Debug.Log("Player hit enemy");
+			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.2f));
+			FSoundManager.PlaySound("player_hit");
+			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
+			
+			current_movement.destroy();
+			
+			if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
+			{
+				float endX = enemy_.x - (1.2f*enemy_.width)/2.0f;
+				float tween_time = Math.Abs(player_.x - endX)/1000f;
+				Debug.Log("Punch tween for " + tween_time + " seconds");
+				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX).onComplete(originalTween => player_being_punched = false));
+				
+				player_being_punched = true;
+			}
+			else
+				player_.x = enemy_.x - (.5f*enemy_.width)/2.0f;
+			
+			if(player_.isDead)
+			{
+				player_lost_ = true;
+				Debug.Log("Game Over!");
+				Application.LoadLevel("ImmunityMainMenu");
+			}
+		}
+	}
+	
+	void checkForDeadBacteria()
+	{
+		for(int b = dyingBacterias_.Count-1; b >= 0; b--)
+		{
+			BacteriaBubble bacteria = dyingBacterias_[b];
+			
+			if(bacteria.isFinished)
+			{
+				dyingBacterias_.Remove(bacteria);
+				dyingBacteriaHolder_.RemoveChild(bacteria);
+			}
+		}
+	}
+	
 	protected void HandleUpdate()
 	{
 		
@@ -319,159 +498,19 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			break;
 		}
 		
-		for(int b = bacterias_.Count-1; b >= 0; b--)
-		{
-			BacteriaBubble bacteria = bacterias_[b];
-			
-			// remove a bacteria if it falls off screen
-			if(bacteria.y < -Futile.screen.halfHeight - 50)
-			{
-				bacterias_.Remove(bacteria);
-				bacteriaContainer_.RemoveChild(bacteria);
-			}
-		}
+		checkForBacteriaOffScreen();
 		
-		for(int b = bubbles_.Count-1; b >= 0; b--)
-		{
-			PlayerBubble bubble = bubbles_[b];
-			
-			// remove a bubble if it falls off screen
-			if(bubble.y < -Futile.screen.halfHeight - 50 || 
-				bubble.y > Futile.screen.halfHeight + 50)
-			{
-				if(bubble.x < -Futile.screen.halfWidth - 50 ||
-					bubble.x > Futile.screen.halfWidth + 50)
-				{
-					bubbles_.Remove(bubble);
-					bubbleContainer_.RemoveChild(bubble);
-				}
-			}
-		}
+		checkForPlayerBubbleOffScreen();
 		
-		// check if any of the bubbles have collided with any of the bacteria
-		// TODO: Make this algorithm more efficient
-		for(int b = bubbles_.Count-1; b >= 0; b--)
-		{
-			PlayerBubble bubble = bubbles_[b];
-			
-			Rect bubbleRect = bubble.localRect.CloneAndScaleThenOffset(.2f, .2f, bubble.x, bubble.y); //bubble.scale, bubble.scale, bubble.x, bubble.y);
-			for(int j = bacterias_.Count-1; j >= 0; j--)
-			{
-				BacteriaBubble bacteria = bacterias_[j];
-				
-				Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
-				
-				if(bubbleRect.CheckIntersect(bacteriaRect))
-				{
-					HandleGotBacteria(bacteria);
-					bubbles_.Remove(bubble);
-					bubbleContainer_.RemoveChild(bubble);
-					break;
-				}
-			}
-			
+		checkForPlayerBubbleAndBacteriaCollision();
+		
+		checkForPlayerBubbleAndEnemyCollision();
+		
+		checkForBacteriaAndPlayerCollision();
 
-
-				
-			Rect enemyRect = enemy_.localRect.CloneAndScaleThenOffset(.25f, enemy_.scaleY, enemy_.x, enemy_.y); //Mathf.Abs(enemy_.scaleX)*.25f, enemy_.scaleY, enemy_.x, enemy_.y);
-			if(bubbleRect.CheckIntersect(enemyRect))
-			{
-				// if the enemy is currently being hit or its blocking then don't bother taking away more health
-				if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
-				{
-					enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
-					// TODO: Play hit sound
-					enemy_.play("punchy_hit", true);
-					enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
-					if(enemy_.isDead)
-					{
-						// TODO: Show win screen
-						player_won_ = true;
-						Debug.Log("You win!!");
-						Application.LoadLevel("ImmunityMainMenu");
-					}
-				}
-				
-				bubbles_.Remove(bubble);
-				bubbleContainer_.RemoveChild(bubble);
-			}
-		}
+		checkForPlayerEnemyCollision();
 		
-		// check if player was hit
-		bool playerHit = false;
-		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
-		for(int b = bacterias_.Count-1; b >= 0; b--)
-		{
-			BacteriaBubble bacteria = bacterias_[b];
-			Rect bacteriaRect = bacteria.localRect.CloneAndScaleThenOffset(Math.Abs(bacteria.scaleX), bacteria.scaleY, bacteria.x, bacteria.y);
-			
-			if(playerRect.CheckIntersect(bacteriaRect))
-			{
-				// TODO: Show lose screen
-				playerHit = true;
-				HandleGotBacteria(bacteria);
-			}
-		}
-		if(playerHit)
-		{
-			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
-			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
-			player_.play("huro_hit", true);
-			
-			if(player_.isDead)
-			{
-				player_lost_ = true;
-				Debug.Log("Game Over!");
-				Application.LoadLevel("ImmunityMainMenu");
-			}
-		}
-
-		Rect enemyCollisionRect;
-		if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
-		else
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
-		
-		if(!player_being_punched && playerRect.CheckIntersect(enemyCollisionRect))
-		{
-			Debug.Log("Player hit enemy");
-			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.2f));
-			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
-			
-			current_movement.destroy();
-			
-			if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
-			{
-				float endX = enemy_.x - (1.2f*enemy_.width)/2.0f;
-				float tween_time = Math.Abs(player_.x - endX)/1000f;
-				Debug.Log("Punch tween for " + tween_time + " seconds");
-				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX).onComplete(originalTween => player_being_punched = false));
-				
-				player_being_punched = true;
-			}
-			else
-				player_.x = enemy_.x - (.5f*enemy_.width)/2.0f;
-			
-			if(player_.isDead)
-			{
-				player_lost_ = true;
-				Debug.Log("Game Over!");
-				Application.LoadLevel("ImmunityMainMenu");
-			}
-		}
-		
-		for(int b = dyingBacterias_.Count-1; b >= 0; b--)
-		{
-			BacteriaBubble bacteria = dyingBacterias_[b];
-			
-			if(bacteria.isFinished)
-			{
-				dyingBacterias_.Remove(bacteria);
-				dyingBacteriaHolder_.RemoveChild(bacteria);
-			}
-		}
+		checkForDeadBacteria();
 		
 		frameCount_++;
 		
