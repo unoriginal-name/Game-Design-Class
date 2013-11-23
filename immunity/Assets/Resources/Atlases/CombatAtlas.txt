@@ -477,7 +477,7 @@
 	"frame": {"x":725,"y":1080,"w":254,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":167,"y":89,"w":254,"h":300},
+	"spriteSourceSize": {"x":223,"y":75,"w":254,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_block_2.png":
@@ -485,7 +485,7 @@
 	"frame": {"x":258,"y":1468,"w":204,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":201,"y":89,"w":204,"h":300},
+	"spriteSourceSize": {"x":257,"y":75,"w":204,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_block_3.png":
@@ -493,7 +493,7 @@
 	"frame": {"x":258,"y":1770,"w":198,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":206,"y":89,"w":198,"h":300},
+	"spriteSourceSize": {"x":261,"y":75,"w":198,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_block_4.png":
@@ -501,7 +501,7 @@
 	"frame": {"x":258,"y":1770,"w":198,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":206,"y":89,"w":198,"h":300},
+	"spriteSourceSize": {"x":262,"y":75,"w":198,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_block_5.png":
@@ -509,7 +509,7 @@
 	"frame": {"x":1840,"y":1119,"w":204,"h":300},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":201,"y":89,"w":204,"h":300},
+	"spriteSourceSize": {"x":259,"y":75,"w":204,"h":300},
 	"sourceSize": {"w":600,"h":450}
 },
 "punchy_death_1.png":
@@ -839,6 +839,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":4096},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:46afc7549f928bd9e9f7961647705412:95ecee14cd700a11fef57d1ea64e79ed:70c94c00f09909b399f64597a1e9cfc9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:9e5060e2dfaea7e98588e27fb30d51ab:018dc3f1707184818c0152bda858b90f:70c94c00f09909b399f64597a1e9cfc9$"
 }
 }
