@@ -214,13 +214,36 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	{
 		framesTillNextBacteria_--;
 		
-		if(framesTillNextBacteria_ <= 0)
+		/*if(framesTillNextBacteria_ <= 0)
 		{
 			float angle = Mathf.PI/(float)enemy_.NUM_SPAWNED_SWARM * (enemy_.NUM_SPAWNED_SWARM - enemy_.spawn_count++);
 			Vector2 bacteria_direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 			CreateBacteria(enemy_.GetPosition(), bacteria_direction);
 		
 			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
+		}*/
+		
+		if(framesTillNextBacteria_ <= 0)
+		{
+			float max_height = Futile.screen.halfHeight;
+			float min_height = max_height/4.0f;
+			
+			float height = UnityEngine.Random.value*(max_height - min_height) + min_height;
+			
+			Vector2 initial_velocity = new Vector2(0,0);
+			
+			initial_velocity.y = Mathf.Sqrt(2.0f*BacteriaBubble.accel*height);
+			
+			float air_time = (2.0f*initial_velocity.y)/BacteriaBubble.accel;
+			
+			initial_velocity.x = (player_.x - enemy_.x)/air_time;
+			
+			Debug.Log("initial_velocity: " + initial_velocity);
+			
+			CreateBacteria(enemy_.GetPosition(), initial_velocity);
+			
+			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
+			enemy_.spawn_count++;
 		}
 		
 		if(enemy_.spawn_count >= enemy_.NUM_SPAWNED_SWARM)
