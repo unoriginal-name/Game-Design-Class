@@ -194,22 +194,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("idle");
 			return;
 		}
 		
 		// if we're within 50 of the border don't move anymore
-		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
+		/*if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 			return;
-		}
+		}*/
 		
 		enemy_.x += enemy_.speed_*Futile.screen.width;
-		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
-			enemy_.x = Futile.screen.halfWidth - enemy_.width/2.0f;
+		/*if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
+			enemy_.x = Futile.screen.halfWidth - enemy_.width/2.0f;*/
 		
-		/*if(!enemy_.currentAnim.name.Equals("punchy_walk"))
-			enemy_.play("punchy_walk");*/
+		if(!enemy_.currentAnim.name.Equals("backwards_walk"))
+			enemy_.play("backwards_walk");
 	}
 	
 	public void PunchBehavior()
