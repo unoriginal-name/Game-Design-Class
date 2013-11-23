@@ -395,7 +395,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 	
 	void checkForBacteriaAndPlayerCollision()
-	{
+	{	
 		// check if player was hit
 		bool playerHit = false;
 		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
@@ -406,8 +406,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			
 			if(playerRect.CheckIntersect(bacteriaRect))
 			{
-				// TODO: Show lose screen
-				playerHit = true;
+				// only do more damage if the player isn't already hit and isn't blocking
+				if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+					playerHit = true;
 				HandleGotBacteria(bacteria);
 			}
 		}
@@ -436,7 +437,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
 		
 		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
-		if(!player_being_punched && playerRect.CheckIntersect(enemyCollisionRect))
+		if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT && playerRect.CheckIntersect(enemyCollisionRect))
 		{
 			Debug.Log("Player hit enemy");
 			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.2f));
@@ -450,9 +451,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				float endX = enemy_.x - (1.2f*enemy_.width)/2.0f;
 				float tween_time = Math.Abs(player_.x - endX)/1000f;
 				Debug.Log("Punch tween for " + tween_time + " seconds");
-				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX).onComplete(originalTween => player_being_punched = false));
-				
-				player_being_punched = true;
+				player_.CurrentState = PlayerCharacter.PlayerState.HIT;
+				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX).onComplete(originalTween => player_.CurrentState = PlayerCharacter.PlayerState.IDLE));
 			}
 			else
 				player_.x = enemy_.x - (.5f*enemy_.width)/2.0f;
@@ -525,7 +525,30 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			break;
 		}
 		
-		
+		switch(player_.CurrentState)
+		{
+		case PlayerCharacter.PlayerState.BLOCK:
+			if(player_.FinishedCount >= 1)
+			{
+				player_.CurrentState = PlayerCharacter.PlayerState.IDLE;
+				player_.play("idle");	
+			}
+			break;
+		case PlayerCharacter.PlayerState.PUNCH:
+			if(player_.FinishedCount >= 1)
+			{
+				player_.CurrentState = PlayerCharacter.PlayerState.IDLE;
+				player_.play("idle");
+			}
+			break;
+		case PlayerCharacter.PlayerState.HIT:
+			if(player_.FinishedCount >= 1)
+			{
+				player_.CurrentState = PlayerCharacter.PlayerState.IDLE;
+				player_.play("idle");
+			}
+			break;
+		}
 		
 		checkForBacteriaOffScreen();
 		
@@ -589,10 +612,13 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						else
 							player_.play("walk");
 						
+						player_.CurrentState = PlayerCharacter.PlayerState.WALK;
+						
 						// calculate movement time based on player's speed attribute
 						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
 						
-						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x).onComplete(originalTween => player_.play("idle")));
+						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x).onComplete(originalTween => { player_.play("idle"); 
+							player_.CurrentState = PlayerCharacter.PlayerState.IDLE; }));
 					}
 				}
 				else
@@ -608,6 +634,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						// this is a block
 						Debug.Log("player block");
 						player_.play("block");
+						player_.CurrentState = PlayerCharacter.PlayerState.BLOCK;
 					}
 					else if(touch.position.x > player_.x && touch_start.position.x < player_.x &&
 						touch.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
@@ -616,6 +643,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						// this a punch
 						Debug.Log("player punch");
 						player_.play("punch");
+						player_.CurrentState = PlayerCharacter.PlayerState.PUNCH;
 					}
 					else
 					{

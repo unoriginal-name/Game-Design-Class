@@ -3,12 +3,16 @@ using System.Collections;
 
 public class PlayerCharacter : FAnimatedSprite {
 	
+	public enum PlayerState { IDLE, HIT, BLOCK, PUNCH, WALK };
+	
 	public const int MAX_HEALTH = 100;
 	private float speed_;
 	
 	private int health_ = MAX_HEALTH;
 	
 	private HealthBar health_bar_;
+	
+	protected PlayerState current_state_;
 		
 	//protected Vector2 centroid_ = new Vector2(.806/8.333, 1.778/6.250);
 	
@@ -99,6 +103,12 @@ public class PlayerCharacter : FAnimatedSprite {
 	public float height
 	{
 		get { return base.height*.613f; }	
+	}
+	
+	public PlayerState CurrentState
+	{
+		get { return current_state_; }
+		set { current_state_ = value; }
 	}
 	
 	void HandleUpdate () {
