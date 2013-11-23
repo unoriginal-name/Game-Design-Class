@@ -59,7 +59,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		Stage stage = new Stage();
 		stage.setStomach();
 		
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			/*
 		background.AddChild (levelBack_);
 		mid.AddChild (levelMid_);
@@ -72,14 +72,14 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 
 		addComponentsToStage();
 
-=======
+//=======
 			/*
 		AddChild(background);
 		AddChild(mid);
 		AddChild(foreground);
 		*/
 		
->>>>>>> 23f3bea522c53cdc33d727e0faca62bfaaead3a1
+//>>>>>>> 23f3bea522c53cdc33d727e0faca62bfaaead3a1
 		FSprite enemy_headshot = new FSprite("punchy_headshot");
 		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
 		enemy_headshot.y = Futile.screen.halfHeight - enemy_headshot.height/2.0f - 50.0f;

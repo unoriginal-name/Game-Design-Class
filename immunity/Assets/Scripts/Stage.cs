@@ -118,7 +118,7 @@ public class Stage : FStage {
 			background.size.Set (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
 			foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-			animation.size.Set(2000, 1000)
+			animation.size.Set(2000, 1000);
 		}
 		else if (scene.toUpper().equals("LUNGS"))
 		{
@@ -134,7 +134,7 @@ public class Stage : FStage {
 			mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
 			foreMid.size.Set(4096, 2048);
 			foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-			animation.size.Set(2000, 1000)
+			animation.size.Set(2000, 1000);
 		}
 
 		//default case: set the stage to be the stomach
@@ -148,7 +148,7 @@ public class Stage : FStage {
 			background.size.Set (2000, 1000);
 			mid.size.Set (1024, 768);
 			foreground.size.Set (4096, 2048);
-			animation.size.Set(2000, 1000)
+			animation.size.Set(2000, 1000);
 		}
 	}
 
