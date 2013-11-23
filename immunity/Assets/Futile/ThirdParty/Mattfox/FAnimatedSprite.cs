@@ -69,7 +69,7 @@ public class FAnimatedSprite : FSprite {
 					}
 				}
 				
-				element = Futile.atlasManager.GetElementWithName(_currentAnim.name+"_"+_currentAnim.frames[_currentFrame]);
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.filename+"_"+_currentAnim.frames[_currentFrame]);
 				
 				_time -= (float)_currentAnim.delay / 1000.0f;
 				
@@ -100,7 +100,7 @@ public class FAnimatedSprite : FSprite {
 				_time = 0;
 								
 				// redraw
-				element = Futile.atlasManager.GetElementWithName(_currentAnim.name+"_"+_currentAnim.frames[0]);
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.filename+"_"+_currentAnim.frames[0]);
 			}
 			return;
 		}
@@ -115,7 +115,7 @@ public class FAnimatedSprite : FSprite {
 				_time = 0;
 					
 				// force redraw to first frame
-				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+anim.frames[0]);
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.filename+"_"+anim.frames[0]);
 					
 				break;
 			}

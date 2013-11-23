@@ -129,7 +129,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		dyingBacteriaHolder_.AddChild(bacteria);
 		dyingBacterias_.Add(bacteria);
 		
-		bacteria.play("punchyswarm_pop");
+		bacteria.play("pop");
 		
 		FSoundManager.PlaySound("bacteria_pop");
 	}
@@ -138,7 +138,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	{
 		BacteriaBubble bacteria = new BacteriaBubble(location, direction);
 		bacteriaContainer_.AddChild(bacteria);
-		bacteria.play("punchyswarm_idle");
+		bacteria.play("idle");
 		bacterias_.Add(bacteria);
 		totalBacterialCreated_++;
 	}
@@ -149,7 +149,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bubbleContainer_.AddChild(bubble);
 		bubble.x = player_.x;
 		bubble.y = player_.y;
-		bubble.play("player_cell_swim");
+		bubble.play("idle");
 		bubbles_.Add(bubble);
 	}
 	
@@ -159,7 +159,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle");
+			enemy_.play("idle");
 			return;
 		}
 
@@ -184,8 +184,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
 			enemy_.play("punchy_idle");
 		}*/
-		if(!enemy_.currentAnim.name.Equals("punchy_walk"));
-			enemy_.play("punchy_walk");
+		if(!enemy_.currentAnim.name.Equals("walk"));
+			enemy_.play("walk");
 	}
 	
 	public void MoveAwayFromPlayerBehavior()
@@ -219,12 +219,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle", true);
+			enemy_.play("idle", true);
 			return;
 		}
 		
-		if(!enemy_.currentAnim.name.Equals("punchy_punch"))
-			enemy_.play("punchy_punch");
+		if(!enemy_.currentAnim.name.Equals("punch"))
+			enemy_.play("punch");
 	}
 	
 	public void SpawnSwarmBehavior()
@@ -276,14 +276,14 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle", true);
+			enemy_.play("idle", true);
 			return;
 		}
 		
-		if(!enemy_.currentAnim.name.Equals("punchy_block"))
+		if(!enemy_.currentAnim.name.Equals("block"))
 		{
 			
-			enemy_.play("punchy_block");
+			enemy_.play("block");
 			
 		}
 	}
@@ -293,7 +293,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle", true);
+			enemy_.play("idle", true);
 			return;
 		}
 	}
@@ -384,7 +384,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				{
 					enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
 					// TODO: Play hit sound
-					enemy_.play("punchy_hit", true);
+					enemy_.play("hit", true);
 					enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
 					if(enemy_.isDead)
 					{
@@ -423,7 +423,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
 			FSoundManager.PlaySound("player_hit");
 			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
-			player_.play("huro_hit", true);
+			player_.play("hit", true);
 			
 			if(player_.isDead)
 			{
@@ -489,7 +489,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
-		
 		if(player_won_ || player_lost_)
 		{
 			return; // do nothing	
@@ -604,7 +603,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					{
 						// this is a block
 						Debug.Log("player block");
-						player_.play("huro_block");
+						player_.play("block");
 					}
 					else if(touch.position.x > (player_.x - sign*player_.width/4.0f)  && touch_start.position.x < (player_.x - sign*player_.width/4.0f) &&
 						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
@@ -612,7 +611,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					{
 						// this a punch
 						Debug.Log("player punch");
-						player_.play("huro_punch");
+						player_.play("punch");
 					}
 					else
 					{

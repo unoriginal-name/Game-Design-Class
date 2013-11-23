@@ -39,30 +39,34 @@ public class EnemyCharacter : FAnimatedSprite {
 		
 		// idle animation
 		int[] idle_frames = {1, 2, 3, 4};
-		FAnimation idle_animation = new FAnimation("punchy_idle", idle_frames, 150, true);
+		FAnimation idle_animation = new FAnimation("idle", "punchy_idle", idle_frames, 150, true);
 		base.addAnimation(idle_animation);
 		
 		// punch animation
 		int[] punch_frames = {1, 2, 3, 4, 5, 6, 7};
-		FAnimation punch_animation = new FAnimation("punchy_punch", punch_frames, 100, false);
+		FAnimation punch_animation = new FAnimation("punch", "punchy_punch", punch_frames, 100, false);
 		base.addAnimation(punch_animation);
 		
 		// taking damage animation
 		int[] hit_frames = {1, 2, 3, 4, 5, 6};
-		FAnimation hit_animation = new FAnimation("punchy_hit", hit_frames, 100, false);
+		FAnimation hit_animation = new FAnimation("hit", "punchy_hit", hit_frames, 100, false);
 		base.addAnimation(hit_animation);
 		
 		// blocking animation
 		int[] block_frames = {1, 2, 3, 4, 5};
-		FAnimation block_animation = new FAnimation("punchy_block", block_frames, 100, false);
+		FAnimation block_animation = new FAnimation("block", "punchy_block", block_frames, 100, false);
 		base.addAnimation(block_animation);
 		
 		// walking animation
 		int[] walk_frames = {1, 2, 3, 4};
-		FAnimation walk_animation = new FAnimation("punchy_walk", walk_frames, 100, true);
+		FAnimation walk_animation = new FAnimation("walk", "punchy_walk", walk_frames, 100, true);
 		base.addAnimation(walk_animation);
 		
-		base.setDefaultAnimation("punchy_idle");
+		int[] backwards_walk_frames = {4, 3, 2, 1};
+		FAnimation backwards_walk_animation = new FAnimation("backwards_walk", "punchy_walk", backwards_walk_frames, 100, true);
+		base.addAnimation(backwards_walk_animation);
+		
+		base.setDefaultAnimation("idle");
 				
 		y = -Futile.screen.halfHeight + height/2.0f + 50.0f;
 		x = Futile.screen.halfWidth - width/2.0f - 150.0f;
