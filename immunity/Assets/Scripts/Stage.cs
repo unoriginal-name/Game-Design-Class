@@ -125,7 +125,7 @@ public class Stage : FStage {
 			level_background_sprite = new FSprite("LungsBackground");
 			level_midback_sprite = new FSprite("LungsMidBack2");
 			level_mid_sprite = new FSprite("LungsMidBack");
-			level_foremid_sprite = new FSPrite("LungsForeMid");
+			level_foremid_sprite = new FSprite("LungsForeMid");
 			level_foreground_sprite = new FSprite("LungsFore");
 			level_animation_sprite = new FSprite("lung_dust");
 
