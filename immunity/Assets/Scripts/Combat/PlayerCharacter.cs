@@ -51,7 +51,7 @@ public class PlayerCharacter : FAnimatedSprite {
 		
 		// death animation
 		int[] death_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-		FAnimation death_animation = new FAnimation("death", "huro_death", death_frames, 150, true);
+		FAnimation death_animation = new FAnimation("death", "huro_death", death_frames, 150, false);
 		base.addAnimation(death_animation);
 		
 		base.setDefaultAnimation("idle");

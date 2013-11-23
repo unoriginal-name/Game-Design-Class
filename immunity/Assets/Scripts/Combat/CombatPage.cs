@@ -383,7 +383,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				// if the enemy is currently being hit or its blocking then don't bother taking away more health
 				if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
 				{
-					enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
+					enemy_.ChangeHealth((int)(-.1f*EnemyCharacter.MAX_HEALTH));
 					// TODO: Play hit sound
 					enemy_.play("hit", true);
 					enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
@@ -391,8 +391,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					{
 						// TODO: Show win screen
 						player_won_ = true;
+						enemy_.play("death");
 						Debug.Log("You win!!");
-						Application.LoadLevel("ImmunityMainMenu");
 					}
 				}
 				
@@ -429,8 +429,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			if(player_.isDead)
 			{
 				player_lost_ = true;
+				player_.play("death");
 				Debug.Log("Game Over!");
-				Application.LoadLevel("ImmunityMainMenu");
 			}
 		}
 	}
@@ -468,8 +468,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			if(player_.isDead)
 			{
 				player_lost_ = true;
+				player_.play("death");
 				Debug.Log("Game Over!");
-				Application.LoadLevel("ImmunityMainMenu");
 			}
 		}
 	}
@@ -490,9 +490,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
-		if(player_won_ || player_lost_)
+		if(player_won_ && enemy_.FinishedCount >= 1)
 		{
-			return; // do nothing	
+			if(enemy_.FinishedCount >= 1)
+			{
+				// TODO: show victory menu	
+			}
+			return;
+		}
+		
+		if(player_lost_)
+		{
+			if(player_.FinishedCount >= 1)
+			{
+				// TODO: show game over menu
+			}
+			
+			return;
 		}
 		
 		switch(enemy_.curr_behavior_)
