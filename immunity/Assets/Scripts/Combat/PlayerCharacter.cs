@@ -39,6 +39,16 @@ public class PlayerCharacter : FAnimatedSprite {
 		FAnimation hit_animation = new FAnimation("hit", "huro_hit", hit_frames, 150, false);
 		base.addAnimation(hit_animation);
 		
+		// walk animation
+		int[] walk_frames = {1, 2, 3, 4};
+		FAnimation walk_animation = new FAnimation("walk", "huro_walk", walk_frames, 150, true);
+		base.addAnimation(walk_animation);
+		
+		// backwards walk animation
+		int[] backwards_walk_frames = {4, 3, 2, 1};
+		FAnimation backwards_walk_animation = new FAnimation("backwards_walk", "huro_walk", backwards_walk_frames, 150, true);
+		base.addAnimation(backwards_walk_animation);
+		
 		base.setDefaultAnimation("idle");
 		
 		speed_ = 0.5f;
