@@ -101,7 +101,7 @@
 	"frame": {"x":1834,"y":1421,"w":198,"h":276},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":57,"y":102,"w":198,"h":276},
+	"spriteSourceSize": {"x":60,"y":128,"w":198,"h":276},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_10.png":
@@ -109,7 +109,7 @@
 	"frame": {"x":1247,"y":1049,"w":248,"h":72},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":13,"y":306,"w":248,"h":72},
+	"spriteSourceSize": {"x":17,"y":333,"w":248,"h":72},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_11.png":
@@ -117,7 +117,7 @@
 	"frame": {"x":1348,"y":439,"w":282,"h":20},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":4,"y":358,"w":282,"h":20},
+	"spriteSourceSize": {"x":8,"y":385,"w":282,"h":20},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_12.png":
@@ -125,7 +125,7 @@
 	"frame": {"x":1348,"y":417,"w":282,"h":20},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":4,"y":358,"w":282,"h":20},
+	"spriteSourceSize": {"x":8,"y":385,"w":282,"h":20},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_2.png":
@@ -133,7 +133,7 @@
 	"frame": {"x":1804,"y":1699,"w":192,"h":270},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":52,"y":108,"w":192,"h":270},
+	"spriteSourceSize": {"x":56,"y":135,"w":192,"h":270},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_3.png":
@@ -141,7 +141,7 @@
 	"frame": {"x":910,"y":1716,"w":192,"h":264},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":48,"y":114,"w":192,"h":264},
+	"spriteSourceSize": {"x":52,"y":141,"w":192,"h":264},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_4.png":
@@ -149,7 +149,7 @@
 	"frame": {"x":658,"y":1956,"w":192,"h":256},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":56,"y":122,"w":192,"h":256},
+	"spriteSourceSize": {"x":60,"y":149,"w":192,"h":256},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_5.png":
@@ -157,7 +157,7 @@
 	"frame": {"x":1895,"y":877,"w":142,"h":240},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":68,"y":138,"w":142,"h":240},
+	"spriteSourceSize": {"x":72,"y":165,"w":142,"h":240},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_6.png":
@@ -165,7 +165,7 @@
 	"frame": {"x":1469,"y":2160,"w":158,"h":240},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":69,"y":138,"w":158,"h":240},
+	"spriteSourceSize": {"x":73,"y":165,"w":158,"h":240},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_7.png":
@@ -173,7 +173,7 @@
 	"frame": {"x":1206,"y":312,"w":140,"h":226},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":66,"y":152,"w":140,"h":226},
+	"spriteSourceSize": {"x":70,"y":179,"w":140,"h":226},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_8.png":
@@ -181,7 +181,7 @@
 	"frame": {"x":852,"y":2135,"w":176,"h":182},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":49,"y":196,"w":176,"h":182},
+	"spriteSourceSize": {"x":53,"y":223,"w":176,"h":182},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_death_9.png":
@@ -189,7 +189,7 @@
 	"frame": {"x":260,"y":631,"w":214,"h":126},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":27,"y":252,"w":214,"h":126},
+	"spriteSourceSize": {"x":31,"y":279,"w":214,"h":126},
 	"sourceSize": {"w":600,"h":450}
 },
 "huro_hit_1.png":
@@ -839,6 +839,6 @@
 	"format": "RGBA8888",
 	"size": {"w":2048,"h":4096},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:90823289a65e068f169f7d3fc6fd6e7d:d40f79b4dbfc884bdb18901b4a64087c:70c94c00f09909b399f64597a1e9cfc9$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3bbb9cdb766672a89a7941439151a0af:e0ac1bd5e65baf317271a4aeeee5d7e2:70c94c00f09909b399f64597a1e9cfc9$"
 }
 }
