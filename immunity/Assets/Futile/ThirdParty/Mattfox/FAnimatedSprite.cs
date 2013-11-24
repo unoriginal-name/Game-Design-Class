@@ -6,6 +6,7 @@ public class FAnimatedSprite : FSprite {
 	
 	protected bool _pause = false;
 	protected bool _finished = false;
+	protected int _finishedCount = 0;
 	protected float _time = 0;
 	protected int _currentFrame = 0;
 	
@@ -14,6 +15,8 @@ public class FAnimatedSprite : FSprite {
 	
 	protected List<FAnimation> _animations;
 	protected string _defaultAnim;
+	protected FAnimation _nextAnim;
+
 	
 	protected FAnimation _currentAnim;
 	
@@ -49,26 +52,27 @@ public class FAnimatedSprite : FSprite {
 	virtual public void Update () {
 		if (_currentAnim != null && !_pause) {
 			_time += Time.deltaTime;
-		
-			while (_time > (float)_currentAnim.delay / 1000.0f) { // looping this way will skip frames if needed
+			
+			while(_time > (float)_currentAnim.delay / 1000.0f)
+			{ // loop this way will skip frames if needed
 				_currentFrame++;
-				if (_currentFrame >= _currentAnim.totalFrames) {
-					if (_currentAnim.looping) {
-						_currentFrame = 0;
-					} else {
+				if(_currentFrame >= _currentAnim.totalFrames) 
+				{
+					_finishedCount++;
+					if(_currentAnim	.looping) 
+					{
+						_currentFrame = 0;	
+					} 
+					else 
+					{
 						_currentFrame = _currentAnim.totalFrames - 1;
-						_finished = true;
-						
-						play(_defaultAnim, true, false);
 					}
-					
-					// send Signal if it exists
-					//_currentAnim.checkFinished();
 				}
 				
-				element = Futile.atlasManager.GetElementWithName(_currentAnim.name+"_"+_currentAnim.frames[_currentFrame]);
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.filename+"_"+_currentAnim.frames[_currentFrame]);
 				
 				_time -= (float)_currentAnim.delay / 1000.0f;
+				
 			}
 		}
 	}
@@ -87,23 +91,16 @@ public class FAnimatedSprite : FSprite {
 		_defaultAnim = animName;
 	}
 	
-	public void play(string animName, bool forced=false)
-	{
-		play(animName, forced, true);	
-	}
-	
-	private void play(string animName, bool forced, bool resetIsFinished) {
+	public void play(string animName, bool forced=false) {
 		// check if we are given the same animation that is currently playing
 		if (_currentAnim.name == animName) {
 			if (forced) {
-				// restart at first frame
-				if(resetIsFinished)
-					_finished = false;
+				_finishedCount = 0;
 				_currentFrame = 0;
 				_time = 0;
 								
 				// redraw
-				element = Futile.atlasManager.GetElementWithName(_currentAnim.name+"_"+_currentAnim.frames[0]);
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.filename+"_"+_currentAnim.frames[0]);
 			}
 			return;
 		}
@@ -112,15 +109,14 @@ public class FAnimatedSprite : FSprite {
 		foreach (FAnimation anim in _animations) {
 			if (anim.name.Equals(animName, StringComparison.Ordinal)) {
 				//Debug.Log("Playing " + anim.name);
-				if(resetIsFinished)
-					_finished = false;
+				_finishedCount = 0;
 				_currentAnim = anim;
 				_currentFrame = 0;
 				_time = 0;
-				
+					
 				// force redraw to first frame
-				element = Futile.atlasManager.GetElementWithName(_baseName+"_"+anim.frames[0]);
-				
+				element = Futile.atlasManager.GetElementWithName(_currentAnim.filename+"_"+anim.frames[0]);
+					
 				break;
 			}
 		}
@@ -153,8 +149,8 @@ public class FAnimatedSprite : FSprite {
 		get { return _pause; }
 	}
 	
-	public bool isFinished {
-		get { return _finished; }	
+	public int FinishedCount {
+		get { return _finishedCount; }	
 	}
 	
 	[Obsolete("baseExtension is unnecessary and unused")]

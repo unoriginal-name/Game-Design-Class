@@ -4,14 +4,16 @@ using System;
 public class FAnimation {
 	
 	protected string _name;
+	protected string _filename;
 	protected int[] _frames;
 	protected int _delay; // in milliseconds
 	protected bool _looping;
 	
 	
-	public FAnimation (string givenName, int[] givenFrames, int delayInMilliseconds, bool loop=false) 
+	public FAnimation (string givenName, string filename, int[] givenFrames, int delayInMilliseconds, bool loop=false) 
 	{
 		_name = givenName;
+		_filename = filename;
 		_frames = givenFrames;
 		_delay = delayInMilliseconds;
 		_looping = loop;
@@ -19,6 +21,10 @@ public class FAnimation {
 	
 	public string name {
 		get { return _name; }
+	}
+	
+	public string filename {
+		get { return _filename; }	
 	}
 	
 	public int delay {

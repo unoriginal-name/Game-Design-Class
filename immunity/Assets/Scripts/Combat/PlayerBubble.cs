@@ -23,7 +23,7 @@ public class PlayerBubble : FAnimatedSprite {
 		
 		// set up the swim animation
 		int[] swim_frames = {1, 2, 3, 4, 5, 6, 7, 8};
-		FAnimation swim_animation = new FAnimation("player_cell_swim", swim_frames, 250, true);
+		FAnimation swim_animation = new FAnimation("idle", "player_cell_swim", swim_frames, 250, true);
 		base.addAnimation(swim_animation);
 	}
 	

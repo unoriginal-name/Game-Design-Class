@@ -39,14 +39,19 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private EnemyCharacter enemy_;
 	private HealthBar enemy_healthbar_;
 		
-	private Tween current_movement = null;
-	private bool player_being_punched = false;
+	private Tween curr_player_movement = null;
+	private Tween curr_enemy_movement = null;
 	
 	private bool player_won_ = false;
 	private bool player_lost_ = false;
 	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
 	
+	private bool player_punch_did_damage = true;
+	private bool enemy_punch_did_damage = true;
+	
+	public Rect level_bounding_box;
+			
 	//private Stage stage;
 	
 	public CombatPage()
@@ -56,18 +61,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 	// Use this for initialization
 	override public void Start () {
-		
-
-		/*stage = new Stage();
-		Debug.Log("calling setstomach");
-		//stage.setStomach();
-		Debug.Log("Finished calling setstomach");*/
-		
-		/*
-		background.AddChild (levelBack_);
-		mid.AddChild (levelMid_);
-		foreground.AddChild (levelFore_);
-		*/
 		
 		FSoundManager.StopMusic();
 		FSoundManager.UnloadAllSoundsAndMusic();
@@ -94,7 +87,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		player_healthbar.x = player_headshot.x + player_headshot.width/2.0f + 25.0f;
 		player_healthbar.y = player_headshot.y;
 		player_ = new PlayerCharacter(player_healthbar);
-
 		
 		playerContainer = new FContainer();
 		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
@@ -118,6 +110,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(player_healthbar);
 		AddChild(enemy_headshot);
 		AddChild(enemy_healthbar_);
+		
+		level_bounding_box = new Rect(-Futile.screen.halfWidth*.9f, Futile.screen.halfHeight*.9f, Futile.screen.halfWidth*1.8f, Futile.screen.halfHeight*1.8f);
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -129,7 +123,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		dyingBacteriaHolder_.AddChild(bacteria);
 		dyingBacterias_.Add(bacteria);
 		
-		bacteria.play("punchyswarm_pop");
+		bacteria.play("pop");
 		
 		FSoundManager.PlaySound("bacteria_pop");
 	}
@@ -138,7 +132,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	{
 		BacteriaBubble bacteria = new BacteriaBubble(location, direction);
 		bacteriaContainer_.AddChild(bacteria);
-		bacteria.play("punchyswarm_idle");
+		bacteria.play("idle");
 		bacterias_.Add(bacteria);
 		totalBacterialCreated_++;
 	}
@@ -149,79 +143,117 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bubbleContainer_.AddChild(bubble);
 		bubble.x = player_.x;
 		bubble.y = player_.y;
-		bubble.play("player_cell_swim");
+		bubble.play("idle");
 		bubbles_.Add(bubble);
+	}
+	
+	public void HandlePlayerHit(float damage)
+	{
+		player_.ChangeHealth((int)(-damage));
+		FSoundManager.PlaySound("player_hit");
+		ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
+		player_.CurrentState = PlayerCharacter.PlayerState.HIT;
+		player_.play("hit", true);
+			
+		if(player_.isDead)
+		{
+			player_lost_ = true;
+			player_.play("death");
+			Debug.Log("Game Over!");
+		}	
+	}
+	
+	public void HandleEnemyHit(float damage)
+	{
+		enemy_.ChangeHealth((int)(-damage));
+		// TODO: Play hit sound
+		enemy_.play("hit", true);
+		enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
+		if(enemy_.isDead)
+		{
+			// TODO: Show win screen
+			player_won_ = true;
+			enemy_.play("death");
+			Debug.Log("You win!!");
+		}
 	}
 	
 	public void MoveTowardsPlayerBehavior()
 	{
+		// if we're within 50 of the player don't move anymore
+		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
+		{
+			Debug.Log("Too close to player");
+			
+			if(!enemy_.currentAnim.name.Equals("idle") && enemy_.FinishedCount >= 1)
+			{
+				enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+				enemy_.play("idle");
+			}
+			return;
+		}
+				
 		// if we've been moving towards the player for more than 2 seconds
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			return;
-		}
-
-		// if we're within 50 of the player don't move anymore
-		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
-		{
-			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("idle");
 			return;
 		}
 		
+		Debug.Log("decreasing x");
 		enemy_.x -= enemy_.speed_*Futile.screen.width;
-		if(enemy_.x - player_.x < 50.0f + enemy_.width/2.0f + player_.width/2.0f)
-			enemy_.x = player_.x + 50.0f + enemy_.width/2.0f + player_.width/2.0f;
+		
+		if(!enemy_.currentAnim.name.Equals("walk"));
+			enemy_.play("walk");
 	}
 	
 	public void MoveAwayFromPlayerBehavior()
 	{
+				
+		if(enemy_.x > level_bounding_box.xMax - enemy_.width/2.0f)
+		{
+			Debug.Log("Stop moving backwards");
+			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("idle");
+			return;
+		}
+		
 		// if we've been moving away from the player for more than 2 seconds
 		if(Time.time - enemy_.behavior_start_time_ > 2.0f)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
+			enemy_.play("idle");
 			return;
 		}
-		
-		// if we're within 50 of the border don't move anymore
-		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
-		{
-			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			return;
-		}
-		
+
 		enemy_.x += enemy_.speed_*Futile.screen.width;
-		if(Futile.screen.halfWidth - enemy_.x < enemy_.width/2.0f)
-			enemy_.x = Futile.screen.halfWidth - enemy_.width/2.0f;
+		
+		if(!enemy_.currentAnim.name.Equals("backwards_walk"))
+			enemy_.play("backwards_walk");
 	}
 	
 	public void PunchBehavior()
 	{
 		Debug.Log("in punch behavior");
-		Debug.Log("punch finished: " + enemy_.isFinished);
-		if(enemy_.isFinished)
+		Debug.Log("punch finished count: " + enemy_.FinishedCount);
+		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle", true);
+			enemy_.play("idle", true);
 			return;
 		}
 		
-		if(!enemy_.currentAnim.name.Equals("punchy_punch"))
-			enemy_.play("punchy_punch");
+		if(!enemy_.currentAnim.name.Equals("punch"))
+		{
+			enemy_punch_did_damage = false;
+			enemy_.play("punch");
+		}
 	}
 	
 	public void SpawnSwarmBehavior()
 	{
 		framesTillNextBacteria_--;
-		
-		/*if(framesTillNextBacteria_ <= 0)
-		{
-			float angle = Mathf.PI/(float)enemy_.NUM_SPAWNED_SWARM * (enemy_.NUM_SPAWNED_SWARM - enemy_.spawn_count++);
-			Vector2 bacteria_direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-			CreateBacteria(enemy_.GetPosition(), bacteria_direction);
-		
-			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
-		}*/
 		
 		if(framesTillNextBacteria_ <= 0)
 		{
@@ -256,23 +288,27 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void PunchyBlockBehavior()
 	{
-		if(enemy_.isFinished)
+		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle", true);
+			enemy_.play("idle", true);
 			return;
 		}
 		
-		if(!enemy_.currentAnim.name.Equals("punchy_block"))
-			enemy_.play("punchy_block");
+		if(!enemy_.currentAnim.name.Equals("block"))
+		{
+			
+			enemy_.play("block");
+			
+		}
 	}
 	
 	public void PunchyHitBehavior()
 	{
-		if(enemy_.isFinished)
+		if(enemy_.FinishedCount >= 1)
 		{
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
-			enemy_.play("punchy_idle", true);
+			enemy_.play("idle", true);
 			return;
 		}
 	}
@@ -361,17 +397,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				// if the enemy is currently being hit or its blocking then don't bother taking away more health
 				if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
 				{
-					enemy_.ChangeHealth((int)(-.01f*EnemyCharacter.MAX_HEALTH));
-					// TODO: Play hit sound
-					enemy_.play("punchy_hit", true);
-					enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
-					if(enemy_.isDead)
-					{
-						// TODO: Show win screen
-						player_won_ = true;
-						Debug.Log("You win!!");
-						Application.LoadLevel("ImmunityMainMenu");
-					}
+					HandleEnemyHit(0);
 				}
 				
 				bubbles_.Remove(bubble);
@@ -381,7 +407,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 	
 	void checkForBacteriaAndPlayerCollision()
-	{
+	{	
 		// check if player was hit
 		bool playerHit = false;
 		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
@@ -392,63 +418,74 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			
 			if(playerRect.CheckIntersect(bacteriaRect))
 			{
-				// TODO: Show lose screen
-				playerHit = true;
+				// only do more damage if the player isn't already hit and isn't blocking
+				if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+					playerHit = true;
 				HandleGotBacteria(bacteria);
 			}
 		}
 		if(playerHit)
 		{
-			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
-			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
-			player_.play("huro_hit", true);
-			
-			if(player_.isDead)
-			{
-				player_lost_ = true;
-				Debug.Log("Game Over!");
-				Application.LoadLevel("ImmunityMainMenu");
-			}
+			HandlePlayerHit(PlayerCharacter.MAX_HEALTH*0.01f);
 		}
 	}
 	
 	void checkForPlayerEnemyCollision()
 	{
-		Rect enemyCollisionRect;
-		if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
-		else
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
+		List<Rect> enemy_rects = enemy_.getCollisionRects();
+		List<Rect> player_rects = player_.getCollisionRects();
 		
-		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
-		if(!player_being_punched && playerRect.CheckIntersect(enemyCollisionRect))
+		foreach(Rect player_rect in player_rects)
 		{
-			Debug.Log("Player hit enemy");
-			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.2f));
-			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
-			
-			current_movement.destroy();
-			
-			if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
+			foreach(Rect enemy_rect in enemy_rects)
 			{
-				float endX = enemy_.x - (1.2f*enemy_.width)/2.0f;
-				float tween_time = Math.Abs(player_.x - endX)/1000f;
-				Debug.Log("Punch tween for " + tween_time + " seconds");
-				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX).onComplete(originalTween => player_being_punched = false));
-				
-				player_being_punched = true;
+				if(player_rect.CheckIntersect(enemy_rect))
+				{
+					if(player_.CurrentState == PlayerCharacter.PlayerState.PUNCH)
+					{
+						if(!player_punch_did_damage)
+						{
+							if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
+							{
+								HandleEnemyHit(EnemyCharacter.MAX_HEALTH*0.1f);
+							}
+							player_punch_did_damage = true;
+							enemy_.x = player_rect.xMax + enemy_rect.width/2.0f + Futile.screen.halfWidth*.14f;
+							if(enemy_.x + enemy_rect.width/2.0f > level_bounding_box.xMax)
+								enemy_.x = level_bounding_box.xMax - enemy_rect.width/2.0f;
+						}
+					}
+					
+					if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
+					{
+						if(!enemy_punch_did_damage)
+						{
+							if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+							{
+								HandlePlayerHit(PlayerCharacter.MAX_HEALTH*0.1f);							
+							}
+							
+							enemy_punch_did_damage = true;
+							player_.x = enemy_rect.xMin - player_rect.width/2.0f - Futile.screen.halfWidth*.01f;
+							if(player_rect.x - player_rect.width/2.0f < level_bounding_box.xMin)
+								player_.x = level_bounding_box.xMin + player_rect.width/2.0f;
+							curr_player_movement.destroy();
+						}
+					}
+
+					if(player_.CurrentState != PlayerCharacter.PlayerState.PUNCH)
+					{
+						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+							HandlePlayerHit(PlayerCharacter.MAX_HEALTH*.05f);
+						player_.x = enemy_rect.xMin - player_rect.width/2.0f - Futile.screen.halfWidth*.01f;
+						if(player_rect.x - player_rect.width/2.0f < level_bounding_box.xMin)
+								player_.x = level_bounding_box.xMin + player_rect.width/2.0f;
+						curr_player_movement.destroy();
+					}
+					
+				}
 			}
-			else
-				player_.x = enemy_.x - (.5f*enemy_.width)/2.0f;
 			
-			if(player_.isDead)
-			{
-				player_lost_ = true;
-				Debug.Log("Game Over!");
-				Application.LoadLevel("ImmunityMainMenu");
-			}
 		}
 	}
 	
@@ -458,7 +495,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		{
 			BacteriaBubble bacteria = dyingBacterias_[b];
 			
-			if(bacteria.isFinished)
+			if(bacteria.FinishedCount >= 1)
 			{
 				dyingBacterias_.Remove(bacteria);
 				dyingBacteriaHolder_.RemoveChild(bacteria);
@@ -468,10 +505,25 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
-		
-		if(player_won_ || player_lost_)
+		if(player_won_)
 		{
-			return; // do nothing	
+			player_.play("idle");
+			if(enemy_.FinishedCount >= 1)
+			{
+				// TODO: show victory menu	
+			}
+			return;
+		}
+		
+		if(player_lost_)
+		{
+			enemy_.play("idle");
+			if(player_.FinishedCount >= 1)
+			{
+				// TODO: show game over menu
+			}
+			
+			return;
 		}
 		
 		switch(enemy_.curr_behavior_)
@@ -498,6 +550,31 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			break;
 		}
 		
+		switch(player_.CurrentState)
+		{
+		case PlayerCharacter.PlayerState.BLOCK:
+			if(player_.FinishedCount >= 1)
+			{
+				player_.CurrentState = PlayerCharacter.PlayerState.IDLE;
+				player_.play("idle");	
+			}
+			break;
+		case PlayerCharacter.PlayerState.PUNCH:
+			if(player_.FinishedCount >= 1)
+			{
+				player_.CurrentState = PlayerCharacter.PlayerState.IDLE;
+				player_.play("idle");
+			}
+			break;
+		case PlayerCharacter.PlayerState.HIT:
+			if(player_.FinishedCount >= 1)
+			{
+				player_.CurrentState = PlayerCharacter.PlayerState.IDLE;
+				player_.play("idle");
+			}
+			break;
+		}
+		
 		checkForBacteriaOffScreen();
 		
 		checkForPlayerBubbleOffScreen();
@@ -516,22 +593,31 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 	}
 	
-	public void onPunchComplete()
-	{
-		player_being_punched = false;
-	}
-	
 	public void HandleMultiTouch(FTouch[] touches)
 	{
+		// don't process input if the game is over
+		if(player_lost_ || player_won_)
+			return;
+		
+		
+		
 		foreach(FTouch touch in touches)
 		{
 			
 			if(touch.phase == TouchPhase.Began)
 			{
-				touch_starts.Add(touch.tapCount, touch);	
+				if(!touch_starts.ContainsKey(touch.tapCount))
+					touch_starts.Add(touch.tapCount, touch);
+				else
+					touch_starts[touch.tapCount] = touch; // update the touch otherwise
 			}
 			else if(touch.phase == TouchPhase.Ended)
 			{
+				
+				// don't process input if the player is currently doing something else
+				/*if(player_.CurrentState != PlayerCharacter.PlayerState.IDLE)
+					return;*/
+				
 				FTouch touch_start = touch_starts[touch.tapCount];
 				
 				Vector2 swipe_vector = touch.position - touch_start.position;
@@ -548,22 +634,35 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					if(touch.position.y < -Futile.screen.halfHeight/2.0f)
 					{
 						// if already executing a move, first stop it
-						if(current_movement != null)
+						if(curr_player_movement != null)
 						{
-							current_movement.destroy();
+							curr_player_movement.destroy();
 						}
-											
-						// flip the player if the movement is behind the player
-						/*if(touch.position.x - player_.x < 0)
-							player_.scaleX = -1*Math.Abs(player_.scaleX);
-						else
-							player_.scaleX = Math.Abs(player_.scaleX);*/
+						
+						float final_position = touch.position.x;
+						if(touch.position.x < 0 && touch.position.x - player_.width/2.0f < level_bounding_box.xMin)
+							final_position = level_bounding_box.xMin + player_.width/2.0f;
+						
+						if(touch.position.x > 0 && touch.position.x + player_.width/2.0f > level_bounding_box.xMax)
+							final_position = level_bounding_box.xMax - player_.width/2.0f;
+						
+						if(final_position == player_.x)
+							return;
+						
 						player_.scaleX = Math.Abs(player_.scaleX);
 						
-						// calculate movement time based on player's speed attribute
-						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
+						if(final_position - player_.x < 0)
+							player_.play("backwards_walk");
+						else
+							player_.play("walk");
 						
-						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x));
+						player_.CurrentState = PlayerCharacter.PlayerState.WALK;
+						
+						// calculate movement time based on player's speed attribute
+						float tween_time = Math.Abs(player_.x - final_position)/(Futile.screen.width*player_.Speed);
+						
+						curr_player_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", final_position).onComplete(originalTween => { player_.play("idle"); 
+							player_.CurrentState = PlayerCharacter.PlayerState.IDLE; }));
 					}
 				}
 				else
@@ -572,26 +671,24 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					swipe_vector.x /= swipe_magnitude;
 					swipe_vector.y /=swipe_magnitude;
 					
-					Debug.Log("Swipe vector: <" + swipe_vector.x + ", " + swipe_vector.y + "> Magnitude: " + swipe_magnitude);
-					Debug.Log("touch: (" + touch.position.x + ", " + touch.position.y + ")");
-					Debug.Log("touch start: (" + touch_start.position.x + ", " + touch_start.position.y + ")");
-					Debug.Log("Player " + player_.x);
-					float sign = player_.scaleX/Mathf.Abs(player_.scaleX);
-					if(touch.position.x < (player_.x - sign*player_.width/4.0f) && touch_start.position.x > (player_.x - sign*player_.width/4.0f) &&
-						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
-						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
+					if(touch.position.x < player_.x && touch_start.position.x > player_.x &&
+						touch.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
+						touch_start.position.y < (player_.y + player_.width/2.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
 					{
 						// this is a block
 						Debug.Log("player block");
-						player_.play("huro_block");
+						player_.play("block");
+						player_.CurrentState = PlayerCharacter.PlayerState.BLOCK;
 					}
-					else if(touch.position.x > (player_.x - sign*player_.width/4.0f)  && touch_start.position.x < (player_.x - sign*player_.width/4.0f) &&
-						touch.position.y < (player_.y + player_.width/8.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
-						touch_start.position.y < (player_.y + player_.width/8.0f) && touch_start.position.y > (player_.y - player_.height/2.0f))
+					else if(touch.position.x > player_.x && touch_start.position.x < player_.x &&
+						touch.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
+						touch_start.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f))
 					{
 						// this a punch
 						Debug.Log("player punch");
-						player_.play("huro_punch");
+						player_.play("punch");
+						player_.CurrentState = PlayerCharacter.PlayerState.PUNCH;
+						player_punch_did_damage = false;
 					}
 					else
 					{
