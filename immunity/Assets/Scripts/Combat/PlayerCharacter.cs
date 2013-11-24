@@ -78,6 +78,10 @@ public class PlayerCharacter : FAnimatedSprite {
 	public void ChangeHealth(int health_delta)
 	{
 		health_ += health_delta;
+		if(health_ > MAX_HEALTH)
+			health_ = MAX_HEALTH;
+		if(health_ < 0)
+			health_ = 0;
 		health_bar_.Percentage = (float)health_/(float)MAX_HEALTH;
 	}
 	

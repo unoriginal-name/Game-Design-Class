@@ -505,7 +505,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
-		
 		if(player_won_)
 		{
 			player_.play("idle");

@@ -83,6 +83,10 @@ public class EnemyCharacter : FAnimatedSprite {
 	public void ChangeHealth(int health_delta)
 	{
 		health_ += health_delta;
+		if(health_ > MAX_HEALTH)
+			health_ = MAX_HEALTH;
+		if(health_ < 0)
+			health_ = 0;
 		health_bar_.Percentage = (float)health_/(float)MAX_HEALTH;
 	}
 	
@@ -105,7 +109,7 @@ public class EnemyCharacter : FAnimatedSprite {
 		{
 			float behavior_selection = Random.value;
 			
-			/*if(behavior_selection < 0.1f)
+			if(behavior_selection < 0.1f)
 			{
 				// switch to move_towards_player behavior
 				curr_behavior_ = BehaviorType.MOVE_TOWARDS_PLAYER;
@@ -135,7 +139,7 @@ public class EnemyCharacter : FAnimatedSprite {
 				curr_behavior_ = BehaviorType.SPAWN_SWARM;
 				spawn_count = 0;
 				Debug.Log("Behavior: spawn swarm");
-			}*/
+			}
 			behavior_start_time_ = Time.time;
 		}
 	}
