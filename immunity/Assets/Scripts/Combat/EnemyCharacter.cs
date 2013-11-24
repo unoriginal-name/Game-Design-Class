@@ -105,7 +105,7 @@ public class EnemyCharacter : FAnimatedSprite {
 		{
 			float behavior_selection = Random.value;
 			
-			if(behavior_selection < 0.1f)
+			/*if(behavior_selection < 0.1f)
 			{
 				// switch to move_towards_player behavior
 				curr_behavior_ = BehaviorType.MOVE_TOWARDS_PLAYER;
@@ -135,7 +135,7 @@ public class EnemyCharacter : FAnimatedSprite {
 				curr_behavior_ = BehaviorType.SPAWN_SWARM;
 				spawn_count = 0;
 				Debug.Log("Behavior: spawn swarm");
-			}
+			}*/
 			behavior_start_time_ = Time.time;
 		}
 	}
@@ -143,7 +143,10 @@ public class EnemyCharacter : FAnimatedSprite {
 	public List<Rect> getCollisionRects()
 	{
 		List<Rect> rects = new List<Rect>();
-		rects.Add(localRect.CloneAndScaleThenOffset(scaleX, scaleY, x, y));
+		if(curr_behavior_ == BehaviorType.PUNCH)
+			rects.Add(localRect.CloneAndScaleThenOffset(scaleX, scaleY, x, y));
+		else
+			rects.Add(localRect.CloneAndScaleThenOffset(scaleX*.5f, scaleY*.5f, x, y));
 		
 		return rects;
 	}

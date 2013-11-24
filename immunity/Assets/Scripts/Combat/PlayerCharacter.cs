@@ -116,7 +116,10 @@ public class PlayerCharacter : FAnimatedSprite {
 	public List<Rect> getCollisionRects()
 	{
 		List<Rect> rects = new List<Rect>();
-		rects.Add(localRect.CloneAndScaleThenOffset(scaleX, scaleY, x, y));
+		if(current_state_ == PlayerState.PUNCH)
+			rects.Add(localRect.CloneAndScaleThenOffset(scaleX, scaleY, x, y));
+		else
+			rects.Add(localRect.CloneAndScaleThenOffset(scaleX*.75f, scaleY*.75f, x, y));
 		
 		return rects;
 	}

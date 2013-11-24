@@ -39,8 +39,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private EnemyCharacter enemy_;
 	private HealthBar enemy_healthbar_;
 		
-	private Tween current_movement = null;
-	private bool player_being_punched = false;
+	private Tween curr_player_movement = null;
+	private Tween curr_enemy_movement = null;
 	
 	private bool player_won_ = false;
 	private bool player_lost_ = false;
@@ -49,7 +49,12 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	private bool player_punch_did_damage = true;
 	private bool enemy_punch_did_damage = true;
-		
+	
+	Rect level_bounding_box;
+	
+	private FSprite player_bounding_box;
+	private FSprite enemy_bounding_box;
+			
 	//private Stage stage;
 	
 	public CombatPage()
@@ -120,6 +125,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(player_healthbar);
 		AddChild(enemy_headshot);
 		AddChild(enemy_healthbar_);
+		level_bounding_box = new Rect(-Futile.screen.halfWidth*.9f, Futile.screen.halfHeight*.9f, Futile.screen.halfWidth*1.8f, Futile.screen.halfHeight*1.8f);
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -458,7 +464,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 								HandleEnemyHit(EnemyCharacter.MAX_HEALTH*0.1f);
 							}
 							player_punch_did_damage = true;
-							enemy_.x = player_.x + enemy_.width/2.0f + player_.width/2.0f + 10.0f;
+							enemy_.x = player_rect.xMax + enemy_rect.width/2.0f + Futile.screen.halfWidth*.14f;
+							if(enemy_.x + enemy_rect.width/2.0f > level_bounding_box.xMax)
+								enemy_.x = level_bounding_box.xMax - enemy_rect.width/2.0f;
 						}
 					}
 					
@@ -472,17 +480,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 							}
 							
 							enemy_punch_did_damage = true;
-							player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
+							player_.x = enemy_rect.xMin - player_rect.width/2.0f - Futile.screen.halfWidth*.01f;
+							if(player_rect.x - player_rect.width/2.0f < level_bounding_box.xMin)
+								player_.x = level_bounding_box.xMin + player_rect.width/2.0f;
+							curr_player_movement.destroy();
 						}
 					}
-					
 
-					if(player_.CurrentState != PlayerCharacter.PlayerState.PUNCH && player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+					if(player_.CurrentState != PlayerCharacter.PlayerState.PUNCH)
 					{
-						HandlePlayerHit(PlayerCharacter.MAX_HEALTH*.05f);
+						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+							HandlePlayerHit(PlayerCharacter.MAX_HEALTH*.05f);
+						player_.x = enemy_rect.xMin - player_rect.width/2.0f - Futile.screen.halfWidth*.01f;
+						if(player_rect.x - player_rect.width/2.0f < level_bounding_box.xMin)
+								player_.x = level_bounding_box.xMin + player_rect.width/2.0f;
+						curr_player_movement.destroy();
 					}
 					
-					player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
 				}
 			}
 			
@@ -594,11 +608,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 	}
 	
-	public void onPunchComplete()
-	{
-		player_being_punched = false;
-	}
-	
 	public void HandleMultiTouch(FTouch[] touches)
 	{
 		// don't process input if the game is over
@@ -640,9 +649,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					if(touch.position.y < -Futile.screen.halfHeight/2.0f)
 					{
 						// if already executing a move, first stop it
-						if(current_movement != null)
+						if(curr_player_movement != null)
 						{
-							current_movement.destroy();
+							curr_player_movement.destroy();
 						}
 						
 						player_.scaleX = Math.Abs(player_.scaleX);
@@ -657,7 +666,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						// calculate movement time based on player's speed attribute
 						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
 						
-						current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x).onComplete(originalTween => { player_.play("idle"); 
+						curr_player_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x).onComplete(originalTween => { player_.play("idle"); 
 							player_.CurrentState = PlayerCharacter.PlayerState.IDLE; }));
 					}
 				}
