@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyCharacter : FAnimatedSprite {
 	
@@ -137,6 +138,14 @@ public class EnemyCharacter : FAnimatedSprite {
 			}
 			behavior_start_time_ = Time.time;
 		}
+	}
+	
+	public List<Rect> getCollisionRects()
+	{
+		List<Rect> rects = new List<Rect>();
+		rects.Add(localRect.CloneAndScaleThenOffset(scaleX, scaleY, x, y));
+		
+		return rects;
 	}
 	
 	public float width

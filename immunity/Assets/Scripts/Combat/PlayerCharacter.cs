@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 
 public class PlayerCharacter : FAnimatedSprite {
 	
@@ -109,6 +111,14 @@ public class PlayerCharacter : FAnimatedSprite {
 	{
 		get { return current_state_; }
 		set { current_state_ = value; }
+	}
+	
+	public List<Rect> getCollisionRects()
+	{
+		List<Rect> rects = new List<Rect>();
+		rects.Add(localRect.CloneAndScaleThenOffset(scaleX, scaleY, x, y));
+		
+		return rects;
 	}
 	
 	void HandleUpdate () {

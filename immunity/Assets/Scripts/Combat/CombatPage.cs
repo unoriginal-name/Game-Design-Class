@@ -423,13 +423,66 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	void checkForPlayerEnemyCollision()
 	{
-		Rect enemyCollisionRect;
-		if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
-		else
-			enemyCollisionRect = enemy_.localRect.CloneAndScaleThenOffset(enemy_.scaleX, enemy_.scaleY, enemy_.x, enemy_.y);
+		List<Rect> enemy_rects = enemy_.getCollisionRects();
+		List<Rect> player_rects = player_.getCollisionRects();
 		
-		Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
+		foreach(Rect player_rect in player_rects)
+		{
+			foreach(Rect enemy_rect in enemy_rects)
+			{
+				if(player_rect.CheckIntersect(enemy_rect))
+				{
+					bool enemy_hit = false;
+					if(player_.CurrentState == PlayerCharacter.PlayerState.PUNCH)
+					{
+						if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
+						{
+							// TODO: enemy damage here
+							Debug.Log("Enemy should be taking damage");
+							enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
+							enemy_.play("hit");
+						}
+						
+						// TODO: Move enemy back from player
+						enemy_.x = player_.x + enemy_.width/2.0f + player_.width/2.0f + 10.0f;
+					}
+					
+					bool player_hit = false;
+					if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
+					{
+						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+						{
+							// TODO: player damage here
+							Debug.Log("Player should be taking damage");
+							player_.CurrentState = PlayerCharacter.PlayerState.HIT;
+							player_.play("hit");
+						}
+						
+						// TODO: Move player back from enemy
+						player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
+					}
+					
+					// if neither the player nor the enemy have taken damage
+					if(!player_hit && !enemy_hit)
+					{
+						
+						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+						{
+							// TODO: player damage here
+							Debug.Log("Player should be taking damage");
+							player_.CurrentState = PlayerCharacter.PlayerState.HIT;
+							player_.play("hit");
+						}
+						
+						// TODO: Move the player back from the enemy
+						player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
+					}
+				}
+			}
+			
+		}
+		
+		/*Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
 		if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT && playerRect.CheckIntersect(enemyCollisionRect))
 		{
 			Debug.Log("Player hit enemy");
@@ -456,7 +509,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				player_.play("death");
 				Debug.Log("Game Over!");
 			}
-		}
+		}*/
 	}
 	
 	void checkForDeadBacteria()
@@ -475,8 +528,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	protected void HandleUpdate()
 	{
-		PunchBehavior();
-		return;
 		
 		if(player_won_ && enemy_.FinishedCount >= 1)
 		{
