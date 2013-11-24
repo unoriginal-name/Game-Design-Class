@@ -36,8 +36,8 @@ public class PlayerCharacter : FAnimatedSprite {
 		base.addAnimation(idle_animation);
 		
 		// block animation
-		int[] block_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-		FAnimation block_animation = new FAnimation("block", "huro_block", block_frames, 150, false);
+		int[] block_frames = {1, 2, 3, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 8, 9};
+		FAnimation block_animation = new FAnimation("block", "huro_block", block_frames, 100, false);
 		base.addAnimation(block_animation);
 		
 		// punch animation
