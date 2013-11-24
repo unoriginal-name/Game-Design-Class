@@ -51,44 +51,52 @@ public class Stage : FStage {
 	public void setStomach()
 	{
 		initializeContainers();
-		
+
+		setCameras();
 		setSprites ("STOMACH");
 		
 		putSpritesInContainers();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024);
-		setCameras();
+
 	}
 	
 	public void setLungs()
 	{
 		initializeContainers();
-		
+
+		setCameras ();
 		setSprites ("Lungs");
 		
 		putSpritesInContainers();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
-		setCameras ();
+
 	}
 	
 	public void setBrain()
 	{
 		initializeContainers();
-		
+
+		setCameras ();
 		setSprites ("brain");
 
 		putSpritesInContainers();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
-		setCameras ();
+
 	}
 	
 	private void setCameras()
 	{
 		background.camObject = ImmunityCombatManager.instance.camera_;
+		midBack.camObject = ImmunityCombatManager.instance.camera_;
 		mid.camObject = ImmunityCombatManager.instance.camera_;
+		foreMid.camObject = ImmunityCombatManager.instance.camera_;
 		foreground.camObject = ImmunityCombatManager.instance.camera_;
+		animation.camObject = ImmunityCombatManager.instance.camera_;
+		animation2.camObject = ImmunityCombatManager.instance.camera_;
+		animation3.camObject = ImmunityCombatManager.instance.camera_;
 	}
 
 	private void initializeContainers()
@@ -117,9 +125,9 @@ public class Stage : FStage {
 			level_animation_sprite3 = new FSprite("neuron_fast_40_animation");
 
 
-			background.size.Set (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
-			mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
-			foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
+			background.size = new Vector2(2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
+			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
+			foreground.size = new Vector2 (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
 			animation.size.Set(2000, 1000);
 		}
 		else if (scene.ToUpper().Equals("LUNGS"))
@@ -131,12 +139,12 @@ public class Stage : FStage {
 			level_foreground_sprite = new FSprite("LungsFore");
 			level_animation_sprite = new FSprite("lung_dust");
 
-			background.size.Set (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
-			midBack.size.Set(1024, 768);
-			mid.size.Set (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
-			foreMid.size.Set(4096, 2048);
-			foreground.size.Set (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-			animation.size.Set(2000, 1000);
+			background.size = new Vector2 (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
+			midBack.size = new Vector2 (1024, 768);
+			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
+			foreMid.size = new Vector2 (4096, 2048);
+			foreground.size = new Vector2  (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
+			animation.size = new Vector2 (2000, 1000);
 		}
 
 		//default case: set the stage to be the stomach
@@ -145,25 +153,33 @@ public class Stage : FStage {
 			level_background_sprite = new FSprite("Stomach_Lake");
 			level_mid_sprite = new FSprite("Stomach_Mid");
 			level_foreground_sprite = new FSprite("Stomach_Fore");
-			//level_animation_sprite = new FSprite("stomach_animations");
+			level_animation_sprite = new FSprite("stomach_animations");
 
-			background.size.Set (2000, 1000);
-			mid.size.Set (1024, 768);
-			foreground.size.Set (4096, 2048);
-			animation.size.Set(2000, 1000);
+			background.size = new Vector2  (2000, 1000);
+			mid.size = new Vector2  (1024, 768);
+			foreground.size = new Vector2  (4096, 2048);
+			animation.size = new Vector2 (2000, 1000);
 		}
 	}
 
 	private void putSpritesInContainers()
 	{
 		background.AddChild (level_background_sprite);
-		//midBack.AddChild(level_midback_sprite);
 		mid.AddChild (level_mid_sprite);
-		//foreMid.AddChild(level_foremid_sprite);
 		foreground.AddChild (level_foreground_sprite);
-		//animation.AddChild(level_animation_sprite);
-		//animation2.AddChild (level_animation_sprite2);
-		//animation3.AddChild (level_animation_sprite3);
+
+		//check for things that not every stage has.  If they're present, add them.
+		//Yes, I know McCabe complexity is now 5.  Eat me.
+		if (level_midback_sprite != null)
+			midBack.AddChild(level_midback_sprite);
+		if (level_foremid_sprite != null)
+			foreMid.AddChild(level_foremid_sprite);
+		if (level_animation_sprite != null)
+			animation.AddChild(level_animation_sprite);
+		if (level_animation_sprite2 != null)
+			animation2.AddChild (level_animation_sprite2);
+		if (level_animation_sprite3 != null)
+			animation3.AddChild (level_animation_sprite3);
 	}
 
 	public FParallaxContainer getBackground()
