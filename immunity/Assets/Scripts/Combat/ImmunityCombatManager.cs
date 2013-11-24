@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -34,6 +34,7 @@ public class ImmunityCombatManager : MonoBehaviour {
 		Futile.atlasManager.LoadAtlas("Atlases/StomachBackAtlas");
 		Futile.atlasManager.LoadAtlas("Atlases/StomachMidAtlas");
 		Futile.atlasManager.LoadAtlas("Atlases/StomachForeAtlas");
+		Futile.atlasManager.LoadAtlas("Atlases/stomach_animations");
 		
 		FSoundManager.PreloadSound("player_hit");
 		FSoundManager.PreloadSound("bacteria_pop");
