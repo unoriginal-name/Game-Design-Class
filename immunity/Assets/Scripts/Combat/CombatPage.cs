@@ -46,6 +46,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private bool player_lost_ = false;
 	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
+	
+	private bool player_punch_did_damage = true;
+	private bool enemy_punch_did_damage = true;
 		
 	//private Stage stage;
 	
@@ -250,7 +253,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 		
 		if(!enemy_.currentAnim.name.Equals("punch"))
+		{
+			enemy_punch_did_damage = false;
 			enemy_.play("punch");
+		}
 	}
 	
 	public void SpawnSwarmBehavior()
@@ -445,22 +451,29 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				{
 					if(player_.CurrentState == PlayerCharacter.PlayerState.PUNCH)
 					{
-						if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
+						if(!player_punch_did_damage)
 						{
-							HandleEnemyHit(EnemyCharacter.MAX_HEALTH*0.1f);
+							if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
+							{
+								HandleEnemyHit(EnemyCharacter.MAX_HEALTH*0.1f);
+							}
+							player_punch_did_damage = true;
+							enemy_.x = player_.x + enemy_.width/2.0f + player_.width/2.0f + 10.0f;
 						}
-						
-						enemy_.x = player_.x + enemy_.width/2.0f + player_.width/2.0f + 10.0f;
 					}
 					
 					if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
 					{
-						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+						if(!enemy_punch_did_damage)
 						{
-							HandlePlayerHit(PlayerCharacter.MAX_HEALTH*0.1f);							
+							if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
+							{
+								HandlePlayerHit(PlayerCharacter.MAX_HEALTH*0.1f);							
+							}
+							
+							enemy_punch_did_damage = true;
+							player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
 						}
-						
-						player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
 					}
 					
 
@@ -588,18 +601,29 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void HandleMultiTouch(FTouch[] touches)
 	{
+		// don't process input if the game is over
 		if(player_lost_ || player_won_)
 			return;
+		
+		
 		
 		foreach(FTouch touch in touches)
 		{
 			
 			if(touch.phase == TouchPhase.Began)
 			{
-				touch_starts.Add(touch.tapCount, touch);	
+				if(!touch_starts.ContainsKey(touch.tapCount))
+					touch_starts.Add(touch.tapCount, touch);
+				else
+					touch_starts[touch.tapCount] = touch; // update the touch otherwise
 			}
 			else if(touch.phase == TouchPhase.Ended)
 			{
+				
+				// don't process input if the player is currently doing something else
+				/*if(player_.CurrentState != PlayerCharacter.PlayerState.IDLE)
+					return;*/
+				
 				FTouch touch_start = touch_starts[touch.tapCount];
 				
 				Vector2 swipe_vector = touch.position - touch_start.position;
@@ -660,6 +684,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						Debug.Log("player punch");
 						player_.play("punch");
 						player_.CurrentState = PlayerCharacter.PlayerState.PUNCH;
+						player_punch_did_damage = false;
 					}
 					else
 					{
