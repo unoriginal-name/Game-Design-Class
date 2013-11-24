@@ -586,6 +586,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void HandleMultiTouch(FTouch[] touches)
 	{
+		if(player_lost_ || player_won_)
+			return;
+		
 		foreach(FTouch touch in touches)
 		{
 			
