@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Stage : FStage {
 	
@@ -11,7 +12,7 @@ public class Stage : FStage {
 	FSprite level_foremid_sprite;
 	FSprite level_foreground_sprite;
 
-	FAnimatedSprite level_animations;
+	List<FAnimatedSprite> level_animations = new List<FAnimatedSprite>();
 
 	FAnimation level_animation_sprite;
 	FAnimation level_animation_sprite2;
@@ -31,6 +32,8 @@ public class Stage : FStage {
 	
 	private HealthBar player_healthbar;
 	
+	private float last_animation_start;
+	
 	/*
 	public Stage(string newName) : base()
 	{
@@ -44,11 +47,22 @@ public class Stage : FStage {
 		player_healthbar = new HealthBar();
 		player_healthbar.x = Futile.screen.halfWidth - player_healthbar.width - 50.0f;
 		player_healthbar.y = Futile.screen.halfHeight - player_healthbar.height/2.0f - 50.0f;
+		last_animation_start = Time.time;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	public void HandleUpdate () {
+		foreach(FAnimatedSprite animation in level_animations)
+		{
+			Debug.Log("animation paused: " + animation.isPaused);			
+			if(animation.isPaused && Time.time - last_animation_start > 1.0f)
+			{
+				Debug.Log("starting another animation");
+				last_animation_start = Time.time;
+				animation.play("Bubble");
+				break;
+			}
+		}
 	}
 	
 	public void setStomach()
@@ -107,9 +121,15 @@ public class Stage : FStage {
 		mid = new FParallaxContainer();
 		foreMid = new FParallaxContainer();
 		foreground = new FParallaxContainer();
+		
+		AddChild(background);
+		AddChild(midBack);
+		AddChild(mid);
+		AddChild(foreMid);
+		AddChild(foreground);
 
-		level_animations = new FAnimatedSprite("Bubble");
-
+		level_animations = new List<FAnimatedSprite>();
+		
 		Debug.Log("Finished calling initialize containers");
 	}
 
@@ -157,9 +177,36 @@ public class Stage : FStage {
 			int[] ripple_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 			FAnimation bubbles = new FAnimation("Bubble", "Bubble", bubble_frames, 100, true);
 			FAnimation ripples = new FAnimation("Ripple", "Ripple", ripple_frames, 100, true);
-
-			level_animations.addAnimation(bubbles);
-			level_animations.addAnimation(ripples);
+			
+			FAnimatedSprite bubble1 = new FAnimatedSprite("Bubble");
+			bubble1.addAnimation(bubbles);
+			bubble1.addAnimation(ripples);
+			
+			FAnimatedSprite bubble2 = new FAnimatedSprite("Bubble");
+			bubble2.addAnimation(bubbles);
+			bubble2.addAnimation(ripples);
+			//bubble2.pause();
+			bubble2.x = Futile.screen.halfWidth*.2f;
+			bubble2.y = Futile.screen.halfHeight*.1f;
+			
+			FAnimatedSprite bubble3 = new FAnimatedSprite("Bubble");
+			bubble3.addAnimation(bubbles);
+			bubble3.addAnimation(ripples);
+			//bubble3.pause();
+			bubble3.x = -Futile.screen.halfWidth*.5f;
+			bubble3.y = -Futile.screen.halfHeight*.2f;
+			
+			FAnimatedSprite bubble4 = new FAnimatedSprite("Bubble");
+			bubble4.addAnimation(bubbles);
+			bubble4.addAnimation(ripples);
+			//bubble4.pause();
+			bubble4.x = Futile.screen.halfWidth*.4f;
+			bubble4.y = -Futile.screen.halfHeight*.4f;
+			
+			level_animations.Add(bubble1);
+			level_animations.Add(bubble2);
+			level_animations.Add(bubble3);
+			level_animations.Add(bubble4);
 
 			background.size = new Vector2  (2000, 1000);
 			mid.size = new Vector2  (1024, 768);
@@ -181,6 +228,11 @@ public class Stage : FStage {
 			midBack.AddChild(level_midback_sprite);
 		if (level_foremid_sprite != null)
 			foreMid.AddChild(level_foremid_sprite);
+		
+		foreach(FAnimatedSprite animation in level_animations)
+		{
+			mid.AddChild(animation);
+		}
 
 		//these all end up getting added to level_animations
 		/*
@@ -218,7 +270,7 @@ public class Stage : FStage {
 		return foreground;
 	}
 
-	public FAnimatedSprite getAnimation()
+	public List<FAnimatedSprite> getAnimation()
 	{
 		return level_animations;
 	}

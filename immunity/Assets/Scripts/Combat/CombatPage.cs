@@ -66,7 +66,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		FSoundManager.UnloadAllSoundsAndMusic();
 		FSoundManager.PlayMusic("stomach_ambience");
 
-		addComponentsToStage();
+		//addComponentsToStage();
+		
+		AddChild(ImmunityCombatManager.instance.stage);
 
 		FSprite enemy_headshot = new FSprite("punchy_headshot");
 		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
@@ -269,9 +271,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			float air_time = (2.0f*initial_velocity.y)/BacteriaBubble.accel;
 			
 			initial_velocity.x = (player_.x - enemy_.x)/air_time;
-			
-			Debug.Log("initial_velocity: " + initial_velocity);
-			
+						
 			CreateBacteria(enemy_.GetPosition(), initial_velocity);
 			
 			framesTillNextBacteria_ = maxFramesTillNextBacteria_;
@@ -313,15 +313,17 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 	}
 
-	private void addComponentsToStage()
+	/*private void addComponentsToStage()
 	{
 		AddChild(ImmunityCombatManager.instance.stage.getBackground());
 		AddChild(ImmunityCombatManager.instance.stage.getMidBack ());
 		AddChild(ImmunityCombatManager.instance.stage.getMid ());
 		AddChild(ImmunityCombatManager.instance.stage.getForeMid ());
 		AddChild(ImmunityCombatManager.instance.stage.getForeground());
-		AddChild(ImmunityCombatManager.instance.stage.getAnimation ());
-	}
+		List<FAnimatedSprite> animations = ImmunityCombatManager.instance.stage.getAnimation();
+		foreach(FAnimatedSprite animation in animations)
+			AddChild(animation);
+	}*/
 	
 	private void checkForBacteriaOffScreen()
 	{
@@ -469,7 +471,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 							player_.x = enemy_rect.xMin - player_rect.width/2.0f - Futile.screen.halfWidth*.01f;
 							if(player_rect.x - player_rect.width/2.0f < level_bounding_box.xMin)
 								player_.x = level_bounding_box.xMin + player_rect.width/2.0f;
-							curr_player_movement.destroy();
+							if(curr_player_movement != null)
+								curr_player_movement.destroy();
 						}
 					}
 
@@ -480,7 +483,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						player_.x = enemy_rect.xMin - player_rect.width/2.0f - Futile.screen.halfWidth*.01f;
 						if(player_rect.x - player_rect.width/2.0f < level_bounding_box.xMin)
 								player_.x = level_bounding_box.xMin + player_rect.width/2.0f;
-						curr_player_movement.destroy();
+						if(curr_player_movement != null)
+							curr_player_movement.destroy();
 					}
 					
 				}
@@ -504,7 +508,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 	
 	protected void HandleUpdate()
-	{
+	{		
 		if(player_won_)
 		{
 			player_.play("idle");
