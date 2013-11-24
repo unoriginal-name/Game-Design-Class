@@ -447,7 +447,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					{
 						if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
 						{
-							HandleEnemyHit(enemy_.Health*0.1f);
+							HandleEnemyHit(EnemyCharacter.MAX_HEALTH*0.1f);
 						}
 						
 						enemy_.x = player_.x + enemy_.width/2.0f + player_.width/2.0f + 10.0f;
@@ -493,8 +493,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	protected void HandleUpdate()
 	{
 		
-		if(player_won_ && enemy_.FinishedCount >= 1)
+		if(player_won_)
 		{
+			player_.play("idle");
 			if(enemy_.FinishedCount >= 1)
 			{
 				// TODO: show victory menu	
@@ -504,6 +505,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		if(player_lost_)
 		{
+			enemy_.play("idle");
 			if(player_.FinishedCount >= 1)
 			{
 				// TODO: show game over menu
