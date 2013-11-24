@@ -120,9 +120,18 @@ public class Stage : FStage {
 	{
 		if (scene.ToUpper().Equals("BRAIN"))
 		{
-			level_background_sprite = new FSprite("Brain_Background");
-			level_mid_sprite = new FSprite("Brain_Mid");
-			level_foreground_sprite = new FSprite("Brain_Fore");
+			level_background_sprite = new FSprite("Background");
+			level_foreground_sprite = new FSprite("Forground");
+
+			int[] neuron_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+			FAnimation neurons_40 = new FAnimation("NeuronFast40", neuron_frames, 100, true);
+			FAnimation neurons_60 = new FAnimation("NeuronFast60", neuron_frames, 100, true);
+			FAnimation neurons_80 = new FAnimation("NeuronFast80", neuron_frames, 100, true);
+
+			level_animations.addAnimation(neurons_40);
+			level_animations.addAnimation(neurons_60);
+			level_animations.addAnimation(neurons_80);
 
 			background.size = new Vector2(2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
@@ -172,7 +181,6 @@ public class Stage : FStage {
 	private void putSpritesInContainers()
 	{
 		background.AddChild (level_background_sprite);
-		mid.AddChild (level_mid_sprite);
 		foreground.AddChild (level_foreground_sprite);
 
 
@@ -181,6 +189,8 @@ public class Stage : FStage {
 			midBack.AddChild(level_midback_sprite);
 		if (level_foremid_sprite != null)
 			foreMid.AddChild(level_foremid_sprite);
+		if (level_mid_sprite != null)
+			mid.AddChild (level_mid_sprite);
 		
 	}
 

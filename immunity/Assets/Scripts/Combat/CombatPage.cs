@@ -59,7 +59,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 
 		stage = new Stage();
-		stage.setLungs();
+		stage.setBrain();
 		
 //<<<<<<< HEAD
 //<<<<<<< HEAD
