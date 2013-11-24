@@ -59,6 +59,7 @@ public class Stage : FStage {
 		setSprites ("STOMACH");
 		
 		putSpritesInContainers();
+		addChildren();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024);
 
@@ -72,6 +73,7 @@ public class Stage : FStage {
 		setSprites ("Lungs");
 		
 		putSpritesInContainers();
+		addChildren();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
 
@@ -85,6 +87,7 @@ public class Stage : FStage {
 		setSprites ("brain");
 
 		putSpritesInContainers();
+		addChildren();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
 
@@ -120,30 +123,29 @@ public class Stage : FStage {
 			level_background_sprite = new FSprite("Brain_Background");
 			level_mid_sprite = new FSprite("Brain_Mid");
 			level_foreground_sprite = new FSprite("Brain_Fore");
-			//level_animation_sprite = new FAnimtion"neuron_fast_60_animation");
-			//level_animation_sprite2 = new FSprite("neuron_fast_80_animation");
-			//level_animation_sprite3 = new FSprite("neuron_fast_40_animation");
 
 			background.size = new Vector2(2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
 			foreground.size = new Vector2 (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-			animation.size.Set(2000, 1000);
 		}
 		else if (scene.ToUpper().Equals("LUNGS"))
 		{
-			level_background_sprite = new FSprite("LungsBackground");
-			level_midback_sprite = new FSprite("LungsMidBack2");
+			level_background_sprite = new FSprite("Lungs_Background_00089");
+			level_midback_sprite = new FSprite("LungsV2");
 			level_mid_sprite = new FSprite("LungsMidBack");
-			level_foremid_sprite = new FSprite("LungsForeMid");
-			level_foreground_sprite = new FSprite("LungsFore");
-			//level_animation_sprite = new FSprite("lung_dust");
+			level_foremid_sprite = new FSprite("LungsRear");
+			level_foreground_sprite = new FSprite("Lungs_MiddleFore");
+
+			int[] dust_frames = { 1, 2, 3, 4};
+			FAnimation dust = new FAnimation("Dust", dust_frames, 100, true);
+
+			level_animations.addAnimation(dust);
 
 			background.size = new Vector2 (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			midBack.size = new Vector2 (1024, 768);
 			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
 			foreMid.size = new Vector2 (4096, 2048);
 			foreground.size = new Vector2  (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-			animation.size = new Vector2 (2000, 1000);
 		}
 
 		//default case: set the stage to be the stomach
@@ -164,7 +166,6 @@ public class Stage : FStage {
 			background.size = new Vector2  (2000, 1000);
 			mid.size = new Vector2  (1024, 768);
 			foreground.size = new Vector2  (4096, 2048);
-			//animation.size = new Vector2 (2000, 1000);
 		}
 	}
 
@@ -176,21 +177,25 @@ public class Stage : FStage {
 
 
 		//check for things that not every stage has.  If they're present, add them.
-		//Yes, I know McCabe complexity is now 5.  Eat me.
 		if (level_midback_sprite != null)
 			midBack.AddChild(level_midback_sprite);
 		if (level_foremid_sprite != null)
 			foreMid.AddChild(level_foremid_sprite);
+		
+	}
 
-		//these all end up getting added to level_animations
-		/*
-		if (level_animation_sprite != null)
-			animation.AddChild(level_animation_sprite);
-		if (level_animation_sprite2 != null)
-			animation2.AddChild (level_animation_sprite2);
-		if (level_animation_sprite3 != null)
-			animation3.AddChild (level_animation_sprite3);
-			*/
+	private void addChildren()
+	{
+		AddChild (background);
+		AddChild (mid);
+		AddChild (foreground);
+
+		if (level_midback_sprite != null)
+			AddChild(midBack);
+		if (level_foremid_sprite != null)
+			AddChild(foreMid);
+
+		AddChild (level_animations);
 	}
 
 	public FParallaxContainer getBackground()

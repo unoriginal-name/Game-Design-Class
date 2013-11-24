@@ -35,6 +35,23 @@ public class ImmunityCombatManager : MonoBehaviour {
 		Futile.atlasManager.LoadAtlas("Atlases/StomachMidAtlas");
 		Futile.atlasManager.LoadAtlas("Atlases/StomachForeAtlas");
 		Futile.atlasManager.LoadAtlas("Atlases/stomach_animations");
+
+		Futile.atlasManager.LoadAtlas("Atlases/Lungs");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsBackground");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsRear2");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsMidBack2");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsForeMid");
+		Futile.atlasManager.LoadAtlas("Atlases/lung_dust");
+		Futile.atlasManager.LoadAtlas("Atlases/stomach_animations");
+
+
+		Futile.atlasManager.LoadAtlas("Atlases/Lungs");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsBackground");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsRear2");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsMidBack2");
+		Futile.atlasManager.LoadAtlas("Atlases/LungsForeMid");
+		Futile.atlasManager.LoadAtlas("Atlases/lung_dust");
+		Futile.atlasManager.LoadAtlas("Atlases/stomach_animations");
 		Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
 		
 		FSoundManager.PreloadSound("player_hit");

@@ -47,7 +47,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
 	
-	//private Stage stage;
+	private Stage stage;
 	
 	public CombatPage()
 	{
@@ -58,10 +58,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	override public void Start () {
 		
 
-		/*stage = new Stage();
-		Debug.Log("calling setstomach");
-		//stage.setStomach();
-		Debug.Log("Finished calling setstomach");*/
+		stage = new Stage();
+		stage.setLungs();
 		
 //<<<<<<< HEAD
 //<<<<<<< HEAD
@@ -78,7 +76,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		FSoundManager.UnloadAllSoundsAndMusic();
 		FSoundManager.PlayMusic("stomach_ambience");
 
-		addComponentsToStage();
+		//addComponentsToStage();
+		AddChild(stage);
 
 //<<<<<<< HEAD
 //=======
