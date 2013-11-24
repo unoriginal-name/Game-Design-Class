@@ -69,7 +69,7 @@ public class PlayerCharacter : FAnimatedSprite {
 		
 		speed_ = 0.5f;
 		
-		y = -Futile.screen.halfHeight + height/2.0f + 50.0f;
+		y = -Futile.screen.halfHeight + height/2.0f + 25.0f;
 		x = -Futile.screen.halfWidth + width/2.0f + 150.0f;
 	}
 	

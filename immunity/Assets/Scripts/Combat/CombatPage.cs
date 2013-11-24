@@ -50,10 +50,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private bool player_punch_did_damage = true;
 	private bool enemy_punch_did_damage = true;
 	
-	Rect level_bounding_box;
-	
-	private FSprite player_bounding_box;
-	private FSprite enemy_bounding_box;
+	public Rect level_bounding_box;
 			
 	//private Stage stage;
 	
@@ -64,18 +61,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 	// Use this for initialization
 	override public void Start () {
-		
-
-		/*stage = new Stage();
-		Debug.Log("calling setstomach");
-		//stage.setStomach();
-		Debug.Log("Finished calling setstomach");*/
-		
-		/*
-		background.AddChild (levelBack_);
-		mid.AddChild (levelMid_);
-		foreground.AddChild (levelFore_);
-		*/
 		
 		FSoundManager.StopMusic();
 		FSoundManager.UnloadAllSoundsAndMusic();
@@ -125,6 +110,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(player_healthbar);
 		AddChild(enemy_headshot);
 		AddChild(enemy_healthbar_);
+		
 		level_bounding_box = new Rect(-Futile.screen.halfWidth*.9f, Futile.screen.halfHeight*.9f, Futile.screen.halfWidth*1.8f, Futile.screen.halfHeight*1.8f);
 	}
 	
@@ -225,7 +211,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	public void MoveAwayFromPlayerBehavior()
 	{
 				
-		if(enemy_.x > Futile.screen.halfWidth - enemy_.width/2.0f)
+		if(enemy_.x > level_bounding_box.xMax - enemy_.width/2.0f)
 		{
 			Debug.Log("Stop moving backwards");
 			enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.IDLE;
@@ -654,9 +640,19 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 							curr_player_movement.destroy();
 						}
 						
+						float final_position = touch.position.x;
+						if(touch.position.x < 0 && touch.position.x - player_.width/2.0f < level_bounding_box.xMin)
+							final_position = level_bounding_box.xMin + player_.width/2.0f;
+						
+						if(touch.position.x > 0 && touch.position.x + player_.width/2.0f > level_bounding_box.xMax)
+							final_position = level_bounding_box.xMax - player_.width/2.0f;
+						
+						if(final_position == player_.x)
+							return;
+						
 						player_.scaleX = Math.Abs(player_.scaleX);
 						
-						if(touch.position.x - player_.x < 0)
+						if(final_position - player_.x < 0)
 							player_.play("backwards_walk");
 						else
 							player_.play("walk");
@@ -664,9 +660,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						player_.CurrentState = PlayerCharacter.PlayerState.WALK;
 						
 						// calculate movement time based on player's speed attribute
-						float tween_time = Math.Abs(player_.x - touch.position.x)/(Futile.screen.width*player_.Speed);
+						float tween_time = Math.Abs(player_.x - final_position)/(Futile.screen.width*player_.Speed);
 						
-						curr_player_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", touch.position.x).onComplete(originalTween => { player_.play("idle"); 
+						curr_player_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", final_position).onComplete(originalTween => { player_.play("idle"); 
 							player_.CurrentState = PlayerCharacter.PlayerState.IDLE; }));
 					}
 				}
