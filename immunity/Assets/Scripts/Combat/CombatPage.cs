@@ -152,6 +152,37 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		bubbles_.Add(bubble);
 	}
 	
+	public void HandlePlayerHit(float damage)
+	{
+		player_.ChangeHealth((int)(-damage));
+		FSoundManager.PlaySound("player_hit");
+		ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
+		player_.CurrentState = PlayerCharacter.PlayerState.HIT;
+		player_.play("hit", true);
+			
+		if(player_.isDead)
+		{
+			player_lost_ = true;
+			player_.play("death");
+			Debug.Log("Game Over!");
+		}	
+	}
+	
+	public void HandleEnemyHit(float damage)
+	{
+		enemy_.ChangeHealth((int)(-damage));
+		// TODO: Play hit sound
+		enemy_.play("hit", true);
+		enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
+		if(enemy_.isDead)
+		{
+			// TODO: Show win screen
+			player_won_ = true;
+			enemy_.play("death");
+			Debug.Log("You win!!");
+		}
+	}
+	
 	public void MoveTowardsPlayerBehavior()
 	{
 		// if we're within 50 of the player don't move anymore
@@ -368,17 +399,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 				// if the enemy is currently being hit or its blocking then don't bother taking away more health
 				if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
 				{
-					enemy_.ChangeHealth((int)(-.1f*EnemyCharacter.MAX_HEALTH));
-					// TODO: Play hit sound
-					enemy_.play("hit", true);
-					enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
-					if(enemy_.isDead)
-					{
-						// TODO: Show win screen
-						player_won_ = true;
-						enemy_.play("death");
-						Debug.Log("You win!!");
-					}
+					HandleEnemyHit(0);
 				}
 				
 				bubbles_.Remove(bubble);
@@ -407,17 +428,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		}
 		if(playerHit)
 		{
-			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.1f));
-			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
-			player_.play("hit", true);
-			
-			if(player_.isDead)
-			{
-				player_lost_ = true;
-				player_.play("death");
-				Debug.Log("Game Over!");
-			}
+			HandlePlayerHit(PlayerCharacter.MAX_HEALTH*0.01f);
 		}
 	}
 	
@@ -436,13 +447,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					{
 						if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
 						{
-							// TODO: enemy damage here
-							Debug.Log("Enemy should be taking damage");
-							enemy_.curr_behavior_ = EnemyCharacter.BehaviorType.HIT;
-							enemy_.play("hit");
+							HandleEnemyHit(enemy_.Health*0.1f);
 						}
 						
-						// TODO: Move enemy back from player
 						enemy_.x = player_.x + enemy_.width/2.0f + player_.width/2.0f + 10.0f;
 					}
 					
@@ -450,60 +457,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					{
 						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
 						{
-							// TODO: player damage here
-							Debug.Log("Player should be taking damage");
-							player_.CurrentState = PlayerCharacter.PlayerState.HIT;
-							player_.play("hit");							
+							HandlePlayerHit(PlayerCharacter.MAX_HEALTH*0.1f);							
 						}
 						
-						// TODO: Move player back from enemy
 						player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
 					}
 					
 
 					if(player_.CurrentState != PlayerCharacter.PlayerState.PUNCH && player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
 					{
-						// TODO: player damage here
-						Debug.Log("Player should be taking damage");
-						player_.CurrentState = PlayerCharacter.PlayerState.HIT;
-						player_.play("hit");
+						HandlePlayerHit(PlayerCharacter.MAX_HEALTH*.05f);
 					}
 					
-					// TODO: Move the player back from the enemy
 					player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
 				}
 			}
 			
 		}
-		
-		/*Rect playerRect = player_.localRect.CloneAndScaleThenOffset(Math.Abs(player_.scaleX), player_.scaleY, player_.x, player_.y);
-		if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT && playerRect.CheckIntersect(enemyCollisionRect))
-		{
-			Debug.Log("Player hit enemy");
-			player_.ChangeHealth((int)(-PlayerCharacter.MAX_HEALTH*0.2f));
-			FSoundManager.PlaySound("player_hit");
-			ImmunityCombatManager.instance.camera_.shake(100.0f, 0.25f);
-			
-			current_movement.destroy();
-			
-			if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
-			{
-				float endX = enemy_.x - (1.2f*enemy_.width)/2.0f;
-				float tween_time = Math.Abs(player_.x - endX)/1000f;
-				Debug.Log("Punch tween for " + tween_time + " seconds");
-				player_.CurrentState = PlayerCharacter.PlayerState.HIT;
-				current_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", endX).onComplete(originalTween => player_.CurrentState = PlayerCharacter.PlayerState.IDLE));
-			}
-			else
-				player_.x = enemy_.x - (.5f*enemy_.width)/2.0f;
-			
-			if(player_.isDead)
-			{
-				player_lost_ = true;
-				player_.play("death");
-				Debug.Log("Game Over!");
-			}
-		}*/
 	}
 	
 	void checkForDeadBacteria()
