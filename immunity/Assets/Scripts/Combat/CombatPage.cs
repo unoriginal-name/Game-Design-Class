@@ -432,7 +432,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			{
 				if(player_rect.CheckIntersect(enemy_rect))
 				{
-					bool enemy_hit = false;
 					if(player_.CurrentState == PlayerCharacter.PlayerState.PUNCH)
 					{
 						if(enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.BLOCK && enemy_.curr_behavior_ != EnemyCharacter.BehaviorType.HIT)
@@ -447,7 +446,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						enemy_.x = player_.x + enemy_.width/2.0f + player_.width/2.0f + 10.0f;
 					}
 					
-					bool player_hit = false;
 					if(enemy_.curr_behavior_ == EnemyCharacter.BehaviorType.PUNCH)
 					{
 						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
@@ -455,28 +453,24 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 							// TODO: player damage here
 							Debug.Log("Player should be taking damage");
 							player_.CurrentState = PlayerCharacter.PlayerState.HIT;
-							player_.play("hit");
+							player_.play("hit");							
 						}
 						
 						// TODO: Move player back from enemy
 						player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
 					}
 					
-					// if neither the player nor the enemy have taken damage
-					if(!player_hit && !enemy_hit)
+
+					if(player_.CurrentState != PlayerCharacter.PlayerState.PUNCH && player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
 					{
-						
-						if(player_.CurrentState != PlayerCharacter.PlayerState.BLOCK && player_.CurrentState != PlayerCharacter.PlayerState.HIT)
-						{
-							// TODO: player damage here
-							Debug.Log("Player should be taking damage");
-							player_.CurrentState = PlayerCharacter.PlayerState.HIT;
-							player_.play("hit");
-						}
-						
-						// TODO: Move the player back from the enemy
-						player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
+						// TODO: player damage here
+						Debug.Log("Player should be taking damage");
+						player_.CurrentState = PlayerCharacter.PlayerState.HIT;
+						player_.play("hit");
 					}
+					
+					// TODO: Move the player back from the enemy
+					player_.x = enemy_.x - enemy_.width/2.0f - player_.width/2.0f - 10.0f;
 				}
 			}
 			
