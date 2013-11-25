@@ -218,5 +218,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff6a1b9e27e1c48bba0775be5c519ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage_name: 
+  stage_name: lung
   score: 0

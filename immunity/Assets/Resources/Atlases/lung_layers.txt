@@ -1,0 +1,52 @@
+{"frames": {
+
+"Lungs_Fore.png":
+{
+	"frame": {"x":2,"y":2,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_MidBack1.png":
+{
+	"frame": {"x":766,"y":804,"w":1102,"h":292},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":578,"y":0,"w":1102,"h":292},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_MiddleFore.png":
+{
+	"frame": {"x":2,"y":804,"w":650,"h":688},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1030,"y":0,"w":650,"h":688},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Rear.png":
+{
+	"frame": {"x":2,"y":1494,"w":762,"h":388},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":762,"h":388},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Rear2.png":
+{
+	"frame": {"x":2,"y":1494,"w":762,"h":388},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":762,"h":388},
+	"sourceSize": {"w":1680,"h":800}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "lung_layers.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1b39fe5a6fa63fbf9453072ae0c65ca0:6593d21212fe52e4d6c2d019f9030381:a4844d33dde61117481643475c43f9fc$"
+}
+}
