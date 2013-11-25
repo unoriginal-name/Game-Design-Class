@@ -77,7 +77,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		FSoundManager.StopMusic();
 		FSoundManager.UnloadAllSoundsAndMusic();
-		FSoundManager.PlayMusic("stomach_ambience");
+		//FSoundManager.PlayMusic("stomach_ambience");
+		FSoundManager.PlayMusic("battle_music", .204f);
 
 		//addComponentsToStage();
 		
