@@ -110,7 +110,7 @@ AudioSource:
   m_GameObject: {fileID: 5741934}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: 5defac0b9a9354274b1f60e0f0ba9ba4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7879d76ab16d74e939a4a6d8eaf254f9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -218,5 +218,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff6a1b9e27e1c48bba0775be5c519ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage_name: stomach
+  stage_name: brain
   score: 0
