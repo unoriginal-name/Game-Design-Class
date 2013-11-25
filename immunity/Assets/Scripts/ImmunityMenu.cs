@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public enum PageType
 {
 	None,
-    TitlePage
+    TitlePage,
+	LevelSelectPage
 }
 
 
@@ -29,14 +30,16 @@ public class ImmunityMenu : MonoBehaviour {
 		fparams.AddResolutionLevel(1280.0f, 1.0f, 1.0f, "");
 		fparams.origin = new Vector2(0.5f, 0.5f);
 		
-		Futile.instance.Init(fparams);
+		Futile.instance.Init(fparams);.5,
 		
 		Futile.atlasManager.LoadAtlas("Atlases/MainMenu");
 		Futile.atlasManager.LoadAtlas("Atlases/DrawingAtlas");
-		//Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
-		
+		Futile.atlasManager.LoadAtlas("Atlases/LevelSelectMenu");
 
-		
+		//Futile.atlasManager.LoadFont("ImmunityFont", "ImmunityFont", "Atlases/ImmunityFont", 0.0f, 0.0f);
+
+		GoToMenu (PageType.TitlePage);
+		/*
 		stage_ = Futile.stage;
 		
 		currentPageType = PageType.TitlePage;
@@ -44,6 +47,7 @@ public class ImmunityMenu : MonoBehaviour {
 		
 		stage_.AddChild(currentPage);
 		currentPage.Start();
+		*/
 	}
 	
 	// Update is called once per frame
@@ -53,9 +57,27 @@ public class ImmunityMenu : MonoBehaviour {
 		
 	public void GoToMenu(PageType pageType) {
 		if(currentPageType == pageType) return; // already on this menu
+
+		stage_ = Futile.stage;
+
+		if(currentPage != null && stage_ != null){
+			stage_.RemoveChild(currentPage);
+		}
+
+		switch(pageType){
+		case PageType.TitlePage:
+			currentPageType = PageType.TitlePage;
+			currentPage = new TitlePage();
+			break;
+		case PageType.LevelSelectPage:
+			currentPageType = PageType.LevelSelectPage;
+			currentPage = new LevelSelectPage();
+			break;
+		}
+
+		stage_.AddChild(currentPage);
+		currentPage.Start();
 		
-		ImmunityPage menuToCreate = null;
-		
-		
+		//ImmunityPage menuToCreate = null;
 	}
 }
