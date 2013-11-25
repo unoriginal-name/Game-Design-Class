@@ -4,6 +4,8 @@ using System;
 
 public class TitlePage : ImmunityPage, FMultiTouchableInterface
 {
+	private ImmunityMenu immunityMenu;
+
 	private FSprite background_;
 	private Rect play_button_rect_;
 	private Rect settings_button_rect_;
@@ -16,11 +18,13 @@ public class TitlePage : ImmunityPage, FMultiTouchableInterface
 	
 	override public void Start()
 	{
+		immunityMenu = GameObject.Find ("Futile").GetComponent<ImmunityMenu>();
+
 		FSoundManager.StopMusic();
 		FSoundManager.UnloadAllSoundsAndMusic();
 		FSoundManager.PlayMusic("background_music");
 		FSoundManager.PreloadSound("button_click");
-		
+	
 		background_ = new FSprite("start_screen");
 		AddChild(background_);
 		
@@ -30,13 +34,11 @@ public class TitlePage : ImmunityPage, FMultiTouchableInterface
 		
 		play_button_rect_ = new Rect(Futile.screen.halfWidth*.15f, Futile.screen.halfHeight*-0.05f, Futile.screen.halfWidth*.35f, Futile.screen.halfHeight*.3f);
 		settings_button_rect_ = new Rect(Futile.screen.halfWidth*.15f, Futile.screen.halfHeight*-0.45f, Futile.screen.halfWidth*.6f, Futile.screen.halfHeight*.3f);
-		
 	}
 	
 	private void HandlePlayButtonRelease(FButton button)
 	{
-		Debug.Log("Play Button Clicked");
-		Application.LoadLevel("BubblePopDemo");
+		playButtonClicked();
 	}
 	
 	private void HandleHowToPlayButtonRelease(FButton button)
@@ -57,22 +59,26 @@ public class TitlePage : ImmunityPage, FMultiTouchableInterface
 	{
 		
 		foreach(FTouch touch in touches)
-		{
+		{	
 			if(touch.phase == TouchPhase.Ended)
 			{
 				if(play_button_rect_.xMin <= touch.position.x && play_button_rect_.xMax >= touch.position.x &&
 				play_button_rect_.yMin <= touch.position.y && play_button_rect_.yMax >= touch.position.y)
 				{
-					Debug.Log("Play button clicked");
-					Application.LoadLevel("BubblePopDemo");
+					playButtonClicked();
 				}
 				else if(settings_button_rect_.xMin <= touch.position.x && settings_button_rect_.xMax >= touch.position.x &&
 				settings_button_rect_.yMin <= touch.position.y && settings_button_rect_.yMax >= touch.position.y)
 				{
 					Debug.Log("Settings button clicked");	
 				}
-			}
-			
+			}			
 		}
+	}
+
+	public void playButtonClicked(){
+		Debug.Log("Play Button Clicked");
+		//Application.LoadLevel("BubblePopDemo");
+		immunityMenu.GoToMenu(PageType.LevelSelectPage);
 	}
 }
