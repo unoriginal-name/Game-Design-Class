@@ -175,6 +175,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		{
 			player_lost_ = true;
 			player_.play("death");
+			
+			FSoundManager.StopMusic();
+			FSoundManager.PlaySound("player_lose");
 			Debug.Log("Game Over!");
 		}	
 	}
@@ -190,6 +193,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			// TODO: Show win screen
 			player_won_ = true;
 			enemy_.play("death");
+			
+			FSoundManager.StopMusic();
+			FSoundManager.PlaySound("player_victory");
 			Debug.Log("You win!!");
 		}
 	}
