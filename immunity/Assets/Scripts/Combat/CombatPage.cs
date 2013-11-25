@@ -660,7 +660,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					
 					Debug.Log("Tap delta time: " + (Time.time - touch_start_time));
 					
-					if(Time.time - touch_start_time > .2)
+					if(Time.time - touch_start_time < .2)
 					{
 						if(touch.position.y < -Futile.screen.halfHeight/2.0f)
 						{
@@ -725,9 +725,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						player_.play("block");
 						player_.CurrentState = PlayerCharacter.PlayerState.BLOCK;
 					}
-					else if(touch.position.x > player_.x && touch_start.position.x < player_.x &&
-						touch.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
-						touch_start.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f))
+					else if(touch.position.x > enemy_.x && touch_start.position.x < enemy_.x &&
+						touch.position.y < (enemy_.y + enemy_.height/2.0f) && touch.position.y > (enemy_.y - enemy_.height/2.0f) &&
+						touch_start.position.y < (enemy_.y + enemy_.height/2.0f) && touch.position.y > (enemy_.y - enemy_.height/2.0f))
 					{
 						// this a punch
 						Debug.Log("player punch");

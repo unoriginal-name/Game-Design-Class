@@ -154,6 +154,8 @@ public class Stage : FStage {
 			level_animations.addAnimation(neurons_40);
 			level_animations.addAnimation(neurons_60);
 			level_animations.addAnimation(neurons_80);
+			
+			level_animations.scale = .2f;
 
 			background.size = new Vector2(2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
