@@ -42,7 +42,7 @@ public class PlayerCharacter : FAnimatedSprite {
 		
 		// punch animation
 		int[] punch_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-		FAnimation punch_animation = new FAnimation("punch", "huro_punch", punch_frames, 150, false);
+		FAnimation punch_animation = new FAnimation("punch", "huro_punch", punch_frames, 100, false);
 		base.addAnimation(punch_animation);
 		
 		// hit animation
