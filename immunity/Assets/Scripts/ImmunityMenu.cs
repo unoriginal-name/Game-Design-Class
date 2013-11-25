@@ -30,7 +30,7 @@ public class ImmunityMenu : MonoBehaviour {
 		fparams.AddResolutionLevel(1280.0f, 1.0f, 1.0f, "");
 		fparams.origin = new Vector2(0.5f, 0.5f);
 		
-		Futile.instance.Init(fparams);.5,
+		Futile.instance.Init(fparams);
 		
 		Futile.atlasManager.LoadAtlas("Atlases/MainMenu");
 		Futile.atlasManager.LoadAtlas("Atlases/DrawingAtlas");
