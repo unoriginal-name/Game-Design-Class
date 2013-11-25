@@ -1,6 +1,6 @@
 {"frames": {
 
-"Dust1.png":
+"Dust_1.png":
 {
 	"frame": {"x":1924,"y":1084,"w":1920,"h":1080},
 	"rotated": false,
@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":1920,"h":1080},
 	"sourceSize": {"w":1920,"h":1080}
 },
-"Dust2.png":
+"Dust_2.png":
 {
 	"frame": {"x":2,"y":1084,"w":1920,"h":1080},
 	"rotated": false,
@@ -16,7 +16,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":1920,"h":1080},
 	"sourceSize": {"w":1920,"h":1080}
 },
-"Dust3.png":
+"Dust_3.png":
 {
 	"frame": {"x":1924,"y":2,"w":1920,"h":1080},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":1920,"h":1080},
 	"sourceSize": {"w":1920,"h":1080}
 },
-"Dust4.png":
+"Dust_4.png":
 {
 	"frame": {"x":2,"y":2,"w":1920,"h":1080},
 	"rotated": false,

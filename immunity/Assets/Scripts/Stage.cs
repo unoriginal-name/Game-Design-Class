@@ -12,8 +12,10 @@ public class Stage : FStage {
 	FSprite level_foremid_sprite;
 	FSprite level_foreground_sprite;
 
-	List<FAnimatedSprite> level_animations = new List<FAnimatedSprite>();
-
+	//List<FAnimatedSprite> level_animations = new List<FAnimatedSprite>();
+	FAnimatedSprite level_animations;
+	
+	
 	FAnimation level_animation_sprite;
 	FAnimation level_animation_sprite2;
 	FAnimation level_animation_sprite3;
@@ -52,7 +54,7 @@ public class Stage : FStage {
 	
 	// Update is called once per frame
 	public void HandleUpdate () {
-		foreach(FAnimatedSprite animation in level_animations)
+		/*foreach(FAnimatedSprite animation in level_animations)
 		{
 			Debug.Log("animation paused: " + animation.isPaused);			
 			if(animation.isPaused && Time.time - last_animation_start > 1.0f)
@@ -62,7 +64,7 @@ public class Stage : FStage {
 				animation.play("Bubble");
 				break;
 			}
-		}
+		}*/
 	}
 	
 	public void setStomach()
@@ -73,6 +75,7 @@ public class Stage : FStage {
 		setSprites ("STOMACH");
 		
 		putSpritesInContainers();
+		addChildren();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024);
 
@@ -86,6 +89,7 @@ public class Stage : FStage {
 		setSprites ("Lungs");
 		
 		putSpritesInContainers();
+		addChildren();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
 
@@ -99,6 +103,7 @@ public class Stage : FStage {
 		setSprites ("brain");
 
 		putSpritesInContainers();
+		addChildren();
 		
 		worldBounds = new Rect (-1024f, 512, 2100, -1024); //placeholder values; replace once the actual sprites show up
 
@@ -128,7 +133,7 @@ public class Stage : FStage {
 		AddChild(foreMid);
 		AddChild(foreground);
 
-		level_animations = new List<FAnimatedSprite>();
+		level_animations = new FAnimatedSprite("Bubble"); //new List<FAnimatedSprite>();
 		
 		Debug.Log("Finished calling initialize containers");
 	}
@@ -137,33 +142,41 @@ public class Stage : FStage {
 	{
 		if (scene.ToUpper().Equals("BRAIN"))
 		{
-			level_background_sprite = new FSprite("Brain_Background");
-			level_mid_sprite = new FSprite("Brain_Mid");
-			level_foreground_sprite = new FSprite("Brain_Fore");
-			//level_animation_sprite = new FAnimtion"neuron_fast_60_animation");
-			//level_animation_sprite2 = new FSprite("neuron_fast_80_animation");
-			//level_animation_sprite3 = new FSprite("neuron_fast_40_animation");
+			level_background_sprite = new FSprite("Background");
+			level_foreground_sprite = new FSprite("Forground");
+
+			int[] neuron_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+			FAnimation neurons_40 = new FAnimation("NeuronFast40", "NeuronFast40", neuron_frames, 100, true);
+			FAnimation neurons_60 = new FAnimation("NeuronFast60", "NeuronFast60", neuron_frames, 100, true);
+			FAnimation neurons_80 = new FAnimation("NeuronFast80", "NeuronFast80", neuron_frames, 100, true);
+
+			level_animations.addAnimation(neurons_40);
+			level_animations.addAnimation(neurons_60);
+			level_animations.addAnimation(neurons_80);
 
 			background.size = new Vector2(2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
 			foreground.size = new Vector2 (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-			animation.size.Set(2000, 1000);
 		}
 		else if (scene.ToUpper().Equals("LUNGS"))
 		{
-			level_background_sprite = new FSprite("LungsBackground");
-			level_midback_sprite = new FSprite("LungsMidBack2");
+			level_background_sprite = new FSprite("Lungs_Background_00089");
+			level_midback_sprite = new FSprite("LungsV2");
 			level_mid_sprite = new FSprite("LungsMidBack");
-			level_foremid_sprite = new FSprite("LungsForeMid");
-			level_foreground_sprite = new FSprite("LungsFore");
-			//level_animation_sprite = new FSprite("lung_dust");
+			level_foremid_sprite = new FSprite("LungsRear");
+			level_foreground_sprite = new FSprite("Lungs_MiddleFore");
+
+			int[] dust_frames = { 1, 2, 3, 4};
+			FAnimation dust = new FAnimation("Dust", "Dust", dust_frames, 100, true);
+
+			level_animations.addAnimation(dust);
 
 			background.size = new Vector2 (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			midBack.size = new Vector2 (1024, 768);
 			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
 			foreMid.size = new Vector2 (4096, 2048);
 			foreground.size = new Vector2  (4096, 2048); //(x, y) such that the vector is larger than the world bounds (background size)
-			animation.size = new Vector2 (2000, 1000);
 		}
 
 		//default case: set the stage to be the stomach
@@ -203,46 +216,50 @@ public class Stage : FStage {
 			bubble4.x = Futile.screen.halfWidth*.4f;
 			bubble4.y = -Futile.screen.halfHeight*.4f;
 			
-			level_animations.Add(bubble1);
+			/*level_animations.Add(bubble1);
 			level_animations.Add(bubble2);
 			level_animations.Add(bubble3);
-			level_animations.Add(bubble4);
+			level_animations.Add(bubble4);*/
 
 			background.size = new Vector2  (2000, 1000);
 			mid.size = new Vector2  (1024, 768);
 			foreground.size = new Vector2  (4096, 2048);
-			//animation.size = new Vector2 (2000, 1000);
 		}
 	}
 
 	private void putSpritesInContainers()
 	{
 		background.AddChild (level_background_sprite);
-		mid.AddChild (level_mid_sprite);
 		foreground.AddChild (level_foreground_sprite);
 
 
 		//check for things that not every stage has.  If they're present, add them.
-		//Yes, I know McCabe complexity is now 5.  Eat me.
 		if (level_midback_sprite != null)
 			midBack.AddChild(level_midback_sprite);
 		if (level_foremid_sprite != null)
 			foreMid.AddChild(level_foremid_sprite);
+		if (level_mid_sprite != null)
+			mid.AddChild (level_mid_sprite);
 		
-		foreach(FAnimatedSprite animation in level_animations)
+	}
+
+	private void addChildren()
+	{
+		AddChild (background);
+		AddChild (mid);
+		AddChild (foreground);
+
+		if (level_midback_sprite != null)
+			AddChild(midBack);
+		if (level_foremid_sprite != null)
+			AddChild(foreMid);
+		
+		/*foreach(FAnimatedSprite animation in level_animations)
 		{
 			mid.AddChild(animation);
-		}
+		}*/
 
-		//these all end up getting added to level_animations
-		/*
-		if (level_animation_sprite != null)
-			animation.AddChild(level_animation_sprite);
-		if (level_animation_sprite2 != null)
-			animation2.AddChild (level_animation_sprite2);
-		if (level_animation_sprite3 != null)
-			animation3.AddChild (level_animation_sprite3);
-			*/
+		AddChild (level_animations);
 	}
 
 	public FParallaxContainer getBackground()
@@ -270,9 +287,13 @@ public class Stage : FStage {
 		return foreground;
 	}
 
-	public List<FAnimatedSprite> getAnimation()
+	/*public List<FAnimatedSprite> getAnimation()
 	{
 		return level_animations;
+	}*/
+	public FAnimatedSprite getAnimation()
+	{
+		return level_animations;	
 	}
 
 	public FParallaxContainer getAnimation2()
