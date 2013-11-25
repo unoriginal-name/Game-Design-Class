@@ -62,6 +62,19 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	// Use this for initialization
 	override public void Start () {
 		
+
+		/*stage = new Stage();
+		Debug.Log("calling setstomach");
+		//stage.setStomach();
+		Debug.Log("Finished calling setstomach");*/
+
+		/*
+        team/master
+		background.AddChild (levelBack_);
+		mid.AddChild (levelMid_);
+		foreground.AddChild (levelFore_);
+		*/
+		
 		FSoundManager.StopMusic();
 		FSoundManager.UnloadAllSoundsAndMusic();
 		FSoundManager.PlayMusic("stomach_ambience");
