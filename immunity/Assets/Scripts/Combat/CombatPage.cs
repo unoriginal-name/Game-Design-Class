@@ -540,15 +540,19 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 
 	private void HandleYesButton(FButton button){
+		Application.LoadLevel(ImmunityCombatManager.instance.stage_name);
 	}
 
 	private void HandleNoButton(FButton button){
+		Application.LoadLevel("ImmunityMainMenu");
 	}
 
 	private void HandleLevelSelectButton(FButton button){
+		Application.LoadLevel("ImmunityMainMenu");
 	}
 
 	private void HandleNextLevelButton(FButton button){
+		Application.LoadLevel("ImmunityMainMenu");
 	}
 
 
@@ -574,6 +578,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					nextLevelButton.SetPosition(new Vector2(200, -210));
 					levelSelectButton.SetPosition(new Vector2(-200,-300));
 					displayEndScreen = false;
+					
+					player_.play("idle");
 				}
 
 			}
@@ -600,6 +606,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					yesButton.SetPosition(new Vector2(-120, -100));
 					noButton.SetPosition(new Vector2(150,-100));
 					displayEndScreen = false;
+					
+					player_.play("idle");
 				}
 			}
 			
