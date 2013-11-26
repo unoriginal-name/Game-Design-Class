@@ -1,0 +1,20 @@
+{"frames": {
+
+"CreditsMenu.png":
+{
+	"frame": {"x":2,"y":2,"w":1280,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1280,"h":800},
+	"sourceSize": {"w":1280,"h":800}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "CreditsAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:4a9d6ebdabf60dc8c628323fe84084ae:4b6e33c84292877dad441da3a7c0d4aa:efe4f2ce7e3fdf95d93f94c04c352fe5$"
+}
+}

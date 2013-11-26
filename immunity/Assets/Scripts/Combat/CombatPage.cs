@@ -4,7 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CombatPage : ImmunityPage, FMultiTouchableInterface {
-	
+
+	// Victory defeat menus
+	private bool displayEndScreen = true;
+	private FSprite victory;
+	private FSprite defeat;
+	private FButton yesButton;
+	private FButton noButton;
+	private FButton nextLevelButton;
+	private FButton levelSelectButton;
+
 	private FSprite levelFore_;
 	private FSprite levelMid_;
 	private FSprite levelBack_;
@@ -529,7 +538,20 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			}
 		}
 	}
-	
+
+	private void HandleYesButton(FButton button){
+	}
+
+	private void HandleNoButton(FButton button){
+	}
+
+	private void HandleLevelSelectButton(FButton button){
+	}
+
+	private void HandleNextLevelButton(FButton button){
+	}
+
+
 	protected void HandleUpdate()
 	{		
 		if(player_won_)
@@ -537,7 +559,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			player_.play("idle");
 			if(enemy_.FinishedCount >= 1)
 			{
-				// TODO: show victory menu	
+				if(displayEndScreen){
+					victory = new FSprite("victory screen final");
+					nextLevelButton = new FButton("NextLevel", "NextLevelPressed");
+					levelSelectButton = new FButton("LevelSelect","LevelSelectPressed");
+					
+					AddChild(victory);
+					AddChild(nextLevelButton);
+					AddChild(levelSelectButton);
+
+					nextLevelButton.SignalRelease += HandleNextLevelButton;
+					levelSelectButton.SignalRelease += HandleLevelSelectButton;
+					
+					nextLevelButton.SetPosition(new Vector2(200, -210));
+					levelSelectButton.SetPosition(new Vector2(-200,-300));
+					displayEndScreen = false;
+				}
+
 			}
 			return;
 		}
@@ -547,7 +585,22 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			enemy_.play("idle");
 			if(player_.FinishedCount >= 1)
 			{
-				// TODO: show game over menu
+				if(displayEndScreen){
+					defeat = new FSprite("try again screen final");
+					yesButton = new FButton("Yes", "YesPressed");
+					noButton = new FButton("No","NoPressed");
+					
+					AddChild(defeat);
+					AddChild(yesButton);
+					AddChild(noButton);
+
+					yesButton.SignalRelease += HandleYesButton;
+					noButton.SignalRelease += HandleNoButton;
+
+					yesButton.SetPosition(new Vector2(-120, -100));
+					noButton.SetPosition(new Vector2(150,-100));
+					displayEndScreen = false;
+				}
 			}
 			
 			return;

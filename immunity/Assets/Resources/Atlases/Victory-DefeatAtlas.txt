@@ -1,0 +1,92 @@
+{"frames": {
+
+"LevelSelect.png":
+{
+	"frame": {"x":2,"y":2,"w":744,"h":173},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":744,"h":173},
+	"sourceSize": {"w":744,"h":173}
+},
+"LevelSelectPressed.png":
+{
+	"frame": {"x":748,"y":2,"w":744,"h":173},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":744,"h":173},
+	"sourceSize": {"w":744,"h":173}
+},
+"NextLevel.png":
+{
+	"frame": {"x":2,"y":177,"w":673,"h":185},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":673,"h":185},
+	"sourceSize": {"w":679,"h":185}
+},
+"NextLevelPressed.png":
+{
+	"frame": {"x":677,"y":177,"w":673,"h":185},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":673,"h":185},
+	"sourceSize": {"w":679,"h":185}
+},
+"No.png":
+{
+	"frame": {"x":1352,"y":177,"w":174,"h":128},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":174,"h":128},
+	"sourceSize": {"w":174,"h":130}
+},
+"NoPressed.png":
+{
+	"frame": {"x":1528,"y":177,"w":174,"h":128},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":174,"h":128},
+	"sourceSize": {"w":174,"h":130}
+},
+"Yes.png":
+{
+	"frame": {"x":1704,"y":177,"w":210,"h":133},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":210,"h":133},
+	"sourceSize": {"w":210,"h":135}
+},
+"YesPressed.png":
+{
+	"frame": {"x":2,"y":364,"w":210,"h":133},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":210,"h":133},
+	"sourceSize": {"w":210,"h":135}
+},
+"try again screen final.png":
+{
+	"frame": {"x":214,"y":364,"w":1280,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1280,"h":800},
+	"sourceSize": {"w":1280,"h":800}
+},
+"victory screen final.png":
+{
+	"frame": {"x":2,"y":1166,"w":1280,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1280,"h":800},
+	"sourceSize": {"w":1280,"h":800}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "Victory-DefeatAtlas.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:caa309c83bdadceb584ccf99676c8d02:504973c34504a57640cc75b1a63b3d22:3e7c23a1e7cca2c3ea77fa09c006d55d$"
+}
+}
