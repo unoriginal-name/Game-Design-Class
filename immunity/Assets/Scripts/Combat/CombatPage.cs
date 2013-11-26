@@ -552,20 +552,36 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	}
 
 	private void HandleNextLevelButton(FButton button){
-		Application.LoadLevel("ImmunityMainMenu");
+		if(ImmunityCombatManager.instance.stage_name.Equals("stomach"))
+			Application.LoadLevel("Lungs");
+		else if(ImmunityCombatManager.instance.stage_name.Equals("lung"))
+			Application.LoadLevel("Brain");
+		else
+			Application.LoadLevel("ImmunityMainMenu");
 	}
 
 
 	protected void HandleUpdate()
-	{		
+	{	
+		player_won_ = true;
 		if(player_won_)
 		{
+			if(ImmunityCombatManager.instance.stage_name.Equals("stomach"))
+			{
+				if(!PlayerPrefs.GetString("highest_level").Equals("brain"))
+					PlayerPrefs.SetString("highest_level", "lung");
+			}
+			else if(ImmunityCombatManager.instance.stage_name.Equals("lung"))
+				PlayerPrefs.SetString("highest_level", "brain");
+			
 			player_.play("idle");
 			if(enemy_.FinishedCount >= 1)
 			{
 				if(displayEndScreen){
 					victory = new FSprite("victory screen final");
 					nextLevelButton = new FButton("NextLevel", "NextLevelPressed");
+
+				
 					levelSelectButton = new FButton("LevelSelect","LevelSelectPressed");
 					
 					AddChild(victory);
@@ -579,6 +595,16 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					levelSelectButton.SetPosition(new Vector2(-200,-300));
 					displayEndScreen = false;
 					
+					
+					if(ImmunityCombatManager.instance.stage_name.Equals("brain"))
+					{
+						nextLevelButton.isVisible = false;
+					}
+					
+					AddChild(player_);
+					player_.x = -Futile.screen.halfWidth*.6f;
+					player_.y = -Futile.screen.halfHeight*.05f;
+					player_.scale = 1.4f;
 					player_.play("idle");
 				}
 
@@ -607,6 +633,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					noButton.SetPosition(new Vector2(150,-100));
 					displayEndScreen = false;
 					
+					AddChild(player_);
+					player_.x = -Futile.screen.halfWidth*.7f;
+					player_.y = -Futile.screen.halfHeight*.1f;
 					player_.play("idle");
 				}
 			}

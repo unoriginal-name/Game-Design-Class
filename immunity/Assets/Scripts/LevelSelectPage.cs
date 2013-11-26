@@ -28,8 +28,19 @@ public class LevelSelectPage : ImmunityPage, FMultiTouchableInterface
 	{
 		background_ = new FSprite("level select screen final");
 		AddChild(background_);
-		setBrain(ButtonType.locked);
-		setLungs(ButtonType.locked);
+		
+		string highest_level = PlayerPrefs.GetString("highest_level");
+		if(highest_level.Equals("stomach"))
+		{
+			setBrain(ButtonType.locked);
+			setLungs(ButtonType.locked);
+		} else if(highest_level.Equals("lung")) {
+			setBrain(ButtonType.locked);
+			setLungs(ButtonType.normal);
+		} else {
+			setBrain(ButtonType.normal);
+			setLungs(ButtonType.normal);
+		}
 
 		stomach = new FButton("Stomach", "StomachPressed");
 		stomach.SignalRelease += HandleStomachButton;

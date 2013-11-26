@@ -26,6 +26,9 @@ public class ImmunityMenu : MonoBehaviour {
 	void Start () {
 		instance = this;
 		
+		if(!PlayerPrefs.HasKey("highest_level"))
+			PlayerPrefs.SetString("highest_level", "stomach");
+		
 		FutileParams fparams = new FutileParams(true, true, false, false);
 		
 		fparams.AddResolutionLevel(1280.0f, 1.0f, 1.0f, "");
