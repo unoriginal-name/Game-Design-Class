@@ -156,6 +156,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void CreateBubble(Vector2 direction)
 	{
+		if(bubbles_.Count >= 3)
+			return;
 		PlayerBubble bubble = new PlayerBubble(direction);
 		bubbleContainer_.AddChild(bubble);
 		bubble.x = player_.x;
@@ -708,6 +710,23 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						bacteria_direction.y /= magnitude;
 						
 						CreateBubble(bacteria_direction);
+						
+						if((float)player_.Health/(float)PlayerCharacter.MAX_HEALTH >= .5f)
+						{
+							bacteria_direction.x *= 1.2f;
+							bacteria_direction.y *= .8f;
+						
+							CreateBubble(bacteria_direction);
+						}
+						
+						if((float)player_.Health/(float)PlayerCharacter.MAX_HEALTH >= .75f)
+						{
+							bacteria_direction.x *= .6f;
+							bacteria_direction.y *= 1.4f;
+						
+							CreateBubble(bacteria_direction);
+							
+						}
 					}
 				}
 				else
