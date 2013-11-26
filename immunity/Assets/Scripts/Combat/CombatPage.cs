@@ -563,7 +563,6 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 
 	protected void HandleUpdate()
 	{	
-		player_won_ = true;
 		if(player_won_)
 		{
 			if(ImmunityCombatManager.instance.stage_name.Equals("stomach"))
@@ -634,8 +633,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					displayEndScreen = false;
 					
 					AddChild(player_);
-					player_.x = -Futile.screen.halfWidth*.7f;
-					player_.y = -Futile.screen.halfHeight*.1f;
+					player_.x = -Futile.screen.halfWidth*.6f;
+					player_.y = -Futile.screen.halfHeight*.12f;
+					player_.scale = 1.4f;
 					player_.play("idle");
 				}
 			}
