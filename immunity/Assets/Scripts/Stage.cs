@@ -154,6 +154,8 @@ public class Stage : FStage {
 			level_animations.addAnimation(neurons_40);
 			level_animations.addAnimation(neurons_60);
 			level_animations.addAnimation(neurons_80);
+			
+			level_animations.scale = .2f;
 
 			background.size = new Vector2(2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			mid.size = new Vector2 (1024, 768); //(x, y) such that the vector is smaller than the camera (1024x768)
@@ -162,15 +164,17 @@ public class Stage : FStage {
 		else if (scene.ToUpper().Equals("LUNGS"))
 		{
 			level_background_sprite = new FSprite("Lungs_Background_00089");
-			level_midback_sprite = new FSprite("LungsV2");
-			level_mid_sprite = new FSprite("LungsMidBack");
-			level_foremid_sprite = new FSprite("LungsRear");
-			level_foreground_sprite = new FSprite("Lungs_MiddleFore");
+			//level_midback_sprite = new FSprite("LungsV2");
+			level_mid_sprite = new FSprite("Lungs_Rear");
+			level_foremid_sprite = new FSprite("Lungs_MiddleFore");
+			level_foreground_sprite = new FSprite("Lungs_Fore");
 
 			int[] dust_frames = { 1, 2, 3, 4};
-			FAnimation dust = new FAnimation("Dust", "Dust", dust_frames, 100, true);
+			FAnimation dust = new FAnimation("Dust", "Dust", dust_frames, 1000, true);
 
 			level_animations.addAnimation(dust);
+			
+			level_animations.alpha = .5f;
 
 			background.size = new Vector2 (2000, 1000); //(x, y) such that the vector is between the world bounds (background size) and camera bounds (1024x768)
 			midBack.size = new Vector2 (1024, 768);

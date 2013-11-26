@@ -46,6 +46,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private bool player_lost_ = false;
 	
 	Dictionary<int, FTouch> touch_starts = new Dictionary<int, FTouch>();
+	float touch_start_time;
 	
 	private bool player_punch_did_damage = true;
 	private bool enemy_punch_did_damage = true;
@@ -77,7 +78,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		
 		FSoundManager.StopMusic();
 		FSoundManager.UnloadAllSoundsAndMusic();
-		FSoundManager.PlayMusic("stomach_ambience");
+		//FSoundManager.PlayMusic("stomach_ambience");
+		FSoundManager.PlayMusic("battle_music", .204f);
 
 		//addComponentsToStage();
 		
@@ -154,6 +156,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	
 	public void CreateBubble(Vector2 direction)
 	{
+		if(bubbles_.Count >= 3)
+			return;
 		PlayerBubble bubble = new PlayerBubble(direction);
 		bubbleContainer_.AddChild(bubble);
 		bubble.x = player_.x;
@@ -174,6 +178,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		{
 			player_lost_ = true;
 			player_.play("death");
+			
+			FSoundManager.StopMusic();
+			FSoundManager.PlaySound("player_lose");
 			Debug.Log("Game Over!");
 		}	
 	}
@@ -189,6 +196,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 			// TODO: Show win screen
 			player_won_ = true;
 			enemy_.play("death");
+			
+			FSoundManager.StopMusic();
+			FSoundManager.PlaySound("player_victory");
 			Debug.Log("You win!!");
 		}
 	}
@@ -627,6 +637,8 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					touch_starts.Add(touch.tapCount, touch);
 				else
 					touch_starts[touch.tapCount] = touch; // update the touch otherwise
+				
+				touch_start_time = Time.time;
 			}
 			else if(touch.phase == TouchPhase.Ended)
 			{
@@ -648,38 +660,73 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 					// This is a tap
 					Debug.Log("Detected a tap");
 					
-					if(touch.position.y < -Futile.screen.halfHeight/2.0f)
+					Debug.Log("Tap delta time: " + (Time.time - touch_start_time));
+					
+					if(Time.time - touch_start_time < .2)
 					{
-						// if already executing a move, first stop it
-						if(curr_player_movement != null)
+						if(touch.position.y < -Futile.screen.halfHeight/2.0f)
 						{
-							curr_player_movement.destroy();
+							// if already executing a move, first stop it
+							if(curr_player_movement != null)
+							{
+								curr_player_movement.destroy();
+							}
+							
+							float final_position = touch.position.x;
+							if(touch.position.x < 0 && touch.position.x - player_.width/2.0f < level_bounding_box.xMin)
+								final_position = level_bounding_box.xMin + player_.width/2.0f;
+							
+							if(touch.position.x > 0 && touch.position.x + player_.width/2.0f > level_bounding_box.xMax)
+								final_position = level_bounding_box.xMax - player_.width/2.0f;
+							
+							if(final_position == player_.x)
+								return;
+							
+							player_.scaleX = Math.Abs(player_.scaleX);
+							
+							if(final_position - player_.x < 0)
+								player_.play("backwards_walk");
+							else
+								player_.play("walk");
+							
+							player_.CurrentState = PlayerCharacter.PlayerState.WALK;
+							
+							// calculate movement time based on player's speed attribute
+							float tween_time = Math.Abs(player_.x - final_position)/(Futile.screen.width*player_.Speed);
+							
+							curr_player_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", final_position).onComplete(originalTween => { player_.play("idle"); 
+								player_.CurrentState = PlayerCharacter.PlayerState.IDLE; }));
+						}
+					}
+					else
+					{
+						Vector2 bacteria_direction = new Vector2();
+						bacteria_direction.x = touch.position.x - player_.x;
+						bacteria_direction.y = touch.position.y - player_.y;
+						
+						float magnitude = Mathf.Sqrt(bacteria_direction.x*bacteria_direction.x + bacteria_direction.y*bacteria_direction.y);
+						
+						bacteria_direction.x /= magnitude;
+						bacteria_direction.y /= magnitude;
+						
+						CreateBubble(bacteria_direction);
+						
+						if((float)player_.Health/(float)PlayerCharacter.MAX_HEALTH >= .5f)
+						{
+							bacteria_direction.x *= 1.2f;
+							bacteria_direction.y *= .8f;
+						
+							CreateBubble(bacteria_direction);
 						}
 						
-						float final_position = touch.position.x;
-						if(touch.position.x < 0 && touch.position.x - player_.width/2.0f < level_bounding_box.xMin)
-							final_position = level_bounding_box.xMin + player_.width/2.0f;
+						if((float)player_.Health/(float)PlayerCharacter.MAX_HEALTH >= .75f)
+						{
+							bacteria_direction.x *= .6f;
+							bacteria_direction.y *= 1.4f;
 						
-						if(touch.position.x > 0 && touch.position.x + player_.width/2.0f > level_bounding_box.xMax)
-							final_position = level_bounding_box.xMax - player_.width/2.0f;
-						
-						if(final_position == player_.x)
-							return;
-						
-						player_.scaleX = Math.Abs(player_.scaleX);
-						
-						if(final_position - player_.x < 0)
-							player_.play("backwards_walk");
-						else
-							player_.play("walk");
-						
-						player_.CurrentState = PlayerCharacter.PlayerState.WALK;
-						
-						// calculate movement time based on player's speed attribute
-						float tween_time = Math.Abs(player_.x - final_position)/(Futile.screen.width*player_.Speed);
-						
-						curr_player_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", final_position).onComplete(originalTween => { player_.play("idle"); 
-							player_.CurrentState = PlayerCharacter.PlayerState.IDLE; }));
+							CreateBubble(bacteria_direction);
+							
+						}
 					}
 				}
 				else
@@ -697,9 +744,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 						player_.play("block");
 						player_.CurrentState = PlayerCharacter.PlayerState.BLOCK;
 					}
-					else if(touch.position.x > player_.x && touch_start.position.x < player_.x &&
-						touch.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f) &&
-						touch_start.position.y < (player_.y + player_.height/2.0f) && touch.position.y > (player_.y - player_.height/2.0f))
+					else if(touch.position.x > enemy_.x && touch_start.position.x < enemy_.x &&
+						touch.position.y < (enemy_.y + enemy_.height/2.0f) && touch.position.y > (enemy_.y - enemy_.height/2.0f) &&
+						touch_start.position.y < (enemy_.y + enemy_.height/2.0f) && touch.position.y > (enemy_.y - enemy_.height/2.0f))
 					{
 						// this a punch
 						Debug.Log("player punch");

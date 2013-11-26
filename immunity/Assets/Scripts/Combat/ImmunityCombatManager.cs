@@ -7,6 +7,8 @@ public class ImmunityCombatManager : MonoBehaviour {
 	
 	public static ImmunityCombatManager instance;
 	
+	public string stage_name;
+	
 	private FStage stage_;
 	public Stage stage;
 	
@@ -36,15 +38,17 @@ public class ImmunityCombatManager : MonoBehaviour {
 		Futile.atlasManager.LoadAtlas("Atlases/StomachForeAtlas");
 		Futile.atlasManager.LoadAtlas("Atlases/stomach_animations");
 
-		Futile.atlasManager.LoadAtlas("Atlases/Lungs");
+		//Futile.atlasManager.LoadAtlas("Atlases/Lungs");
 		Futile.atlasManager.LoadAtlas("Atlases/LungsBackground");
-		Futile.atlasManager.LoadAtlas("Atlases/LungsRear2");
-		Futile.atlasManager.LoadAtlas("Atlases/LungsMidBack2");
-		Futile.atlasManager.LoadAtlas("Atlases/LungsForeMid");
+		//Futile.atlasManager.LoadAtlas("Atlases/LungsRear2");
+		//Futile.atlasManager.LoadAtlas("Atlases/LungsMidBack2");
+		//Futile.atlasManager.LoadAtlas("Atlases/LungsForeMid");
+		Futile.atlasManager.LoadAtlas("Atlases/lung_layers");
 		Futile.atlasManager.LoadAtlas("Atlases/lung_dust");
 
-		Futile.atlasManager.LoadAtlas("Atlases/Brain_Background");
-		Futile.atlasManager.LoadAtlas("Atlases/Brain_Foreground");
+		//Futile.atlasManager.LoadAtlas("Atlases/Brain_Background");
+		//Futile.atlasManager.LoadAtlas("Atlases/Brain_Foreground");
+		Futile.atlasManager.LoadAtlas("Atlases/BrainAtlas");
 		Futile.atlasManager.LoadAtlas("Atlases/neuron_fast_80_animation");
 		Futile.atlasManager.LoadAtlas("Atlases/neuron_fast_60_animation");
 		Futile.atlasManager.LoadAtlas("Atlases/neuron_fast_40_animation");
@@ -61,9 +65,12 @@ public class ImmunityCombatManager : MonoBehaviour {
 		stage_.AddChild(camera_);
 		
 		stage = new Stage();
-		Debug.Log("calling setstomach");
-		stage.setStomach ();
-		Debug.Log("Finished calling setstomach");
+		if(stage_name.Equals("stomach"))
+			stage.setStomach ();
+		else if(stage_name.Equals("lung"))
+			stage.setLungs();
+		else
+			stage.setBrain();
 		
 		Rect worldBounds = stage.worldBounds;
 		camera_.setWorldBounds (worldBounds);
