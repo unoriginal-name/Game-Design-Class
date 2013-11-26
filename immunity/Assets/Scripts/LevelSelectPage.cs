@@ -42,13 +42,15 @@ public class LevelSelectPage : ImmunityPage, FMultiTouchableInterface
 	}
 
 	private void HandleBrainButton(FButton button){
+		Application.LoadLevel("Brain");
 	}
 
 	private void HandleLungsButton(FButton button){
+		Application.LoadLevel("Lungs");
 	}
 
 	private void HandleStomachButton(FButton button){
-		Application.LoadLevel("BubblePopDemo");
+		Application.LoadLevel("Stomach");
 	}
 
 	private void setBrain(ButtonType type){
