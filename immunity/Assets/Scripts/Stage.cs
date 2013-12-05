@@ -163,7 +163,7 @@ public class Stage : FStage {
 		}
 		else if (scene.ToUpper().Equals("LUNGS"))
 		{
-			level_background_sprite = new FSprite("Lungs_Background_00089");
+			level_background_sprite = new FSprite("Lungs_Background_1");
 			//level_midback_sprite = new FSprite("LungsV2");
 			level_mid_sprite = new FSprite("Lungs_Rear");
 			level_foremid_sprite = new FSprite("Lungs_MiddleFore");

@@ -1,0 +1,92 @@
+{"frames": {
+
+"Lungs_Background_1.png":
+{
+	"frame": {"x":1684,"y":3210,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_10.png":
+{
+	"frame": {"x":1684,"y":2408,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_2.png":
+{
+	"frame": {"x":2,"y":3210,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_3.png":
+{
+	"frame": {"x":2,"y":2408,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_4.png":
+{
+	"frame": {"x":1684,"y":1606,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_5.png":
+{
+	"frame": {"x":2,"y":1606,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_6.png":
+{
+	"frame": {"x":1684,"y":804,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_7.png":
+{
+	"frame": {"x":2,"y":804,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_8.png":
+{
+	"frame": {"x":1684,"y":2,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+},
+"Lungs_Background_9.png":
+{
+	"frame": {"x":2,"y":2,"w":1680,"h":800},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1680,"h":800},
+	"sourceSize": {"w":1680,"h":800}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "lung_background.png",
+	"format": "RGBA8888",
+	"size": {"w":4096,"h":4096},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7563b9256a1b9c2d5af28ae841af14d7:2fd47aeb90c83e33859eeb72735b9e2a:46dcc4a5e88d581c3cf39a8753303175$"
+}
+}
