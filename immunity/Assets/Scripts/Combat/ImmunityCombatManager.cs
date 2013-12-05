@@ -33,10 +33,9 @@ public class ImmunityCombatManager : MonoBehaviour {
 		Futile.instance.Init(fparams);
 		
 		Futile.atlasManager.LoadAtlas("Atlases/CombatAtlas");
-		Futile.atlasManager.LoadAtlas("Atlases/StomachBackAtlas");
-		Futile.atlasManager.LoadAtlas("Atlases/StomachMidAtlas");
-		Futile.atlasManager.LoadAtlas("Atlases/StomachForeAtlas");
-		Futile.atlasManager.LoadAtlas("Atlases/stomach_animations");
+		
+		
+		Futile.atlasManager.LoadAtlas("Atlases/stomach_atlas");
 
 		//Futile.atlasManager.LoadAtlas("Atlases/Lungs");
 		Futile.atlasManager.LoadAtlas("Atlases/LungsBackground");

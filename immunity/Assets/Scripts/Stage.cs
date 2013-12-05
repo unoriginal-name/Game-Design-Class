@@ -186,9 +186,9 @@ public class Stage : FStage {
 		//default case: set the stage to be the stomach
 		else
 		{
-			level_background_sprite = new FSprite("Stomach_Lake");
-			level_mid_sprite = new FSprite("Stomach_Mid");
-			level_foreground_sprite = new FSprite("Stomach_Fore");
+			level_background_sprite = new FSprite("stomach_back");
+			level_mid_sprite = new FSprite("stomach_mid");
+			level_foreground_sprite = new FSprite("stomach_fore");
 
 			int[] bubble_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
 			int[] ripple_frames = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
