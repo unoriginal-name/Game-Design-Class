@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LungLevel : FContainer {
+public class LungLevel : Level {
 	
 	private FAnimatedSprite background_;
 	
@@ -56,7 +56,7 @@ public class LungLevel : FContainer {
 		
 	}
 	
-	public void Update () {
+	public override void Update () {
 		
 		dust1_.HandleUpdate();
 		dust2_.HandleUpdate();

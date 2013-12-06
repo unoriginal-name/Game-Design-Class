@@ -10,7 +10,6 @@ public class ImmunityCombatManager : MonoBehaviour {
 	public string stage_name;
 	
 	private FStage stage_;
-	public Stage stage;
 	
 	private ImmunityPage gamePage;
 	public ImmunityPage GamePage
@@ -41,8 +40,6 @@ public class ImmunityCombatManager : MonoBehaviour {
 		Futile.atlasManager.LoadAtlas("Atlases/lung_layers");
 		Futile.atlasManager.LoadAtlas("Atlases/lung_dust");
 
-		//Futile.atlasManager.LoadAtlas("Atlases/Brain_Background");
-		//Futile.atlasManager.LoadAtlas("Atlases/Brain_Foreground");
 		Futile.atlasManager.LoadAtlas("Atlases/BrainAtlas");
 		Futile.atlasManager.LoadAtlas("Atlases/neuron_fast_80_animation");
 		Futile.atlasManager.LoadAtlas("Atlases/neuron_fast_60_animation");
@@ -63,16 +60,8 @@ public class ImmunityCombatManager : MonoBehaviour {
 		camera_ = new FCamObject();
 		stage_.AddChild(camera_);
 		
-		stage = new Stage();
-		if(stage_name.Equals("stomach"))
-			stage.setStomach ();
-		else if(stage_name.Equals("lung"))
-			stage.setLungs();
-		else
-			stage.setBrain();
-		
-		Rect worldBounds = stage.worldBounds;
-		camera_.setWorldBounds (worldBounds);
+		//Rect worldBounds = stage.worldBounds;
+		//camera_.setWorldBounds (worldBounds);
 		//camera_.setBounds(stage.cameraBounds);
 		
 		gamePage = new CombatPage();

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class StomachLevel : FContainer {
+public class StomachLevel : Level {
 	
 	private FSprite lake_sprite_;
 	private FSprite cave_sprite_;
@@ -32,7 +32,7 @@ public class StomachLevel : FContainer {
 		stomach_bubbles_ = new List<StomachBubble>();
 	}
 	
-	public void Update () {
+	public override void Update () {
 		if(stomach_bubbles_.Count < StomachLevel.MAX_STOMACH_BUBBLES)
 		{
 			Debug.Log("less stomach bubbles than max amount");

@@ -61,8 +61,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private bool enemy_punch_did_damage = true;
 	
 	public Rect level_bounding_box;
+	
+	private Level level;
 			
-	//private Stage stage;
 	
 	public CombatPage()
 	{
@@ -72,27 +73,18 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	// Use this for initialization
 	override public void Start () {
 		
-
-		/*stage = new Stage();
-		Debug.Log("calling setstomach");
-		//stage.setStomach();
-		Debug.Log("Finished calling setstomach");*/
-
-		/*
-        team/master
-		background.AddChild (levelBack_);
-		mid.AddChild (levelMid_);
-		foreground.AddChild (levelFore_);
-		*/
+		if(ImmunityCombatManager.instance.stage_name.Equals("stomach"))
+			level = new StomachLevel();
+		else if(ImmunityCombatManager.instance.stage_name.Equals("lung"))
+			level = new LungLevel();
+		else
+			level = new BrainLevel();
+		AddChild(level);
+		
 		
 		FSoundManager.StopMusic();
 		FSoundManager.UnloadAllSoundsAndMusic();
-		//FSoundManager.PlayMusic("stomach_ambience");
 		FSoundManager.PlayMusic("battle_music", .204f);
-
-		//addComponentsToStage();
-		
-		AddChild(ImmunityCombatManager.instance.stage);
 
 		FSprite enemy_headshot = new FSprite("punchy_headshot");
 		enemy_headshot.x = Futile.screen.halfWidth - enemy_headshot.width/2.0f - 50.0f;
@@ -102,6 +94,10 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		enemy_healthbar_.x = enemy_headshot.x - enemy_headshot.width/2.0f - 25.0f;
 		enemy_healthbar_.y = enemy_headshot.y;
 		enemy_ = new EnemyCharacter(enemy_healthbar_);
+		if(ImmunityCombatManager.instance.stage_name.Equals("lung") ||
+			ImmunityCombatManager.instance.stage_name.Equals("brain"))
+			enemy_.y = -Futile.screen.halfHeight*.27f;
+		
 		AddChild(enemy_);
 		
 		FSprite player_headshot = new FSprite("hero_headshot");
@@ -113,6 +109,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		player_healthbar.x = player_headshot.x + player_headshot.width/2.0f + 25.0f;
 		player_healthbar.y = player_headshot.y;
 		player_ = new PlayerCharacter(player_healthbar);
+		if(ImmunityCombatManager.instance.stage_name.Equals("lung") ||
+			ImmunityCombatManager.instance.stage_name.Equals("brain"))
+			player_.y = -Futile.screen.halfHeight*.5f;
 		
 		playerContainer = new FContainer();
 		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
@@ -138,6 +137,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		AddChild(enemy_healthbar_);
 		
 		level_bounding_box = new Rect(-Futile.screen.halfWidth*.9f, Futile.screen.halfHeight*.9f, Futile.screen.halfWidth*1.8f, Futile.screen.halfHeight*1.8f);
+
 	}
 	
 	public void HandleGotBacteria(BacteriaBubble bacteria)
@@ -563,6 +563,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 
 	protected void HandleUpdate()
 	{	
+		level.Update();
 		if(player_won_)
 		{
 			if(ImmunityCombatManager.instance.stage_name.Equals("stomach"))

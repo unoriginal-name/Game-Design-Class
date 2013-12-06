@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BrainLevel : FContainer {
+public class BrainLevel : Level {
 	
 	FSprite background_;
 	
@@ -98,7 +98,7 @@ public class BrainLevel : FContainer {
 	}
 	
 	// Update is called once per frame
-	public void Update () {
+	public override void Update () {
 		
 		if(Time.time - last_firing_time_ > 1.0f)
 		{
