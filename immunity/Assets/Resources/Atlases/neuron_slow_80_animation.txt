@@ -1,0 +1,132 @@
+{"frames": {
+
+"NeuronSlow80_1.png":
+{
+	"frame": {"x":1170,"y":2,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_10.png":
+{
+	"frame": {"x":782,"y":2,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_11.png":
+{
+	"frame": {"x":390,"y":1578,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_12.png":
+{
+	"frame": {"x":2,"y":2,"w":390,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":4,"w":390,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_13.png":
+{
+	"frame": {"x":1170,"y":2,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_14.png":
+{
+	"frame": {"x":1170,"y":2,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_15.png":
+{
+	"frame": {"x":1170,"y":2,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_2.png":
+{
+	"frame": {"x":390,"y":1184,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_3.png":
+{
+	"frame": {"x":390,"y":790,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_4.png":
+{
+	"frame": {"x":394,"y":2,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_5.png":
+{
+	"frame": {"x":390,"y":396,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_6.png":
+{
+	"frame": {"x":2,"y":1578,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_7.png":
+{
+	"frame": {"x":2,"y":1184,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_8.png":
+{
+	"frame": {"x":2,"y":790,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+},
+"NeuronSlow80_9.png":
+{
+	"frame": {"x":2,"y":396,"w":386,"h":392},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":12,"y":4,"w":386,"h":392},
+	"sourceSize": {"w":400,"h":400}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "neuron_slow_80_animation.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:bb43d80ddfe0af9ebf09d6554d7f981b:9c1ba91e2f038f01d94de1b4393287cf:148cdc6cc0a8824181620aec20c5b266$"
+}
+}
