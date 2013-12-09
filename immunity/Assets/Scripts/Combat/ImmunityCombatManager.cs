@@ -20,7 +20,11 @@ public class ImmunityCombatManager : MonoBehaviour {
 	public int score;
 	
 	public FCamObject camera_;
-	
+
+	Rect worldBounds = new Rect(-Futile.screen.width * 2f, -Futile.screen.height * 2f, Futile.screen.width * 2f, Futile.screen.height * 2f);
+	//Rect cameraBounds = new Rect(Futile.screen.halfWidth * -1f, Futile.screen.halfHeight * -1f, Futile.screen.width, Futile.screen.height);
+	Rect cameraBounds = new Rect(0f, 0f, 1f, 1f);
+
 	void Start () {
 		instance = this;
 		
@@ -61,8 +65,8 @@ public class ImmunityCombatManager : MonoBehaviour {
 		stage_.AddChild(camera_);
 		
 		//Rect worldBounds = stage.worldBounds;
-		//camera_.setWorldBounds (worldBounds);
-		//camera_.setBounds(stage.cameraBounds);
+		camera_.setWorldBounds (worldBounds);
+		camera_.setBounds(cameraBounds);
 		
 		gamePage = new CombatPage();
 		gamePage.Start();

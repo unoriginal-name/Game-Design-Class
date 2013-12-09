@@ -5,28 +5,41 @@ using System.Collections.Generic;
 public class BrainLevel : Level {
 	
 	FSprite background_;
-	
-	FContainer back_neurons_container_;
+
+	FParallaxContainer background;
+	FParallaxContainer foreground;
+
+	FParallaxContainer back_neurons_container_;
 	List<Neuron> back_neurons_;
 	Rect back_neurons_area_;
 	
 	FSprite foreground_;
 	
-	FContainer front_neurons_container_;
+	FParallaxContainer front_neurons_container_;
 	List<Neuron> front_neurons_;
 	Rect front_neurons_area_;
 	
 	private float last_firing_time_;
 
+	Vector2 backgroundContainerSize = new Vector2(Futile.screen.width * 1.5f, Futile.screen.height * 1.5f);
+	Vector2 foregroundContainerSize = new Vector2(Futile.screen.width * 2f, Futile.screen.height * 2f);
+
 	public BrainLevel()
 	{		
 		background_ = new FSprite("Background");
-		AddChild(background_);
+		//AddChild(background_);
+		background = new FParallaxContainer();
+		background.AddChild (background_);
+		AddChild (background);
+
+		background.setSize (backgroundContainerSize);
 		
-		back_neurons_container_ = new FContainer();
+		back_neurons_container_ = new FParallaxContainer();
 		back_neurons_ = new List<Neuron>();
 		back_neurons_area_ = new Rect(-Futile.screen.halfWidth, 0, Futile.screen.width, Futile.screen.halfHeight);
 		AddChild(back_neurons_container_);
+
+		back_neurons_container_.setSize (backgroundContainerSize);
 		
 		for(int i=0; i<50; i++)
 		{
@@ -60,12 +73,19 @@ public class BrainLevel : Level {
 		}
 		
 		foreground_ = new FSprite("Forground");
-		AddChild(foreground_);
+		//AddChild(foreground_);
+		foreground = new FParallaxContainer();
+		foreground.AddChild (foreground_);
+		AddChild (foreground);
+
+		foreground.setSize (foregroundContainerSize);
 		
-		front_neurons_container_ = new FContainer();
+		front_neurons_container_ = new FParallaxContainer();
 		front_neurons_ = new List<Neuron>();
 		front_neurons_area_ = new Rect(-Futile.screen.halfWidth, -Futile.screen.halfHeight, Futile.screen.width, Futile.screen.halfHeight*.5f);
 		AddChild(front_neurons_container_);
+
+		front_neurons_container_.setSize(foregroundContainerSize);
 		
 		for(int i=0; i<0; i++)
 		{
