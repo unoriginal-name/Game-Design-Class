@@ -78,4 +78,24 @@ public class StomachLevel : Level {
 			}
 		}
 	}
+
+	public override FParallaxContainer getBackground()
+	{
+		return background;
+	}
+
+	public override FParallaxContainer getMid()
+	{
+		return stomachCave;
+	}
+
+	public override FParallaxContainer getForeground()
+	{
+		return foreground;
+	}
+
+	public override FParallaxContainer getAnimations()
+	{
+		return bubbles_container_;
+	}
 }

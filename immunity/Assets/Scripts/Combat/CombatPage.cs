@@ -35,6 +35,7 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	private FParallaxContainer background;
 	private FParallaxContainer mid;
 	private FParallaxContainer foreground;	
+	private FParallaxContainer animation;	
 
 	private PlayerCharacter player_;
 	private FContainer playerContainer;
@@ -74,7 +75,13 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 	override public void Start () {
 		
 		if(ImmunityCombatManager.instance.stage_name.Equals("stomach"))
+		{
 			level = new StomachLevel();
+			background = level.getBackground ();
+			mid = level.getMid ();
+			foreground = level.getForeground ();
+			animation = level.getAnimations();
+		}
 		else if(ImmunityCombatManager.instance.stage_name.Equals("lung"))
 			level = new LungLevel();
 		else
@@ -117,6 +124,9 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 		//Debug.Log ("the player is at " + playerPosition.x + "," + playerPosition.y);
 		
 		playerContainer.AddChild (player_);
+
+		//make the camera follow the player
+		ImmunityCombatManager.instance.camera_.follow (playerContainer);
 
 		
 		AddChild(playerContainer);
@@ -787,6 +797,14 @@ public class CombatPage : ImmunityPage, FMultiTouchableInterface {
 							
 							curr_player_movement = Go.to(player_, tween_time, new TweenConfig().floatProp("x", final_position).onComplete(originalTween => { player_.play("idle"); 
 								player_.CurrentState = PlayerCharacter.PlayerState.IDLE; }));
+
+							//failed attempt at parallaxing
+
+							/*
+							GameObject.Find ("background").transform.Translate (new Vector3(final_position * Time.deltaTime, 0, 0));
+							Debug.Log ("Position is " + GameObject.Find ("background").transform.position);
+							*/
+
 						}
 					}
 					else

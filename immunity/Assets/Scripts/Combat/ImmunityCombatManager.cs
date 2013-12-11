@@ -66,6 +66,9 @@ public class ImmunityCombatManager : MonoBehaviour {
 		
 		//Rect worldBounds = stage.worldBounds;
 		camera_.setWorldBounds (worldBounds);
+
+		//make the camera follow the player
+
 		camera_.setBounds(cameraBounds);
 		
 		gamePage = new CombatPage();
